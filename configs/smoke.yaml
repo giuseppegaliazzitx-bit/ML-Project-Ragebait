@@ -1,0 +1,21 @@
+data:
+  min_posts: 10
+  augmentation_copies: 0
+
+baselines:
+  enabled: true
+  max_features: 200
+  ngram_range: [1, 2]
+
+model:
+  model_name: hf-internal-testing/tiny-random-bert
+  hidden_dim: 64
+  dropout: 0.1
+  max_length: 64
+  stride: 16
+
+training:
+  batch_size: 4
+  epochs: 1
+  learning_rate: 0.00005
+  patience: 1

@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ragebait-detector"
+version = "0.1.0"
+description = "Machine learning pipeline for detecting rage-bait social media posts."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+  { name = "OpenAI Codex" }
+]
+dependencies = [
+  "PyYAML>=6.0",
+  "torch>=2.2",
+  "transformers>=4.42",
+  "scikit-learn>=1.5",
+  "matplotlib>=3.8",
+  "seaborn>=0.13",
+  "numpy>=1.26",
+  "langdetect>=1.0.9",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.2",
+  "ruff>=0.5",
+]
+
+[project.scripts]
+ragebait-pipeline = "ragebait_detector.pipeline:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["ragebait_detector*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
