@@ -2,11 +2,16 @@ paths:
   raw_dir: data/raw
   interim_dir: data/interim
   processed_dir: data/processed
+  unlabeled_dir: data/unlabeled
+  labeled_dir: data/labeled
   output_dir: outputs
   unified_posts_path: data/interim/unified_posts.csv
+  source_manifest_path: data/interim/source_manifest.json
   annotation_template_path: data/interim/annotation_template.csv
   labeled_posts_path: data/interim/labeled_posts.csv
   processed_dataset_path: data/processed/processed_posts.csv
+  unlabeled_posts_path: data/unlabeled/unified_unlabeled_posts.csv
+  ollama_labels_path: data/labeled/ollama_ragebait_labels.csv
 
 data:
   min_posts: 20000
@@ -43,3 +48,11 @@ training:
   decision_threshold: 0.5
   seed: 42
   device: auto
+
+ollama:
+  host: http://127.0.0.1:11434
+  model: gemma4:e4b-it-q4_K_M
+  max_workers: 4
+  request_timeout_seconds: 120
+  temperature: 0.0
+  max_retries: 2

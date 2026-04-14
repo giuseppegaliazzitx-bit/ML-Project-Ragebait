@@ -9,9 +9,12 @@ __pycache__/
 data/raw/*
 data/interim/*
 data/processed/*
+data/unlabeled/*
+data/labeled/*
 outputs/*
 !data/raw/.gitkeep
 !data/interim/.gitkeep
 !data/processed/.gitkeep
+!data/unlabeled/.gitkeep
+!data/labeled/.gitkeep
 !outputs/.gitkeep
-

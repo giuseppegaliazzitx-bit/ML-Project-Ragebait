@@ -15,6 +15,8 @@ from ragebait_detector.data.acquisition import (
 )
 from ragebait_detector.data.dataset import load_processed_records, stratified_split
 from ragebait_detector.data.preprocessing import prepare_labeled_dataset
+from ragebait_detector.data.unifier import run_interactive_import
+from ragebait_detector.labeling.ollama_labeler import label_csv_with_ollama
 from ragebait_detector.utils.io import dump_json, ensure_parent, read_csv, write_csv
 from ragebait_detector.utils.logging import configure_logging
 from ragebait_detector.utils.seed import seed_everything
@@ -64,6 +66,37 @@ def preprocess_dataset(args) -> dict[str, Any]:
         settings=settings,
     )
     dump_json(Path(settings.paths.output_dir) / "preprocess_summary.json", summary)
+    return summary
+
+
+def interactive_import_dataset(args) -> dict[str, Any]:
+    settings = load_settings(args.config)
+    summary = run_interactive_import(
+        settings=settings,
+        input_dir=args.input_dir,
+        output_path=args.output,
+        manifest_path=args.manifest,
+    )
+    return summary
+
+
+def label_dataset_with_ollama(args) -> dict[str, Any]:
+    settings = load_settings(args.config)
+    if args.host:
+        settings.ollama.host = args.host
+    if args.model:
+        settings.ollama.model = args.model
+    if args.workers:
+        settings.ollama.max_workers = args.workers
+    output_path = args.output or settings.paths.ollama_labels_path
+    summary_path = args.summary or Path(settings.paths.output_dir) / "ollama_labeling_summary.json"
+    summary = label_csv_with_ollama(
+        input_path=args.input or settings.paths.unlabeled_posts_path,
+        output_path=output_path,
+        summary_path=summary_path,
+        settings=settings,
+        limit=args.limit,
+    )
     return summary
 
 
@@ -174,6 +207,11 @@ def build_parser() -> argparse.ArgumentParser:
     prepare_parser.add_argument("--inputs", nargs="+", required=True)
     prepare_parser.add_argument("--output")
 
+    interactive_import_parser = subparsers.add_parser("interactive-import")
+    interactive_import_parser.add_argument("--input-dir")
+    interactive_import_parser.add_argument("--output")
+    interactive_import_parser.add_argument("--manifest")
+
     annotation_parser = subparsers.add_parser("build-annotation-template")
     annotation_parser.add_argument("--input")
     annotation_parser.add_argument("--output")
@@ -197,6 +235,15 @@ def build_parser() -> argparse.ArgumentParser:
     mock_parser.add_argument("--rows", type=int)
     mock_parser.add_argument("--output")
 
+    ollama_parser = subparsers.add_parser("label-with-ollama")
+    ollama_parser.add_argument("--input")
+    ollama_parser.add_argument("--output")
+    ollama_parser.add_argument("--summary")
+    ollama_parser.add_argument("--limit", type=int)
+    ollama_parser.add_argument("--host")
+    ollama_parser.add_argument("--model")
+    ollama_parser.add_argument("--workers", type=int)
+
     return parser
 
 
@@ -207,11 +254,13 @@ def main() -> None:
 
     commands = {
         "prepare-exports": prepare_exports,
+        "interactive-import": interactive_import_dataset,
         "build-annotation-template": build_annotation_sheet,
         "merge-annotations": merge_annotation_sheet,
         "preprocess": preprocess_dataset,
         "run": run_training_pipeline,
         "generate-mock-data": generate_mock_dataset,
+        "label-with-ollama": label_dataset_with_ollama,
     }
     result = commands[args.command](args)
     LOGGER.info("Pipeline result: %s", result)

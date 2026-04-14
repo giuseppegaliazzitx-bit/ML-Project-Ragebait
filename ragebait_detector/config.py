@@ -12,11 +12,16 @@ class PathConfig:
     raw_dir: str = "data/raw"
     interim_dir: str = "data/interim"
     processed_dir: str = "data/processed"
+    unlabeled_dir: str = "data/unlabeled"
+    labeled_dir: str = "data/labeled"
     output_dir: str = "outputs"
     unified_posts_path: str = "data/interim/unified_posts.csv"
+    source_manifest_path: str = "data/interim/source_manifest.json"
     annotation_template_path: str = "data/interim/annotation_template.csv"
     labeled_posts_path: str = "data/interim/labeled_posts.csv"
     processed_dataset_path: str = "data/processed/processed_posts.csv"
+    unlabeled_posts_path: str = "data/unlabeled/unified_unlabeled_posts.csv"
+    ollama_labels_path: str = "data/labeled/ollama_ragebait_labels.csv"
 
 
 @dataclass
@@ -66,12 +71,23 @@ class TrainingConfig:
 
 
 @dataclass
+class OllamaConfig:
+    host: str = "http://127.0.0.1:11434"
+    model: str = "gemma4:e4b-it-q4_K_M"
+    max_workers: int = 4
+    request_timeout_seconds: int = 120
+    temperature: float = 0.0
+    max_retries: int = 2
+
+
+@dataclass
 class Settings:
     paths: PathConfig = field(default_factory=PathConfig)
     data: DataConfig = field(default_factory=DataConfig)
     baselines: BaselineConfig = field(default_factory=BaselineConfig)
     model: ModelConfig = field(default_factory=ModelConfig)
     training: TrainingConfig = field(default_factory=TrainingConfig)
+    ollama: OllamaConfig = field(default_factory=OllamaConfig)
 
 
 def _deep_update_dataclass(instance: Any, overrides: dict[str, Any]) -> Any:
@@ -96,4 +112,3 @@ def load_settings(config_path: str | Path | None = None) -> Settings:
 
 def as_dict(settings: Settings) -> dict[str, Any]:
     return asdict(settings)
-
