@@ -16,7 +16,7 @@ from ragebait_detector.data.acquisition import (
 from ragebait_detector.data.dataset import load_processed_records, stratified_split
 from ragebait_detector.data.preprocessing import prepare_labeled_dataset
 from ragebait_detector.data.unifier import run_interactive_import
-from ragebait_detector.labeling.ollama_labeler import label_csv_with_ollama
+from ragebait_detector.labeling.vllm_labeler import label_csv_with_vllm
 from ragebait_detector.utils.io import dump_json, ensure_parent, read_csv, write_csv
 from ragebait_detector.utils.logging import configure_logging
 from ragebait_detector.utils.seed import seed_everything
@@ -82,32 +82,30 @@ def interactive_import_dataset(args) -> dict[str, Any]:
     return summary
 
 
-def label_dataset_with_ollama(args) -> dict[str, Any]:
+def label_dataset_with_vllm(args) -> dict[str, Any]:
     settings = load_settings(args.config)
-    if args.host:
-        settings.ollama.host = args.host
     if args.model:
-        settings.ollama.model = args.model
-    if args.workers is not None:
-        settings.ollama.max_workers = args.workers
-    if args.batch_size is not None:
-        settings.ollama.batch_size = args.batch_size
-    if args.random_selection is not None:
-        settings.ollama.random_selection = args.random_selection
-    if args.random_seed is not None:
-        settings.ollama.random_seed = args.random_seed
-    output_path = args.output or settings.paths.ollama_labels_path
+        settings.vllm.model = args.model
+    if args.quantization:
+        settings.vllm.quantization = args.quantization
+    if args.gpu_memory_utilization is not None:
+        settings.vllm.gpu_memory_utilization = args.gpu_memory_utilization
+    if args.max_model_len is not None:
+        settings.vllm.max_model_len = args.max_model_len
+    if args.temperature is not None:
+        settings.vllm.temperature = args.temperature
+    output_path = args.output or settings.paths.vllm_labels_path
     summary_path = (
-        args.summary or Path(settings.paths.output_dir) / "ollama_labeling_summary.json"
+        args.summary or Path(settings.paths.output_dir) / "vllm_labeling_summary.json"
     )
-    summary = label_csv_with_ollama(
+    summary = label_csv_with_vllm(
         input_path=args.input or settings.paths.unlabeled_posts_path,
         output_path=output_path,
         summary_path=summary_path,
         settings=settings,
         limit=args.limit,
         random_seed=args.random_seed,
-        select_randomly=args.random_selection,
+        enable_random=args.enable_random,
     )
     return summary
 
@@ -249,19 +247,22 @@ def build_parser() -> argparse.ArgumentParser:
     mock_parser.add_argument("--rows", type=int)
     mock_parser.add_argument("--output")
 
-    ollama_parser = subparsers.add_parser("label-with-ollama")
-    ollama_parser.add_argument("--input")
-    ollama_parser.add_argument("--output")
-    ollama_parser.add_argument("--summary")
-    ollama_parser.add_argument("--limit", type=int)
-    ollama_parser.add_argument("--host")
-    ollama_parser.add_argument("--model")
-    ollama_parser.add_argument("--workers", type=int)
-    ollama_parser.add_argument("--batch-size", type=int)
-    ollama_parser.add_argument("--random-seed", type=int)
-    ollama_parser.add_argument(
-        "--random-selection", action=argparse.BooleanOptionalAction
+    vllm_parser = subparsers.add_parser("label-with-vllm")
+    vllm_parser.add_argument("--input")
+    vllm_parser.add_argument("--output")
+    vllm_parser.add_argument("--summary")
+    vllm_parser.add_argument("--limit", type=int)
+    vllm_parser.add_argument("--random-seed", type=int)
+    vllm_parser.add_argument(
+        "--enable-random",
+        action=argparse.BooleanOptionalAction,
+        default=None,
     )
+    vllm_parser.add_argument("--model")
+    vllm_parser.add_argument("--quantization")
+    vllm_parser.add_argument("--gpu-memory-utilization", type=float)
+    vllm_parser.add_argument("--max-model-len", type=int)
+    vllm_parser.add_argument("--temperature", type=float)
 
     return parser
 
@@ -279,7 +280,7 @@ def main() -> None:
         "preprocess": preprocess_dataset,
         "run": run_training_pipeline,
         "generate-mock-data": generate_mock_dataset,
-        "label-with-ollama": label_dataset_with_ollama,
+        "label-with-vllm": label_dataset_with_vllm,
     }
     result = commands[args.command](args)
     LOGGER.info("Pipeline result: %s", result)

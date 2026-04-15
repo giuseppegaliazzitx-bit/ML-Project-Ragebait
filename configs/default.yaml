@@ -11,7 +11,7 @@ paths:
   labeled_posts_path: data/interim/labeled_posts.csv
   processed_dataset_path: data/processed/processed_posts.csv
   unlabeled_posts_path: data/unlabeled/unified_unlabeled_posts.csv
-  ollama_labels_path: data/labeled/ollama_ragebait_labels.csv
+  vllm_labels_path: data/labeled/vllm_ragebait_labels.csv
 
 data:
   min_posts: 20000
@@ -49,13 +49,12 @@ training:
   seed: 42
   device: auto
 
-ollama:
-  host: http://127.0.0.1:11434
-  model: qwen2.5:3b-instruct-q4_K_M
-  max_workers: 1
-  batch_size: 10
-  request_timeout_seconds: 120
+vllm:
+  model: Qwen/Qwen2.5-3B-Instruct-AWQ
+  quantization: awq
+  gpu_memory_utilization: 0.85
+  max_model_len: 1024
   temperature: 0.0
-  max_retries: 2
-  random_selection: true
-  random_seed: 67
+  limit: null
+  random_seed: 42
+  enable_random: true

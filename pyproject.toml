@@ -16,15 +16,16 @@ dependencies = [
   "PyYAML>=6.0",
   "pandas>=2.2",
   "pyarrow>=16.0",
-  "requests>=2.32",
   "torch>=2.2",
-  "transformers>=4.42",
+  "transformers>=4.51.1,<4.52",
   "scikit-learn>=1.5",
   "matplotlib>=3.8",
   "seaborn>=0.13",
-  "numpy>=1.26",
+  "numpy>=1.26,<2.3",
   "langdetect>=1.0.9",
   "tqdm>=4.66",
+  "vllm>=0.6",
+  "outlines>=0.0.46",
 ]
 
 [project.optional-dependencies]

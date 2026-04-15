@@ -1,0 +1,19 @@
+{
+  "enable_random": false,
+  "gpu_memory_utilization": 0.85,
+  "input_path": "outputs\\_test_vllm_labeler_input.csv",
+  "limit": null,
+  "max_model_len": 1024,
+  "model": "Qwen/Qwen2.5-3B-Instruct-AWQ",
+  "output_path": "outputs\\_test_vllm_labeler_output.csv",
+  "prompts_submitted": 2,
+  "quantization": "awq",
+  "random_seed": 42,
+  "rows_labeled_successfully": 3,
+  "rows_requested": 4,
+  "rows_with_errors": 0,
+  "summary_path": "outputs\\_test_vllm_labeler_summary.json",
+  "temperature": 0.0,
+  "total_rows_available": 4,
+  "unique_texts_requested": 2
+}

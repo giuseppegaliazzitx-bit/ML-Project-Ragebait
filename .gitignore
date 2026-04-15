@@ -13,3 +13,4 @@ __pycache__/
 !data/unlabeled/.gitkeep
 !data/labeled/.gitkeep
 !outputs/.gitkeep
+.codex

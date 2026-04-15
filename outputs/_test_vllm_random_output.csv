@@ -1,0 +1,4 @@
+post_id,author_id,created_at,language,text,source,is_ragebait,label,confidence,reason,llm_model,labeling_status,error
+1,user-1,,en,tweet 1,sample,false,0,0.0800,neutral update,Qwen/Qwen2.5-3B-Instruct-AWQ,ok,
+2,user-2,,en,tweet 2,sample,false,0,0.0800,neutral update,Qwen/Qwen2.5-3B-Instruct-AWQ,ok,
+3,user-3,,en,tweet 3,sample,false,0,0.0800,neutral update,Qwen/Qwen2.5-3B-Instruct-AWQ,ok,

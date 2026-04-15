@@ -5,7 +5,7 @@ Python pipeline for detecting rage-bait social media posts with:
 - dataset ingestion and annotation scaffolding
 - an interactive mixed-file importer for Kaggle CSV, Parquet, and SQL schema files
 - rule-based preprocessing and augmentation
-- an Ollama-based weak-labeling pipeline using tool calls
+- a vLLM-based weak-labeling pipeline with guided JSON decoding
 - scikit-learn baselines for benchmark comparisons
 - a PyTorch + BERT classifier with early stopping
 - evaluation artifacts including classification reports and confusion matrices
@@ -13,7 +13,7 @@ Python pipeline for detecting rage-bait social media posts with:
 
 ## What Counts As Rage-Bait
 
-Use the policy in [docs/annotation_guidelines.md](/Users/red/dev/ML-Project-Ragebait/docs/annotation_guidelines.md) to keep labels consistent. The project assumes a binary label schema:
+Use the policy in [docs/annotation_guidelines.md](docs/annotation_guidelines.md) to keep labels consistent. The project assumes a binary label schema:
 
 - `0`: not rage-bait
 - `1`: rage-bait
@@ -25,7 +25,7 @@ The annotation workflow is designed for a 20,000+ post corpus even though this r
 ```text
 ragebait_detector/
   data/              # ingestion, cleaning, augmentation, dataset splits
-  labeling/          # Ollama weak-labeling helpers
+  labeling/          # vLLM weak-labeling helpers
   models/            # baseline models and BERT classifier
   training/          # trainer, checkpoints, early stopping
   evaluation.py      # reports and confusion matrices
@@ -37,21 +37,21 @@ docs/
   annotation_guidelines.md
 scripts/
   interactive_import.py
-  label_with_ollama.py
+  label_with_vllm.py
   run_pipeline.py
 tests/
   test_preprocessing.py
   test_unifier.py
-  test_ollama_labeler.py
+  test_vllm_labeler.py
 ```
 
 ## Where To Put Files
 
-Put your untouched Kaggle exports in [data/raw](/Users/red/dev/ML-Project-Ragebait/data/raw).
+Put your untouched Kaggle exports in `data/raw`.
 
 - `data/raw`: original CSV, Parquet, and SQL/TXT files
 - `data/unlabeled`: the compiled clean CSV that is ready for labeling
-- `data/labeled`: Ollama labeling outputs
+- `data/labeled`: vLLM labeling outputs
 - `data/interim`: manifests, templates, and temporary artifacts
 
 If the `.txt` file is only PostgreSQL schema SQL, that is still fine. The importer will inspect it, show the tables it found, and skip it if the file contains no actual row data.
@@ -63,7 +63,7 @@ If the `.txt` file is only PostgreSQL schema SQL, that is still fine. The import
 3. Generate an annotation sheet with `build-annotation-template`.
 4. Apply the annotation policy with at least two raters for ambiguous samples.
 5. Merge labels back into the unified dataset with `merge-annotations`.
-6. Run preprocessing and training.
+6. Run preprocessing, weak labeling, and training.
 
 Expected unified columns:
 
@@ -109,11 +109,11 @@ Normalize raw exports:
 python3 scripts/run_pipeline.py --config configs/default.yaml prepare-exports \
   --inputs data/raw/export_a.csv data/raw/export_b.jsonl
 ```
-
 Create an annotation sheet:
 
 ```bash
-python3 scripts/run_pipeline.py --config configs/default.yaml build-annotation-template
+python3 scripts/run_pipeline.py --config configs/default.yaml merge-annotations \
+  --annotations data/interim/annotation_labels.csv
 ```
 
 Merge completed annotations:
@@ -141,25 +141,25 @@ Run baselines only:
 python3 scripts/run_pipeline.py --config configs/default.yaml run --baselines-only
 ```
 
-Label the compiled unlabeled CSV with Ollama. The default config uses `qwen2.5:3b-instruct-q4_K_M`, batches requests in groups of `10`, and shows a progress bar while it runs. You can override the model, worker count, and batch size on the command line:
+Label the compiled unlabeled CSV with vLLM. The default config uses `Qwen/Qwen2.5-3B-Instruct-AWQ` with AWQ quantization, sends one ChatML prompt per tweet, and passes the full flat prompt list to `llm.generate(...)` so vLLM can do continuous batching internally. `configs/default.yaml` also enables seeded random row selection whenever you provide a `--limit`:
 
 ```bash
-python3 scripts/label_with_ollama.py --config configs/default.yaml --workers 1 --batch-size 10
+python3 scripts/label_with_vllm.py --config configs/default.yaml --limit 500 --random-seed 42
 ```
 
 Or through the main CLI:
 
 ```bash
-python3 scripts/run_pipeline.py --config configs/default.yaml label-with-ollama
+python3 scripts/run_pipeline.py --config configs/default.yaml label-with-vllm --limit 500 --random-seed 42
 ```
 
 ## Architecture Decisions
 
-The system separates data normalization, annotation merge, preprocessing, modeling, training, and inference so the pipeline can be scheduled and audited stage by stage. That makes it easier to swap data sources, re-run only the preprocessing step after guideline updates, and compare classic baselines against the BERT model on the exact same split.
+The system separates data normalization, annotation merge, preprocessing, weak labeling, modeling, training, and inference so the pipeline can be scheduled and audited stage by stage. That makes it easier to swap data sources, re-run only the preprocessing step after guideline updates, and compare classic baselines against the BERT model on the exact same split.
 
 The interactive importer intentionally keeps a person in the loop because Kaggle exports rarely agree on column names or completeness. Instead of hardcoding a single schema, the importer lists the files it finds, previews columns and sample rows, lets you select row ranges, asks for a display name for each source, and writes a canonical unlabeled CSV with `post_id, author_id, created_at, language, text, source`.
 
-The Ollama labeler is a separate stage so you can inspect the compiled unlabeled data before generating weak labels. It deduplicates repeated text, sends micro-batched requests to the local Ollama chat API, asks the configured chat model for native JSON output instead of tool calls, and stores both the boolean decision and a numeric `0/1` label to make downstream review and training simpler.
+The vLLM labeler is a separate offline batch stage optimized for CUDA GPUs. It completely bypasses HTTP and manual chunking, formats every tweet as its own Qwen ChatML prompt, and relies on vLLM guided decoding with `guided_json` so the model is constrained to emit JSON objects matching the labeling schema.
 
 The BERT classifier uses a pre-trained encoder plus a small ANN head with dropout. Training uses `BCEWithLogitsLoss` for numerical stability with class imbalance handling, while inference exposes softmax-style two-class probabilities derived from the model logit. This keeps the binary objective simple without losing calibrated class probabilities for downstream consumers.
 
@@ -180,4 +180,8 @@ Store predictions, model version, feature hashes, and confidence scores in an ap
 
 ## Local Verification
 
-The repo includes unit tests for preprocessing, mixed-file import helpers, and Ollama JSON parsing. Full model training and Parquet import require installing the dependencies declared in [pyproject.toml](/Users/red/dev/ML-Project-Ragebait/pyproject.toml).
+The repo includes unit tests for preprocessing, mixed-file import helpers, and vLLM labeling logic. Run the focused suite with:
+
+```bash
+python3 -m pytest tests/test_vllm_labeler.py tests/test_preprocessing.py tests/test_unifier.py
+```

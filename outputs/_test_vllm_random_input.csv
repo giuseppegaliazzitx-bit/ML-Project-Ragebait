@@ -1,0 +1,7 @@
+post_id,author_id,created_at,language,text,source
+0,user-0,,en,tweet 0,sample
+1,user-1,,en,tweet 1,sample
+2,user-2,,en,tweet 2,sample
+3,user-3,,en,tweet 3,sample
+4,user-4,,en,tweet 4,sample
+5,user-5,,en,tweet 5,sample

@@ -1,0 +1,5 @@
+post_id,author_id,created_at,language,text,source,is_ragebait,label,confidence,reason,llm_model,labeling_status,error
+1,a,,en,stay mad,sample,true,1,0.9200,provocative bait,Qwen/Qwen2.5-3B-Instruct-AWQ,ok,
+2,b,,en,here is a neutral update,sample,false,0,0.0800,neutral update,Qwen/Qwen2.5-3B-Instruct-AWQ,ok,
+3,c,,en,stay mad,sample,true,1,0.9200,provocative bait,Qwen/Qwen2.5-3B-Instruct-AWQ,ok,
+4,d,,en,,sample,,,,,Qwen/Qwen2.5-3B-Instruct-AWQ,skipped,empty_text

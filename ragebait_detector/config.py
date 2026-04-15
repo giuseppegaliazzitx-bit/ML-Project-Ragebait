@@ -21,7 +21,7 @@ class PathConfig:
     labeled_posts_path: str = "data/interim/labeled_posts.csv"
     processed_dataset_path: str = "data/processed/processed_posts.csv"
     unlabeled_posts_path: str = "data/unlabeled/unified_unlabeled_posts.csv"
-    ollama_labels_path: str = "data/labeled/ollama_ragebait_labels.csv"
+    vllm_labels_path: str = "data/labeled/vllm_ragebait_labels.csv"
 
 
 @dataclass
@@ -71,16 +71,15 @@ class TrainingConfig:
 
 
 @dataclass
-class OllamaConfig:
-    host: str = "http://127.0.0.1:11434"
-    model: str = "qwen2.5:3b-instruct-q4_K_M"
-    max_workers: int = 1
-    batch_size: int = 10
-    request_timeout_seconds: int = 120
+class VLLMConfig:
+    model: str = "Qwen/Qwen2.5-3B-Instruct-AWQ"
+    quantization: str = "awq"
+    gpu_memory_utilization: float = 0.85
+    max_model_len: int = 1024
     temperature: float = 0.0
-    max_retries: int = 2
-    random_selection: bool = True
-    random_seed: int = 67
+    limit: int | None = None
+    random_seed: int = 42
+    enable_random: bool = False
 
 
 @dataclass
@@ -90,7 +89,7 @@ class Settings:
     baselines: BaselineConfig = field(default_factory=BaselineConfig)
     model: ModelConfig = field(default_factory=ModelConfig)
     training: TrainingConfig = field(default_factory=TrainingConfig)
-    ollama: OllamaConfig = field(default_factory=OllamaConfig)
+    vllm: VLLMConfig = field(default_factory=VLLMConfig)
 
 
 def _deep_update_dataclass(instance: Any, overrides: dict[str, Any]) -> Any:
