@@ -1,0 +1,374 @@
+{
+  "clean": {
+    "decision_tree": {
+      "accuracy": 1.0,
+      "f1_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "precision_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "recall_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "report": {
+        "accuracy": 1.0,
+        "macro avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        },
+        "not_ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4.0
+        },
+        "ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1.0
+        },
+        "weighted avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        }
+      },
+      "support_by_class": {
+        "0": 4,
+        "1": 1
+      }
+    },
+    "gaussian_nb": {
+      "accuracy": 1.0,
+      "f1_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "precision_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "recall_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "report": {
+        "accuracy": 1.0,
+        "macro avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        },
+        "not_ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4.0
+        },
+        "ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1.0
+        },
+        "weighted avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        }
+      },
+      "support_by_class": {
+        "0": 4,
+        "1": 1
+      }
+    },
+    "logistic_regression": {
+      "accuracy": 1.0,
+      "f1_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "precision_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "recall_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "report": {
+        "accuracy": 1.0,
+        "macro avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        },
+        "not_ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4.0
+        },
+        "ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1.0
+        },
+        "weighted avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        }
+      },
+      "support_by_class": {
+        "0": 4,
+        "1": 1
+      }
+    },
+    "svc": {
+      "accuracy": 1.0,
+      "f1_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "precision_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "recall_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "report": {
+        "accuracy": 1.0,
+        "macro avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        },
+        "not_ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4.0
+        },
+        "ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1.0
+        },
+        "weighted avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        }
+      },
+      "support_by_class": {
+        "0": 4,
+        "1": 1
+      }
+    }
+  },
+  "raw": {
+    "decision_tree": {
+      "accuracy": 1.0,
+      "f1_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "precision_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "recall_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "report": {
+        "accuracy": 1.0,
+        "macro avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        },
+        "not_ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4.0
+        },
+        "ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1.0
+        },
+        "weighted avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        }
+      },
+      "support_by_class": {
+        "0": 4,
+        "1": 1
+      }
+    },
+    "gaussian_nb": {
+      "accuracy": 1.0,
+      "f1_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "precision_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "recall_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "report": {
+        "accuracy": 1.0,
+        "macro avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        },
+        "not_ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4.0
+        },
+        "ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1.0
+        },
+        "weighted avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        }
+      },
+      "support_by_class": {
+        "0": 4,
+        "1": 1
+      }
+    },
+    "logistic_regression": {
+      "accuracy": 1.0,
+      "f1_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "precision_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "recall_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "report": {
+        "accuracy": 1.0,
+        "macro avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        },
+        "not_ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4.0
+        },
+        "ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1.0
+        },
+        "weighted avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        }
+      },
+      "support_by_class": {
+        "0": 4,
+        "1": 1
+      }
+    },
+    "svc": {
+      "accuracy": 1.0,
+      "f1_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "precision_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "recall_by_class": {
+        "0": 1.0,
+        "1": 1.0
+      },
+      "report": {
+        "accuracy": 1.0,
+        "macro avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        },
+        "not_ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4.0
+        },
+        "ragebait": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1.0
+        },
+        "weighted avg": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5.0
+        }
+      },
+      "support_by_class": {
+        "0": 4,
+        "1": 1
+      }
+    }
+  }
+}

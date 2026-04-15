@@ -1,0 +1,6 @@
+post_id,author_id,created_at,language,text,source
+1,user-0,2026-01-01T00:00:00Z,en,everyone who disagrees with this obvious truth is pathetic,mock_source
+2,user-1,2026-01-01T00:00:00Z,en,sharing an article about transit policy changes in the city,mock_source
+3,user-2,2026-01-01T00:00:00Z,en,i disagree with the decision but want to understand the facts,mock_source
+4,user-3,2026-01-01T00:00:00Z,en,here is a neutral update on the match and the final score,mock_source
+5,user-4,2026-01-01T00:00:00Z,en,today was exhausting and i am genuinely upset about the layoffs,mock_source

@@ -141,10 +141,10 @@ Run baselines only:
 python3 scripts/run_pipeline.py --config configs/default.yaml run --baselines-only
 ```
 
-Label the compiled unlabeled CSV with Ollama. The default config uses `gemma4:e4b-it-q4_K_M`, and you can override the model on the command line:
+Label the compiled unlabeled CSV with Ollama. The default config uses `qwen2.5:3b-instruct-q4_K_M`, batches requests in groups of `10`, and shows a progress bar while it runs. You can override the model, worker count, and batch size on the command line:
 
 ```bash
-python3 scripts/label_with_ollama.py --config configs/default.yaml
+python3 scripts/label_with_ollama.py --config configs/default.yaml --workers 1 --batch-size 10
 ```
 
 Or through the main CLI:
@@ -159,7 +159,7 @@ The system separates data normalization, annotation merge, preprocessing, modeli
 
 The interactive importer intentionally keeps a person in the loop because Kaggle exports rarely agree on column names or completeness. Instead of hardcoding a single schema, the importer lists the files it finds, previews columns and sample rows, lets you select row ranges, asks for a display name for each source, and writes a canonical unlabeled CSV with `post_id, author_id, created_at, language, text, source`.
 
-The Ollama labeler is a separate stage so you can inspect the compiled unlabeled data before generating weak labels. It sends concurrent requests to the local Ollama chat API, asks the configured chat model to call a `classify_ragebait` tool, and stores both the boolean decision and a numeric `0/1` label to make downstream review and training simpler.
+The Ollama labeler is a separate stage so you can inspect the compiled unlabeled data before generating weak labels. It deduplicates repeated text, sends micro-batched requests to the local Ollama chat API, asks the configured chat model for native JSON output instead of tool calls, and stores both the boolean decision and a numeric `0/1` label to make downstream review and training simpler.
 
 The BERT classifier uses a pre-trained encoder plus a small ANN head with dropout. Training uses `BCEWithLogitsLoss` for numerical stability with class imbalance handling, while inference exposes softmax-style two-class probabilities derived from the model logit. This keeps the binary objective simple without losing calibrated class probabilities for downstream consumers.
 
@@ -180,4 +180,4 @@ Store predictions, model version, feature hashes, and confidence scores in an ap
 
 ## Local Verification
 
-The repo includes unit tests for preprocessing, mixed-file import helpers, and Ollama tool-call parsing. Full model training and Parquet import require installing the dependencies declared in [pyproject.toml](/Users/red/dev/ML-Project-Ragebait/pyproject.toml).
+The repo includes unit tests for preprocessing, mixed-file import helpers, and Ollama JSON parsing. Full model training and Parquet import require installing the dependencies declared in [pyproject.toml](/Users/red/dev/ML-Project-Ragebait/pyproject.toml).

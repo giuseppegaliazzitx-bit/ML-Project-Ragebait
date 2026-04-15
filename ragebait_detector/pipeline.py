@@ -26,7 +26,9 @@ LOGGER = logging.getLogger(__name__)
 
 def prepare_exports(args) -> dict[str, Any]:
     settings = load_settings(args.config)
-    destination = normalize_exports(args.inputs, args.output or settings.paths.unified_posts_path)
+    destination = normalize_exports(
+        args.inputs, args.output or settings.paths.unified_posts_path
+    )
     rows = read_csv(destination)
     meets_volume, usable_rows = validate_volume(rows, settings.data.min_posts)
     summary = {
@@ -86,16 +88,26 @@ def label_dataset_with_ollama(args) -> dict[str, Any]:
         settings.ollama.host = args.host
     if args.model:
         settings.ollama.model = args.model
-    if args.workers:
+    if args.workers is not None:
         settings.ollama.max_workers = args.workers
+    if args.batch_size is not None:
+        settings.ollama.batch_size = args.batch_size
+    if args.random_selection is not None:
+        settings.ollama.random_selection = args.random_selection
+    if args.random_seed is not None:
+        settings.ollama.random_seed = args.random_seed
     output_path = args.output or settings.paths.ollama_labels_path
-    summary_path = args.summary or Path(settings.paths.output_dir) / "ollama_labeling_summary.json"
+    summary_path = (
+        args.summary or Path(settings.paths.output_dir) / "ollama_labeling_summary.json"
+    )
     summary = label_csv_with_ollama(
         input_path=args.input or settings.paths.unlabeled_posts_path,
         output_path=output_path,
         summary_path=summary_path,
         settings=settings,
         limit=args.limit,
+        random_seed=args.random_seed,
+        select_randomly=args.random_selection,
     )
     return summary
 
@@ -108,7 +120,9 @@ def run_training_pipeline(args) -> dict[str, Any]:
     seed_everything(settings.training.seed)
 
     timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
-    run_root = ensure_parent(Path(args.output_dir or settings.paths.output_dir) / timestamp / "summary.json").parent
+    run_root = ensure_parent(
+        Path(args.output_dir or settings.paths.output_dir) / timestamp / "summary.json"
+    ).parent
 
     preprocess_summary = prepare_labeled_dataset(
         input_path=args.input or settings.paths.labeled_posts_path,
@@ -243,6 +257,11 @@ def build_parser() -> argparse.ArgumentParser:
     ollama_parser.add_argument("--host")
     ollama_parser.add_argument("--model")
     ollama_parser.add_argument("--workers", type=int)
+    ollama_parser.add_argument("--batch-size", type=int)
+    ollama_parser.add_argument("--random-seed", type=int)
+    ollama_parser.add_argument(
+        "--random-selection", action=argparse.BooleanOptionalAction
+    )
 
     return parser
 

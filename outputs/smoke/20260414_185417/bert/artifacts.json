@@ -1,0 +1,5 @@
+{
+  "checkpoint_path": "outputs/smoke/20260414_185417/bert/checkpoint.pt",
+  "device": "mps",
+  "tokenizer_dir": "outputs/smoke/20260414_185417/bert/tokenizer"
+}

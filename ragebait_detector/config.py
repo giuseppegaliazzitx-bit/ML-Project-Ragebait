@@ -73,11 +73,14 @@ class TrainingConfig:
 @dataclass
 class OllamaConfig:
     host: str = "http://127.0.0.1:11434"
-    model: str = "gemma4:e4b-it-q4_K_M"
-    max_workers: int = 4
+    model: str = "qwen2.5:3b-instruct-q4_K_M"
+    max_workers: int = 1
+    batch_size: int = 10
     request_timeout_seconds: int = 120
     temperature: float = 0.0
     max_retries: int = 2
+    random_selection: bool = True
+    random_seed: int = 67
 
 
 @dataclass

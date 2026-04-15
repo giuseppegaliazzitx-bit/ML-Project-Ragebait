@@ -51,8 +51,11 @@ training:
 
 ollama:
   host: http://127.0.0.1:11434
-  model: gemma4:e4b-it-q4_K_M
-  max_workers: 4
+  model: qwen2.5:3b-instruct-q4_K_M
+  max_workers: 1
+  batch_size: 10
   request_timeout_seconds: 120
   temperature: 0.0
   max_retries: 2
+  random_selection: true
+  random_seed: 67

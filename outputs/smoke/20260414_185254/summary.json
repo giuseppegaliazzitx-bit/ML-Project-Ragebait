@@ -1,0 +1,447 @@
+{
+  "baseline_results": {
+    "clean": {
+      "decision_tree": {
+        "accuracy": 1.0,
+        "f1_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "precision_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "recall_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "report": {
+          "accuracy": 1.0,
+          "macro avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          },
+          "not_ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 4.0
+          },
+          "ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 1.0
+          },
+          "weighted avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          }
+        },
+        "support_by_class": {
+          "0": 4,
+          "1": 1
+        }
+      },
+      "gaussian_nb": {
+        "accuracy": 1.0,
+        "f1_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "precision_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "recall_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "report": {
+          "accuracy": 1.0,
+          "macro avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          },
+          "not_ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 4.0
+          },
+          "ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 1.0
+          },
+          "weighted avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          }
+        },
+        "support_by_class": {
+          "0": 4,
+          "1": 1
+        }
+      },
+      "logistic_regression": {
+        "accuracy": 1.0,
+        "f1_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "precision_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "recall_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "report": {
+          "accuracy": 1.0,
+          "macro avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          },
+          "not_ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 4.0
+          },
+          "ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 1.0
+          },
+          "weighted avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          }
+        },
+        "support_by_class": {
+          "0": 4,
+          "1": 1
+        }
+      },
+      "svc": {
+        "accuracy": 1.0,
+        "f1_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "precision_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "recall_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "report": {
+          "accuracy": 1.0,
+          "macro avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          },
+          "not_ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 4.0
+          },
+          "ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 1.0
+          },
+          "weighted avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          }
+        },
+        "support_by_class": {
+          "0": 4,
+          "1": 1
+        }
+      }
+    },
+    "raw": {
+      "decision_tree": {
+        "accuracy": 1.0,
+        "f1_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "precision_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "recall_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "report": {
+          "accuracy": 1.0,
+          "macro avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          },
+          "not_ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 4.0
+          },
+          "ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 1.0
+          },
+          "weighted avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          }
+        },
+        "support_by_class": {
+          "0": 4,
+          "1": 1
+        }
+      },
+      "gaussian_nb": {
+        "accuracy": 1.0,
+        "f1_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "precision_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "recall_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "report": {
+          "accuracy": 1.0,
+          "macro avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          },
+          "not_ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 4.0
+          },
+          "ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 1.0
+          },
+          "weighted avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          }
+        },
+        "support_by_class": {
+          "0": 4,
+          "1": 1
+        }
+      },
+      "logistic_regression": {
+        "accuracy": 1.0,
+        "f1_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "precision_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "recall_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "report": {
+          "accuracy": 1.0,
+          "macro avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          },
+          "not_ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 4.0
+          },
+          "ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 1.0
+          },
+          "weighted avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          }
+        },
+        "support_by_class": {
+          "0": 4,
+          "1": 1
+        }
+      },
+      "svc": {
+        "accuracy": 1.0,
+        "f1_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "precision_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "recall_by_class": {
+          "0": 1.0,
+          "1": 1.0
+        },
+        "report": {
+          "accuracy": 1.0,
+          "macro avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          },
+          "not_ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 4.0
+          },
+          "ragebait": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 1.0
+          },
+          "weighted avg": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 5.0
+          }
+        },
+        "support_by_class": {
+          "0": 4,
+          "1": 1
+        }
+      }
+    }
+  },
+  "bert_results": {
+    "artifacts_path": "outputs/smoke/20260414_185254/bert/artifacts.json",
+    "checkpoint_path": "outputs/smoke/20260414_185254/bert/checkpoint.pt",
+    "history": [
+      {
+        "epoch": 1,
+        "train_loss": 1.6371068596839904,
+        "validation_accuracy": 0.2,
+        "validation_f1_ragebait": 0.3333333333333333,
+        "validation_loss": 0.9825864732265472
+      }
+    ],
+    "test_metrics": {
+      "accuracy": 0.2,
+      "f1_by_class": {
+        "0": 0.0,
+        "1": 0.3333333333333333
+      },
+      "precision_by_class": {
+        "0": 0.0,
+        "1": 0.2
+      },
+      "recall_by_class": {
+        "0": 0.0,
+        "1": 1.0
+      },
+      "report": {
+        "accuracy": 0.2,
+        "macro avg": {
+          "f1-score": 0.16666666666666666,
+          "precision": 0.1,
+          "recall": 0.5,
+          "support": 5.0
+        },
+        "not_ragebait": {
+          "f1-score": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 4.0
+        },
+        "ragebait": {
+          "f1-score": 0.3333333333333333,
+          "precision": 0.2,
+          "recall": 1.0,
+          "support": 1.0
+        },
+        "weighted avg": {
+          "f1-score": 0.06666666666666667,
+          "precision": 0.04,
+          "recall": 0.2,
+          "support": 5.0
+        }
+      },
+      "support_by_class": {
+        "0": 4,
+        "1": 1
+      }
+    },
+    "tokenizer_dir": "outputs/smoke/20260414_185254/bert/tokenizer"
+  },
+  "preprocess_summary": {
+    "dropped_empty": 0,
+    "dropped_non_english": 0,
+    "dropped_unlabeled": 0,
+    "processed_rows": 50
+  },
+  "split_summary": {
+    "test_size": 5,
+    "train_size": 40,
+    "validation_size": 5
+  }
+}

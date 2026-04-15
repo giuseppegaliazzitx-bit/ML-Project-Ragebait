@@ -1,0 +1,147 @@
+{
+  "duplicate_rows_removed": 31439,
+  "files_selected": [
+    "AllTweets.csv",
+    "common_authors_data - general-anon.csv",
+    "common_authors_data - israel-hamas-anon.csv",
+    "common_authors_data - ukraine-anon.csv",
+    "common_authors_data - vaccine-anon.csv",
+    "sample_import.csv",
+    "train-00000-of-00001.parquet",
+    "twitter_toxic_tweets.csv",
+    "x_db.txt"
+  ],
+  "final_columns": [
+    "post_id",
+    "author_id",
+    "created_at",
+    "language",
+    "text",
+    "source"
+  ],
+  "input_directory": "data/raw",
+  "manifest_path": "data/interim/source_manifest.json",
+  "output_csv": "data/unlabeled/unified_unlabeled_posts.csv",
+  "rows_written": 507682,
+  "sources": [
+    {
+      "file": "AllTweets.csv",
+      "mapping": {
+        "author_id": "author",
+        "created_at": null,
+        "language": null,
+        "text": "text"
+      },
+      "rows_imported": 88625,
+      "rows_selected": 88625,
+      "rows_skipped_empty_text": 0,
+      "source_name": "AllTweets",
+      "status": "imported"
+    },
+    {
+      "file": "common_authors_data - general-anon.csv",
+      "mapping": {
+        "author_id": null,
+        "created_at": "timestamp",
+        "language": "language_guess",
+        "text": "body"
+      },
+      "rows_imported": 894,
+      "rows_selected": 894,
+      "rows_skipped_empty_text": 0,
+      "source_name": "common-annon",
+      "status": "imported"
+    },
+    {
+      "file": "common_authors_data - israel-hamas-anon.csv",
+      "mapping": {
+        "author_id": null,
+        "created_at": "timestamp",
+        "language": "language_guess",
+        "text": "body"
+      },
+      "rows_imported": 434,
+      "rows_selected": 434,
+      "rows_skipped_empty_text": 0,
+      "source_name": "isreal-hamas-anon",
+      "status": "imported"
+    },
+    {
+      "file": "common_authors_data - ukraine-anon.csv",
+      "mapping": {
+        "author_id": null,
+        "created_at": "timestamp",
+        "language": "language_guess",
+        "text": "body"
+      },
+      "rows_imported": 202,
+      "rows_selected": 202,
+      "rows_skipped_empty_text": 0,
+      "source_name": "ukraine-anon",
+      "status": "imported"
+    },
+    {
+      "file": "common_authors_data - vaccine-anon.csv",
+      "mapping": {
+        "author_id": null,
+        "created_at": "timestamp",
+        "language": "language_guess",
+        "text": "body"
+      },
+      "rows_imported": 145,
+      "rows_selected": 145,
+      "rows_skipped_empty_text": 0,
+      "source_name": "vaccine-anon",
+      "status": "imported"
+    },
+    {
+      "file": "sample_import.csv",
+      "mapping": {
+        "author_id": "author_id",
+        "created_at": "created_at",
+        "language": "language",
+        "text": "text"
+      },
+      "rows_imported": 50,
+      "rows_selected": 50,
+      "rows_skipped_empty_text": 0,
+      "source_name": "sample_import",
+      "status": "imported"
+    },
+    {
+      "file": "train-00000-of-00001.parquet",
+      "mapping": {
+        "author_id": null,
+        "created_at": null,
+        "language": null,
+        "text": "text"
+      },
+      "rows_imported": 416809,
+      "rows_selected": 416809,
+      "rows_skipped_empty_text": 0,
+      "source_name": "twtemotion",
+      "status": "imported"
+    },
+    {
+      "file": "twitter_toxic_tweets.csv",
+      "mapping": {
+        "author_id": null,
+        "created_at": null,
+        "language": null,
+        "text": "tweet"
+      },
+      "rows_imported": 31962,
+      "rows_selected": 31962,
+      "rows_skipped_empty_text": 0,
+      "source_name": "twitter_toxic_tweets",
+      "status": "imported"
+    },
+    {
+      "file": "x_db.txt",
+      "reason": "unsupported_sql_payload",
+      "rows_imported": 0,
+      "rows_selected": 0,
+      "status": "skipped"
+    }
+  ]
+}

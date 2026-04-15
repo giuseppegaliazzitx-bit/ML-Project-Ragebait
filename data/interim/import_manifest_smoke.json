@@ -1,0 +1,34 @@
+{
+  "duplicate_rows_removed": 0,
+  "files_selected": [
+    "sample_import.csv"
+  ],
+  "final_columns": [
+    "post_id",
+    "author_id",
+    "created_at",
+    "language",
+    "text",
+    "source"
+  ],
+  "input_directory": "data/raw",
+  "manifest_path": "data/interim/import_manifest_smoke.json",
+  "output_csv": "data/unlabeled/smoke_unlabeled.csv",
+  "rows_written": 5,
+  "sources": [
+    {
+      "file": "sample_import.csv",
+      "mapping": {
+        "author_id": "author_id",
+        "created_at": "created_at",
+        "language": "language",
+        "text": "text"
+      },
+      "rows_imported": 5,
+      "rows_selected": 5,
+      "rows_skipped_empty_text": 0,
+      "source_name": "mock_source",
+      "status": "imported"
+    }
+  ]
+}

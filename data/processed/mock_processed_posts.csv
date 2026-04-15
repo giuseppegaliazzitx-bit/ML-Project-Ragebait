@@ -1,0 +1,61 @@
+post_id,raw_text,clean_text,label,source,language,detected_language,is_supported_language,was_augmented
+mock-0,everyone who disagrees with this obvious truth is pathetic,everyone who disagrees with this obvious truth is pathetic,1,mock_generator,en,en,True,False
+mock-1,sharing an article about transit policy changes in the city,sharing an article about transit policy changes in the city,0,mock_generator,en,en,True,False
+mock-2,i disagree with the decision but want to understand the facts,i disagree with the decision but want to understand the facts,0,mock_generator,en,en,True,False
+mock-3,here is a neutral update on the match and the final score,here is a neutral update on the match and the final score,0,mock_generator,en,en,True,False
+mock-4,today was exhausting and i am genuinely upset about the layoffs,today was exhausting and i am genuinely upset about the layoffs,0,mock_generator,en,en,True,False
+mock-5,if this post makes you mad then i clearly won the argument,if this post makes you mad then i clearly won the argument,1,mock_generator,en,en,True,False
+mock-6,i disagree with the decision but want to understand the facts,i disagree with the decision but want to understand the facts,0,mock_generator,en,en,True,False
+mock-7,here is a neutral update on the match and the final score,here is a neutral update on the match and the final score,0,mock_generator,en,en,True,False
+mock-8,today was exhausting and i am genuinely upset about the layoffs,today was exhausting and i am genuinely upset about the layoffs,0,mock_generator,en,en,True,False
+mock-9,sharing an article about transit policy changes in the city,sharing an article about transit policy changes in the city,0,mock_generator,en,en,True,False
+mock-10,watch the comments melt down because i know this bait works,watch the comments melt down because i know this bait works,1,mock_generator,en,en,True,False
+mock-11,here is a neutral update on the match and the final score,here is a neutral update on the match and the final score,0,mock_generator,en,en,True,False
+mock-12,today was exhausting and i am genuinely upset about the layoffs,today was exhausting and i am genuinely upset about the layoffs,0,mock_generator,en,en,True,False
+mock-13,sharing an article about transit policy changes in the city,sharing an article about transit policy changes in the city,0,mock_generator,en,en,True,False
+mock-14,i disagree with the decision but want to understand the facts,i disagree with the decision but want to understand the facts,0,mock_generator,en,en,True,False
+mock-15,you are all proving my point by reacting exactly like this,you are all proving my point by reacting exactly like this,1,mock_generator,en,en,True,False
+mock-16,today was exhausting and i am genuinely upset about the layoffs,today was exhausting and i am genuinely upset about the layoffs,0,mock_generator,en,en,True,False
+mock-17,sharing an article about transit policy changes in the city,sharing an article about transit policy changes in the city,0,mock_generator,en,en,True,False
+mock-18,i disagree with the decision but want to understand the facts,i disagree with the decision but want to understand the facts,0,mock_generator,en,en,True,False
+mock-19,here is a neutral update on the match and the final score,here is a neutral update on the match and the final score,0,mock_generator,en,en,True,False
+mock-20,everyone who disagrees with this obvious truth is pathetic,everyone who disagrees with this obvious truth is pathetic,1,mock_generator,en,en,True,False
+mock-21,sharing an article about transit policy changes in the city,sharing an article about transit policy changes in the city,0,mock_generator,en,en,True,False
+mock-22,i disagree with the decision but want to understand the facts,i disagree with the decision but want to understand the facts,0,mock_generator,en,en,True,False
+mock-23,here is a neutral update on the match and the final score,here is a neutral update on the match and the final score,0,mock_generator,en,en,True,False
+mock-24,today was exhausting and i am genuinely upset about the layoffs,today was exhausting and i am genuinely upset about the layoffs,0,mock_generator,en,en,True,False
+mock-25,if this post makes you mad then i clearly won the argument,if this post makes you mad then i clearly won the argument,1,mock_generator,en,en,True,False
+mock-26,i disagree with the decision but want to understand the facts,i disagree with the decision but want to understand the facts,0,mock_generator,en,en,True,False
+mock-27,here is a neutral update on the match and the final score,here is a neutral update on the match and the final score,0,mock_generator,en,en,True,False
+mock-28,today was exhausting and i am genuinely upset about the layoffs,today was exhausting and i am genuinely upset about the layoffs,0,mock_generator,en,en,True,False
+mock-29,sharing an article about transit policy changes in the city,sharing an article about transit policy changes in the city,0,mock_generator,en,en,True,False
+mock-30,watch the comments melt down because i know this bait works,watch the comments melt down because i know this bait works,1,mock_generator,en,en,True,False
+mock-31,here is a neutral update on the match and the final score,here is a neutral update on the match and the final score,0,mock_generator,en,en,True,False
+mock-32,today was exhausting and i am genuinely upset about the layoffs,today was exhausting and i am genuinely upset about the layoffs,0,mock_generator,en,en,True,False
+mock-33,sharing an article about transit policy changes in the city,sharing an article about transit policy changes in the city,0,mock_generator,en,en,True,False
+mock-34,i disagree with the decision but want to understand the facts,i disagree with the decision but want to understand the facts,0,mock_generator,en,en,True,False
+mock-35,you are all proving my point by reacting exactly like this,you are all proving my point by reacting exactly like this,1,mock_generator,en,en,True,False
+mock-36,today was exhausting and i am genuinely upset about the layoffs,today was exhausting and i am genuinely upset about the layoffs,0,mock_generator,en,en,True,False
+mock-37,sharing an article about transit policy changes in the city,sharing an article about transit policy changes in the city,0,mock_generator,en,en,True,False
+mock-38,i disagree with the decision but want to understand the facts,i disagree with the decision but want to understand the facts,0,mock_generator,en,en,True,False
+mock-39,here is a neutral update on the match and the final score,here is a neutral update on the match and the final score,0,mock_generator,en,en,True,False
+mock-40,everyone who disagrees with this obvious truth is pathetic,everyone who disagrees with this obvious truth is pathetic,1,mock_generator,en,en,True,False
+mock-41,sharing an article about transit policy changes in the city,sharing an article about transit policy changes in the city,0,mock_generator,en,en,True,False
+mock-42,i disagree with the decision but want to understand the facts,i disagree with the decision but want to understand the facts,0,mock_generator,en,en,True,False
+mock-43,here is a neutral update on the match and the final score,here is a neutral update on the match and the final score,0,mock_generator,en,en,True,False
+mock-44,today was exhausting and i am genuinely upset about the layoffs,today was exhausting and i am genuinely upset about the layoffs,0,mock_generator,en,en,True,False
+mock-45,if this post makes you mad then i clearly won the argument,if this post makes you mad then i clearly won the argument,1,mock_generator,en,en,True,False
+mock-46,i disagree with the decision but want to understand the facts,i disagree with the decision but want to understand the facts,0,mock_generator,en,en,True,False
+mock-47,here is a neutral update on the match and the final score,here is a neutral update on the match and the final score,0,mock_generator,en,en,True,False
+mock-48,today was exhausting and i am genuinely upset about the layoffs,today was exhausting and i am genuinely upset about the layoffs,0,mock_generator,en,en,True,False
+mock-49,sharing an article about transit policy changes in the city,sharing an article about transit policy changes in the city,0,mock_generator,en,en,True,False
+mock-35::aug::0,you are all proving my point by reacting exactly like this,you are like proving my exactly by all reacting point this,1,mock_generator,en,en,True,True
+mock-15::aug::0,you are all proving my point by reacting exactly like this,point all exactly proving my you by are reacting like this,1,mock_generator,en,en,True,True
+mock-10::aug::0,watch the comments melt down because i know this bait works,watch because comments works down the i know bait this melt,1,mock_generator,en,en,True,True
+mock-40::aug::0,everyone who disagrees with this obvious truth is pathetic,disagrees who obvious pathetic with this truth is everyone,1,mock_generator,en,en,True,True
+mock-25::aug::0,if this post makes you mad then i clearly won the argument,if this argument makes post mad then i you won the clearly,1,mock_generator,en,en,True,True
+mock-30::aug::0,watch the comments melt down because i know this bait works,bait the this comments down because i know melt works watch,1,mock_generator,en,en,True,True
+mock-45::aug::0,if this post makes you mad then i clearly won the argument,if clearly mad makes you this then i won post the argument,1,mock_generator,en,en,True,True
+mock-20::aug::0,everyone who disagrees with this obvious truth is pathetic,with pathetic this disagrees who obvious truth is everyone,1,mock_generator,en,en,True,True
+mock-0::aug::0,everyone who disagrees with this obvious truth is pathetic,disagrees who everyone obvious this with pathetic is truth,1,mock_generator,en,en,True,True
+mock-5::aug::0,if this post makes you mad then i clearly won the argument,if this post makes then mad won i argument you clearly the,1,mock_generator,en,en,True,True
