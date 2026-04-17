@@ -48,9 +48,16 @@ def detect_language(text: str) -> str:
     try:
         langdetect = require_dependency("langdetect")
     except MissingDependencyError:
-        ascii_ratio = sum(character.isascii() for character in text) / max(len(text), 1)
-        return "en" if ascii_ratio > 0.95 else "unknown"
-    return str(langdetect.detect(text))
+        return _fallback_language_detection(text)
+    try:
+        return str(langdetect.detect(text))
+    except Exception:
+        return _fallback_language_detection(text)
+
+
+def _fallback_language_detection(text: str) -> str:
+    ascii_ratio = sum(character.isascii() for character in text) / max(len(text), 1)
+    return "en" if ascii_ratio > 0.95 else "unknown"
 
 
 def clean_text(text: str) -> str:

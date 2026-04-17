@@ -1,0 +1,11 @@
+{
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.5115897543219633,
+      "validation_accuracy": 0.4055299539170507,
+      "validation_f1_ragebait": 0.5770491803278689,
+      "validation_loss": 0.8352165349219974
+    }
+  ]
+}

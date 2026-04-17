@@ -34,6 +34,7 @@ class RageBaitPredictor:
         bundle = load_checkpoint(
             checkpoint_path=checkpoint_path,
             model_name=settings.model.model_name,
+            tokenizer_name=settings.model.tokenizer_name,
             hidden_dim=settings.model.hidden_dim,
             dropout=settings.model.dropout,
             device=device,

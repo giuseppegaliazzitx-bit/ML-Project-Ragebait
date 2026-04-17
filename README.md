@@ -232,6 +232,132 @@ If you want a more class-symmetric alternative for comparison, use:
 
 - `data/labeled/balanced_25000_c95_r50_50.csv`
 
+## 32k BERT Workflow
+
+This repo now includes a dataset-specific config for the recommended training file:
+
+- `configs/bert_32k.yaml`
+
+That config is wired to:
+
+- read `data/labeled/balanced_32000_c95_r60_40.csv`
+- write the cleaned dataset to `data/processed/processed_32000_c95_r60_40.csv`
+- write run artifacts under `outputs/bert_32k/<timestamp>/`
+
+The default model in that config is `bert-base-uncased`, but the training settings are intentionally conservative for local CPU-only runs:
+
+```yaml
+model:
+  model_name: bert-base-uncased
+
+training:
+  batch_size: 8
+  epochs: 1
+```
+
+The local config also disables minority-class augmentation because the balanced CSV is already intentionally class-shaped and ready for supervised training. If you have a real GPU and want a longer run, increase `training.epochs`, raise `model.max_length`, and adjust `training.batch_size` upward.
+
+### 1. Preprocess The 32k Dataset
+
+```bash
+./.venv/bin/python scripts/run_pipeline.py --config configs/bert_32k.yaml preprocess
+```
+
+This writes:
+
+- `data/processed/processed_32000_c95_r60_40.csv`
+- `outputs/bert_32k/preprocess_summary.json`
+
+The preprocessing step:
+
+- normalizes labels to `0` or `1`
+- cleans text by lowercasing and replacing URLs, mentions, emojis, and numbers
+- detects language from the raw text and drops unsupported rows when `drop_non_english: true`
+- removes empty or effectively content-free posts
+
+### 2. Run Baselines
+
+```bash
+./.venv/bin/python scripts/run_pipeline.py --config configs/bert_32k.yaml run --baselines-only
+```
+
+This creates a timestamped run directory such as:
+
+- `outputs/bert_32k/20260417_191055/`
+
+Inside the `baselines/` folder you get JSON metrics plus confusion matrices for:
+
+- logistic regression
+- SVC
+- Gaussian Naive Bayes
+- decision tree
+
+Each baseline is trained on both raw text and cleaned text so you can compare whether preprocessing helps classic sparse-text models.
+
+### 3. Train The BERT Classifier
+
+```bash
+./.venv/bin/python scripts/run_pipeline.py --config configs/bert_32k.yaml run --skip-baselines
+```
+
+This writes BERT artifacts under the timestamped run directory:
+
+- `bert/checkpoint.pt`
+- `bert/test_metrics.json`
+- `bert/training_history.json`
+- `bert/test_confusion_matrix.png`
+- `bert/artifacts.json`
+
+The trainer:
+
+- stratifies train, validation, and test splits by label
+- tokenizes cleaned text
+- uses weighted sampling plus `BCEWithLogitsLoss`
+- keeps the best checkpoint by validation F1 for class `1`
+
+On the current local `bert_32k.yaml` run, the classic baselines still outperform the one-epoch BERT model. Treat this config as a reproducible local starting point, then tune from there by increasing epochs, reviewing the decision threshold, and checking whether the weak-label class balance is pushing BERT toward overpredicting class `1`.
+
+### 4. Test A Trained Checkpoint
+
+Use the helper script:
+
+- `scripts/test_trained_bert.py`
+
+Score a single post with the latest checkpoint under `outputs/bert_32k/`:
+
+```bash
+./.venv/bin/python scripts/test_trained_bert.py \
+  --config configs/bert_32k.yaml \
+  --text "this post is clearly trying to provoke angry replies"
+```
+
+Score several posts explicitly against a known run:
+
+```bash
+./.venv/bin/python scripts/test_trained_bert.py \
+  --config configs/bert_32k.yaml \
+  --run-dir outputs/bert_32k/<timestamp> \
+  --text "neutral update about the match tonight" \
+  --text "everyone who disagrees is pathetic"
+```
+
+Score one post per line from a file:
+
+```bash
+./.venv/bin/python scripts/test_trained_bert.py \
+  --config configs/bert_32k.yaml \
+  --text-file data/interim/sample_posts.txt
+```
+
+The script prints JSON with:
+
+- the checkpoint path used
+- the predicted label
+- confidence
+- class probabilities
+- any rejection reason such as empty content or unsupported language
+- the number of chunks scored for long posts
+
 ## Architecture Decisions
 
 The system separates data normalization, annotation merge, preprocessing, weak labeling, modeling, training, and inference so the pipeline can be scheduled and audited stage by stage. That makes it easier to swap data sources, re-run only the preprocessing step after guideline updates, and compare classic baselines against the BERT model on the exact same split.

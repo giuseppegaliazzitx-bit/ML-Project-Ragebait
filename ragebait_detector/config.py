@@ -50,6 +50,7 @@ class BaselineConfig:
 @dataclass
 class ModelConfig:
     model_name: str = "bert-base-uncased"
+    tokenizer_name: str | None = None
     hidden_dim: int = 256
     dropout: float = 0.2
     max_length: int = 256

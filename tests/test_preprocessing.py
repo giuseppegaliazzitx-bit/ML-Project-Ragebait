@@ -3,6 +3,7 @@ import unittest
 from ragebait_detector.data.preprocessing import (
     augment_text,
     clean_text,
+    detect_language,
     is_media_only_or_empty,
     meaningful_length,
     normalize_label,
@@ -32,6 +33,9 @@ class PreprocessingTests(unittest.TestCase):
         self.assertEqual(normalize_label("ragebait"), 1)
         self.assertEqual(normalize_label("not_ragebait"), 0)
         self.assertIsNone(normalize_label("maybe"))
+
+    def test_detect_language_handles_symbol_only_text(self):
+        self.assertEqual(detect_language("!!! ???"), "en")
 
     def test_augmentation_preserves_token_count(self):
         text = "this post is intentionally trying to trigger angry replies"

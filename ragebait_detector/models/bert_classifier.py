@@ -54,10 +54,11 @@ class ModelBundle:
 
 def build_model_bundle(
     model_name: str,
+    tokenizer_name: str | None,
     hidden_dim: int,
     dropout: float,
 ) -> ModelBundle:
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_name or model_name)
     model = BertRageBaitClassifier(
         model_name=model_name,
         hidden_dim=hidden_dim,
@@ -69,11 +70,12 @@ def build_model_bundle(
 def load_checkpoint(
     checkpoint_path: str | Path,
     model_name: str,
+    tokenizer_name: str | None,
     hidden_dim: int,
     dropout: float,
     device: torch.device,
 ) -> ModelBundle:
-    bundle = build_model_bundle(model_name, hidden_dim, dropout)
+    bundle = build_model_bundle(model_name, tokenizer_name, hidden_dim, dropout)
     state = torch.load(checkpoint_path, map_location=device, weights_only=False)
     bundle.model.load_state_dict(state["model_state_dict"])
     bundle.model.to(device)

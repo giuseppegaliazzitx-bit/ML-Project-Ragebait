@@ -52,6 +52,7 @@ def train_bert_classifier(
     device = resolve_device(settings.training.device)
     bundle = build_model_bundle(
         model_name=settings.model.model_name,
+        tokenizer_name=settings.model.tokenizer_name,
         hidden_dim=settings.model.hidden_dim,
         dropout=settings.model.dropout,
     )

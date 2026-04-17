@@ -15,3 +15,4 @@ __pycache__/
 !outputs/.gitkeep
 .codex
 data/labeled/vllm_all_qwen_ragebait_labels.csv
+*.pt

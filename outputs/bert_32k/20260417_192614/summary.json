@@ -1,0 +1,74 @@
+{
+  "baseline_results": {},
+  "bert_results": {
+    "artifacts_path": "outputs/bert_32k/20260417_192614/bert/artifacts.json",
+    "checkpoint_path": "outputs/bert_32k/20260417_192614/bert/checkpoint.pt",
+    "history": [
+      {
+        "epoch": 1,
+        "train_loss": 0.5115897543219633,
+        "validation_accuracy": 0.4055299539170507,
+        "validation_f1_ragebait": 0.5770491803278689,
+        "validation_loss": 0.8352165349219974
+      }
+    ],
+    "test_metrics": {
+      "accuracy": 0.4055299539170507,
+      "f1_by_class": {
+        "0": 0.0,
+        "1": 0.5770491803278689
+      },
+      "precision_by_class": {
+        "0": 0.0,
+        "1": 0.4055299539170507
+      },
+      "recall_by_class": {
+        "0": 0.0,
+        "1": 1.0
+      },
+      "report": {
+        "accuracy": 0.4055299539170507,
+        "macro avg": {
+          "f1-score": 0.28852459016393445,
+          "precision": 0.20276497695852536,
+          "recall": 0.5,
+          "support": 3038.0
+        },
+        "not_ragebait": {
+          "f1-score": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 1806.0
+        },
+        "ragebait": {
+          "f1-score": 0.5770491803278689,
+          "precision": 0.4055299539170507,
+          "recall": 1.0,
+          "support": 1232.0
+        },
+        "weighted avg": {
+          "f1-score": 0.23401072750623253,
+          "precision": 0.16445454352396527,
+          "recall": 0.4055299539170507,
+          "support": 3038.0
+        }
+      },
+      "support_by_class": {
+        "0": 1806,
+        "1": 1232
+      }
+    },
+    "tokenizer_dir": "outputs/bert_32k/20260417_192614/bert/tokenizer"
+  },
+  "preprocess_summary": {
+    "dropped_empty": 9,
+    "dropped_non_english": 1605,
+    "dropped_unlabeled": 0,
+    "processed_rows": 30386
+  },
+  "split_summary": {
+    "test_size": 3038,
+    "train_size": 24310,
+    "validation_size": 3038
+  }
+}
