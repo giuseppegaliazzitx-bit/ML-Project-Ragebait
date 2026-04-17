@@ -1,0 +1,5 @@
+{
+  "checkpoint_path": "outputs/bert_32k_tuned/20260417_194800/bert/checkpoint.pt",
+  "device": "cuda",
+  "tokenizer_dir": "outputs/bert_32k_tuned/20260417_194800/bert/tokenizer"
+}

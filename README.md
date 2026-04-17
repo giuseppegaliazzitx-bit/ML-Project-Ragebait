@@ -257,6 +257,45 @@ training:
 
 The local config also disables minority-class augmentation because the balanced CSV is already intentionally class-shaped and ready for supervised training. If you have a real GPU and want a longer run, increase `training.epochs`, raise `model.max_length`, and adjust `training.batch_size` upward.
 
+### Tuned BERT Config
+
+There is also a tuned follow-up config:
+
+- `configs/bert_32k_tuned.yaml`
+
+This version keeps `bert-base-uncased` but changes the training behavior in one important way: it disables both the weighted sampler and the positive-class loss weight.
+
+Why that matters:
+
+- the 32k balanced file is only moderately imbalanced after English filtering
+- the original trainer used both `WeightedRandomSampler` and `BCEWithLogitsLoss(pos_weight=...)`
+- in practice that double-corrected the training signal toward class `1`
+- the first BERT run collapsed into predicting ragebait far too often
+
+The tuned config uses:
+
+```yaml
+training:
+  batch_size: 8
+  epochs: 3
+  use_weighted_sampler: false
+  use_pos_weight: false
+```
+
+Run it with:
+
+```bash
+./.venv/bin/python scripts/run_pipeline.py --config configs/bert_32k_tuned.yaml run --skip-baselines
+```
+
+On the current tuned run at `outputs/bert_32k_tuned/20260417_194800/`, BERT reached:
+
+- accuracy: `0.8767`
+- class `0` F1: `0.8937`
+- class `1` F1: `0.8533`
+
+That is slightly better overall than the best classic baseline observed on the earlier 32k runs, where the clean-text SVC reached about `0.8718` accuracy.
+
 ### 1. Preprocess The 32k Dataset
 
 ```bash
@@ -315,7 +354,7 @@ The trainer:
 - uses weighted sampling plus `BCEWithLogitsLoss`
 - keeps the best checkpoint by validation F1 for class `1`
 
-On the current local `bert_32k.yaml` run, the classic baselines still outperform the one-epoch BERT model. Treat this config as a reproducible local starting point, then tune from there by increasing epochs, reviewing the decision threshold, and checking whether the weak-label class balance is pushing BERT toward overpredicting class `1`.
+On the current local `bert_32k.yaml` run, the classic baselines still outperform the one-epoch BERT model. Treat that config as a reproducible starting point. For the stronger follow-up run, use `configs/bert_32k_tuned.yaml`.
 
 ### 4. Test A Trained Checkpoint
 
@@ -349,9 +388,31 @@ Score one post per line from a file:
   --text-file data/interim/sample_posts.txt
 ```
 
+By default, `scripts/test_trained_bert.py` now assumes you want to score the text even if language detection is noisy. In other words, it bypasses the inference-time language gate unless you explicitly turn that check back on.
+
+```bash
+./.venv/bin/python scripts/test_trained_bert.py \
+  --config configs/bert_32k_tuned.yaml \
+  --run-dir outputs/bert_32k_tuned/<timestamp> \
+  --text "your English text here"
+```
+
+If you want the original strict language gate back for a test run, use:
+
+```bash
+./.venv/bin/python scripts/test_trained_bert.py \
+  --config configs/bert_32k_tuned.yaml \
+  --run-dir outputs/bert_32k_tuned/<timestamp> \
+  --no-force-english \
+  --text "your text here"
+```
+
+This only affects the test script. It does not retrain the model or change the saved checkpoint. It simply controls whether inference-time `drop_non_english` rejection is bypassed.
+
 The script prints JSON with:
 
 - the checkpoint path used
+- whether forced-English scoring was enabled
 - the predicted label
 - confidence
 - class probabilities

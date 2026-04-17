@@ -69,6 +69,8 @@ class TrainingConfig:
     decision_threshold: float = 0.50
     seed: int = 42
     device: str = "auto"
+    use_weighted_sampler: bool = True
+    use_pos_weight: bool = True
 
 
 @dataclass

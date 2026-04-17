@@ -49,6 +49,9 @@ def detect_language(text: str) -> str:
         langdetect = require_dependency("langdetect")
     except MissingDependencyError:
         return _fallback_language_detection(text)
+    detector_factory = getattr(langdetect, "DetectorFactory", None)
+    if detector_factory is not None:
+        detector_factory.seed = 0
     try:
         return str(langdetect.detect(text))
     except Exception:

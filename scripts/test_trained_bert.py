@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
+import io
 import json
+import logging
 import sys
 from dataclasses import asdict
 from pathlib import Path
@@ -38,6 +41,13 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Read one post per line from standard input.",
     )
+    parser.add_argument(
+        "--no-force-english",
+        action="store_false",
+        dest="force_english",
+        help="Re-enable inference-time language rejection instead of assuming the input should be scored as English.",
+    )
+    parser.set_defaults(force_english=True)
     return parser
 
 
@@ -87,9 +97,30 @@ def score_texts(texts: Iterable[str], predictor: RageBaitPredictor) -> list[dict
     return results
 
 
+@contextlib.contextmanager
+def suppress_transformers_load_report():
+    logger_names = [
+        "transformers.modeling_utils",
+        "transformers.utils.loading_report",
+    ]
+    previous = []
+    for logger_name in logger_names:
+        logger = logging.getLogger(logger_name)
+        previous.append((logger, logger.disabled))
+        logger.disabled = True
+    try:
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            yield
+    finally:
+        for logger, was_disabled in previous:
+            logger.disabled = was_disabled
+
+
 def main() -> None:
     args = build_parser().parse_args()
     settings = load_settings(args.config)
+    if args.force_english:
+        settings.data.drop_non_english = False
     texts = collect_texts(args)
     if not texts:
         raise SystemExit("Provide at least one input via --text, --text-file, or --stdin.")
@@ -98,17 +129,20 @@ def main() -> None:
     if not checkpoint_path.exists():
         raise SystemExit(f"Checkpoint not found: {checkpoint_path}")
 
-    predictor = RageBaitPredictor.from_checkpoint(checkpoint_path, settings)
+    with suppress_transformers_load_report():
+        predictor = RageBaitPredictor.from_checkpoint(checkpoint_path, settings)
     results = score_texts(texts, predictor)
     payload: object
     if len(results) == 1:
         payload = {
             "checkpoint_path": str(checkpoint_path),
+            "force_english": args.force_english,
             **results[0],
         }
     else:
         payload = {
             "checkpoint_path": str(checkpoint_path),
+            "force_english": args.force_english,
             "results": results,
         }
     print(json.dumps(payload, indent=2))

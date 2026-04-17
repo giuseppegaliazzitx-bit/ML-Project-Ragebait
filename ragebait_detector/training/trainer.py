@@ -67,18 +67,21 @@ def train_bert_classifier(
     validation_dataset = BertTextDataset(splits.validation)
     test_dataset = BertTextDataset(splits.test)
 
-    sample_weights = build_sample_weights([row["label"] for row in splits.train])
-    sampler = WeightedRandomSampler(
-        weights=torch.DoubleTensor(sample_weights),
-        num_samples=len(sample_weights),
-        replacement=True,
-    )
     collate_fn = build_collate_fn(bundle.tokenizer, settings.model.max_length)
+    sampler = None
+    if settings.training.use_weighted_sampler:
+        sample_weights = build_sample_weights([row["label"] for row in splits.train])
+        sampler = WeightedRandomSampler(
+            weights=torch.DoubleTensor(sample_weights),
+            num_samples=len(sample_weights),
+            replacement=True,
+        )
 
     train_loader = DataLoader(
         train_dataset,
         batch_size=settings.training.batch_size,
         sampler=sampler,
+        shuffle=sampler is None,
         num_workers=settings.training.num_workers,
         collate_fn=collate_fn,
     )
@@ -98,11 +101,13 @@ def train_bert_classifier(
     )
 
     labels = [row["label"] for row in splits.train]
-    positive_count = max(1, sum(labels))
-    negative_count = max(1, len(labels) - positive_count)
-    pos_weight = torch.tensor(negative_count / positive_count, device=device)
-
-    criterion = torch.nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+    if settings.training.use_pos_weight:
+        positive_count = max(1, sum(labels))
+        negative_count = max(1, len(labels) - positive_count)
+        pos_weight = torch.tensor(negative_count / positive_count, device=device)
+        criterion = torch.nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+    else:
+        criterion = torch.nn.BCEWithLogitsLoss()
     optimizer = Adam(
         bundle.model.parameters(),
         lr=settings.training.learning_rate,
