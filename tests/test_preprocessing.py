@@ -15,15 +15,17 @@ class PreprocessingTests(unittest.TestCase):
         cleaned = clean_text(text)
         self.assertIn("[url]", cleaned)
         self.assertIn("[user]", cleaned)
-        self.assertIn("[hashtag]", cleaned)
+        self.assertIn("drama", cleaned)
+        self.assertNotIn("[hashtag]", cleaned)
         self.assertNotIn("123", cleaned)
 
-    def test_media_only_detection_flags_token_only_posts(self):
+    def test_hashtag_text_counts_as_meaningful_content(self):
         cleaned = clean_text("@user https://t.co/abc #wow")
-        self.assertTrue(is_media_only_or_empty(cleaned))
+        self.assertFalse(is_media_only_or_empty(cleaned))
+        self.assertGreater(meaningful_length(cleaned), 0)
 
     def test_meaningful_length_ignores_special_tokens(self):
-        self.assertEqual(meaningful_length("[url] [user] [hashtag]"), 0)
+        self.assertEqual(meaningful_length("[url] [user]"), 0)
         self.assertGreater(meaningful_length("this is real text"), 0)
 
     def test_normalize_label_supports_common_aliases(self):

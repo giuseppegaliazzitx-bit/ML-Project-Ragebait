@@ -10,7 +10,6 @@ from ragebait_detector.utils.io import read_csv, write_csv
 
 URL_PATTERN = re.compile(r"https?://\S+|www\.\S+")
 MENTION_PATTERN = re.compile(r"@\w+")
-HASHTAG_PATTERN = re.compile(r"#\w+")
 NUMBER_PATTERN = re.compile(r"\d+")
 WHITESPACE_PATTERN = re.compile(r"\s+")
 NON_ALPHA_PATTERN = re.compile(r"[^a-z_\s\[\]]+")
@@ -27,7 +26,6 @@ EMOJI_PATTERN = re.compile(
 SPECIAL_TOKENS = {
     "[url]",
     "[user]",
-    "[hashtag]",
     "[emoji]",
     "[empty_post]",
 }
@@ -62,7 +60,6 @@ def clean_text(text: str) -> str:
     normalized = text.lower()
     normalized = URL_PATTERN.sub(" [url] ", normalized)
     normalized = MENTION_PATTERN.sub(" [user] ", normalized)
-    normalized = HASHTAG_PATTERN.sub(" [hashtag] ", normalized)
     normalized = EMOJI_PATTERN.sub(" [emoji] ", normalized)
     normalized = NUMBER_PATTERN.sub(" ", normalized)
     normalized = NON_ALPHA_PATTERN.sub(" ", normalized)

@@ -248,7 +248,7 @@ Baseline models are trained on both raw text and cleaned text so you can quantif
 
 - Empty or media-only posts are mapped to `[empty_post]` and excluded from training.
 - Unsupported languages are detected and can be dropped when the model is English-only.
-- URLs, mentions, hashtags, and emojis are replaced with identifier tokens rather than deleted blindly.
+- URLs, mentions, and emojis are replaced with identifier tokens rather than deleted blindly.
 - Very long posts are chunked at inference time using tokenizer windows and aggregated into one prediction.
 
 ## Scaling To Real-Time Feeds
