@@ -238,6 +238,7 @@ class VLLMLabelerTests(unittest.TestCase):
         settings = Settings()
         settings.vllm.enable_random = True
         settings.vllm.random_seed = 7
+        settings.vllm.balance_by_source = False
         rows = [
             {
                 "post_id": str(index),
@@ -282,8 +283,97 @@ class VLLMLabelerTests(unittest.TestCase):
         self.assertEqual(summary["limit"], 3)
         self.assertTrue(summary["enable_random"])
         self.assertEqual(summary["random_seed"], 7)
+        self.assertFalse(summary["balance_by_source"])
         self.assertEqual(selected_post_ids, expected_post_ids)
         self.assertEqual(len(selected_post_ids), len(set(selected_post_ids)))
+
+    def test_label_csv_with_vllm_balances_random_sampling_by_source(self):
+        settings = Settings()
+        settings.vllm.enable_random = True
+        settings.vllm.random_seed = 11
+        settings.vllm.balance_by_source = True
+        rows = [
+            {
+                "post_id": "a1",
+                "author_id": "user-a1",
+                "created_at": "",
+                "language": "en",
+                "text": "tweet a1",
+                "source": "set_a",
+            },
+            {
+                "post_id": "a2",
+                "author_id": "user-a2",
+                "created_at": "",
+                "language": "en",
+                "text": "tweet a2",
+                "source": "set_a",
+            },
+            {
+                "post_id": "a3",
+                "author_id": "user-a3",
+                "created_at": "",
+                "language": "en",
+                "text": "tweet a3",
+                "source": "set_a",
+            },
+            {
+                "post_id": "a4",
+                "author_id": "user-a4",
+                "created_at": "",
+                "language": "en",
+                "text": "tweet a4",
+                "source": "set_a",
+            },
+            {
+                "post_id": "b1",
+                "author_id": "user-b1",
+                "created_at": "",
+                "language": "en",
+                "text": "tweet b1",
+                "source": "set_b",
+            },
+            {
+                "post_id": "b2",
+                "author_id": "user-b2",
+                "created_at": "",
+                "language": "en",
+                "text": "tweet b2",
+                "source": "set_b",
+            },
+        ]
+
+        with patch(
+            "ragebait_detector.labeling.vllm_labeler.read_csv",
+            return_value=rows,
+        ), patch(
+            "ragebait_detector.labeling.vllm_labeler.write_csv"
+        ) as write_csv_mock, patch(
+            "ragebait_detector.labeling.vllm_labeler.dump_json"
+        ), patch(
+            "ragebait_detector.labeling.vllm_labeler.LLM",
+            _FakeLLM,
+        ), patch(
+            "ragebait_detector.labeling.vllm_labeler.SamplingParams",
+            _FakeSamplingParams,
+        ):
+            summary = label_csv_with_vllm(
+                input_path="input.csv",
+                output_path="output.csv",
+                summary_path="summary.json",
+                settings=settings,
+                limit=4,
+            )
+
+        labeled_rows = write_csv_mock.call_args.args[1]
+        source_counts: dict[str, int] = {}
+        for row in labeled_rows:
+            source_counts[row["source"]] = source_counts.get(row["source"], 0) + 1
+
+        self.assertEqual(summary["rows_requested"], 4)
+        self.assertTrue(summary["balance_by_source"])
+        self.assertEqual(source_counts, {"set_a": 2, "set_b": 2})
+        self.assertEqual(len(labeled_rows), 4)
 
 
 if __name__ == "__main__":

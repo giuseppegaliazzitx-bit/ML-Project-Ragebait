@@ -106,6 +106,7 @@ def label_dataset_with_vllm(args) -> dict[str, Any]:
         limit=args.limit,
         random_seed=args.random_seed,
         enable_random=args.enable_random,
+        balance_by_source=args.balance_by_source,
     )
     return summary
 
@@ -255,6 +256,11 @@ def build_parser() -> argparse.ArgumentParser:
     vllm_parser.add_argument("--random-seed", type=int)
     vllm_parser.add_argument(
         "--enable-random",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+    )
+    vllm_parser.add_argument(
+        "--balance-by-source",
         action=argparse.BooleanOptionalAction,
         default=None,
     )

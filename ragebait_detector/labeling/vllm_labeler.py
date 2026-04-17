@@ -19,13 +19,17 @@ except ImportError:  # pragma: no cover - fallback for minimal environments
 
 try:
     from vllm import LLM, SamplingParams
-    from vllm.sampling_params import GuidedDecodingParams
     VLLM_IMPORT_ERROR = None
-except Exception as exc:  # pragma: no cover - handled at runtime for test environments
+except Exception as exc:  # pragma: no cover
     LLM = None
     SamplingParams = None
-    GuidedDecodingParams = None
     VLLM_IMPORT_ERROR = exc
+
+# Try to import GuidedDecodingParams separately for older vLLM versions
+try:
+    from vllm.sampling_params import GuidedDecodingParams
+except ImportError:
+    GuidedDecodingParams = None
 
 from ragebait_detector.config import Settings
 from ragebait_detector.utils.dependencies import MissingDependencyError
@@ -91,6 +95,13 @@ def format_qwen_prompt(text: str) -> str:
         f"<|im_start|>system\n{SYSTEM_PROMPT}<|im_end|>\n"
         f"<|im_start|>user\nClassify this tweet:\n{text}<|im_end|>\n"
         "<|im_start|>assistant\n"
+    )
+
+
+def format_gemma_prompt(text: str) -> str:
+    return (
+        f"<start_of_turn>user\n{SYSTEM_PROMPT}\n\nClassify this tweet:\n{text}<end_of_turn>\n"
+        "<start_of_turn>model\n"
     )
 
 
@@ -312,6 +323,7 @@ def _select_rows_for_labeling(
     limit: int | None,
     enable_random: bool,
     random_seed: int,
+    balance_by_source: bool,
 ) -> list[dict[str, str]]:
     if limit is None:
         return list(rows)
@@ -321,6 +333,32 @@ def _select_rows_for_labeling(
     sample_size = min(limit, len(rows))
     if not enable_random:
         return rows[:sample_size]
+
+    if balance_by_source:
+        rng = random.Random(random_seed)
+        source_to_indices: dict[str, list[int]] = {}
+        for index, row in enumerate(rows):
+            source = (row.get("source") or "").strip() or "[unknown_source]"
+            source_to_indices.setdefault(source, []).append(index)
+
+        for indices in source_to_indices.values():
+            rng.shuffle(indices)
+
+        selected_indices: list[int] = []
+        while len(selected_indices) < sample_size:
+            available_sources = [
+                source for source, indices in source_to_indices.items() if indices
+            ]
+            if not available_sources:
+                break
+            rng.shuffle(available_sources)
+            for source in available_sources:
+                if len(selected_indices) >= sample_size:
+                    break
+                selected_indices.append(source_to_indices[source].pop())
+
+        selected_indices.sort()
+        return [rows[index] for index in selected_indices]
 
     selected_indices = sorted(
         random.Random(random_seed).sample(range(len(rows)), k=sample_size)
@@ -336,6 +374,7 @@ def label_csv_with_vllm(
     limit: int | None = None,
     random_seed: int | None = None,
     enable_random: bool | None = None,
+    balance_by_source: bool | None = None,
 ) -> dict[str, Any]:
     rows = read_csv(input_path)
     total_rows_available = len(rows)
@@ -346,11 +385,17 @@ def label_csv_with_vllm(
     effective_enable_random = (
         settings.vllm.enable_random if enable_random is None else enable_random
     )
+    effective_balance_by_source = (
+        settings.vllm.balance_by_source
+        if balance_by_source is None
+        else balance_by_source
+    )
     rows = _select_rows_for_labeling(
         rows=rows,
         limit=effective_limit,
         enable_random=effective_enable_random,
         random_seed=effective_random_seed,
+        balance_by_source=effective_balance_by_source,
     )
 
     unique_texts: list[str] = []
@@ -363,7 +408,8 @@ def label_csv_with_vllm(
         unique_texts.append(text)
 
     cached_results: dict[str, VLLMLabelResult] = {}
-    prompts = [format_qwen_prompt(text) for text in unique_texts]
+    #prompts = [format_qwen_prompt(text) for text in unique_texts]
+    prompts = [format_gemma_prompt(text) for text in unique_texts]
 
     if prompts:
         llm_class, sampling_params_class = _require_vllm_runtime()
@@ -372,11 +418,13 @@ def label_csv_with_vllm(
             quantization=settings.vllm.quantization,
             gpu_memory_utilization=settings.vllm.gpu_memory_utilization,
             max_model_len=settings.vllm.max_model_len,
+            enforce_eager=True,
         )
         guided_schema = json.dumps(OUTPUT_SCHEMA)
         sampling_kwargs = {
             "temperature": settings.vllm.temperature,
             "max_tokens": 512,
+            "stop": ["<end_of_turn>"], # for gemma
         }
         if GuidedDecodingParams is not None:
             sampling_kwargs["guided_decoding"] = GuidedDecodingParams(
@@ -449,6 +497,7 @@ def label_csv_with_vllm(
         "limit": effective_limit,
         "enable_random": effective_enable_random,
         "random_seed": effective_random_seed,
+        "balance_by_source": effective_balance_by_source,
         "model": settings.vllm.model,
         "quantization": settings.vllm.quantization,
         "gpu_memory_utilization": settings.vllm.gpu_memory_utilization,

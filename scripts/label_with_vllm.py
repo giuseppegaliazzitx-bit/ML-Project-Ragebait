@@ -26,6 +26,11 @@ def build_parser() -> argparse.ArgumentParser:
         action=argparse.BooleanOptionalAction,
         default=None,
     )
+    parser.add_argument(
+        "--balance-by-source",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+    )
     parser.add_argument("--model")
     parser.add_argument("--quantization")
     parser.add_argument("--gpu-memory-utilization", type=float)
@@ -57,5 +62,6 @@ if __name__ == "__main__":
         limit=args.limit,
         random_seed=args.random_seed,
         enable_random=args.enable_random,
+        balance_by_source=args.balance_by_source,
     )
     print(summary)

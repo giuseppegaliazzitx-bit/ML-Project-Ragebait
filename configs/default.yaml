@@ -55,6 +55,7 @@ vllm:
   gpu_memory_utilization: 0.85
   max_model_len: 1024
   temperature: 0.0
-  limit: null
+  limit: 50000
   random_seed: 42
   enable_random: true
+  balance_by_source: true

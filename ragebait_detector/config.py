@@ -77,9 +77,10 @@ class VLLMConfig:
     gpu_memory_utilization: float = 0.85
     max_model_len: int = 1024
     temperature: float = 0.0
-    limit: int | None = None
+    limit: int | None = 50000
     random_seed: int = 42
-    enable_random: bool = False
+    enable_random: bool = True
+    balance_by_source: bool = True
 
 
 @dataclass

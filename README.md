@@ -38,8 +38,12 @@ docs/
 scripts/
   interactive_import.py
   label_with_vllm.py
+  analyze_labeled_csv.py
+  balance_labeled_csv.py
+  compress_labeled_csv.py
   run_pipeline.py
 tests/
+  test_labeled_csv_utils.py
   test_preprocessing.py
   test_unifier.py
   test_vllm_labeler.py
@@ -141,7 +145,7 @@ Run baselines only:
 python3 scripts/run_pipeline.py --config configs/default.yaml run --baselines-only
 ```
 
-Label the compiled unlabeled CSV with vLLM. The default config uses `Qwen/Qwen2.5-3B-Instruct-AWQ` with AWQ quantization, sends one ChatML prompt per tweet, and passes the full flat prompt list to `llm.generate(...)` so vLLM can do continuous batching internally. `configs/default.yaml` also enables seeded random row selection whenever you provide a `--limit`:
+Label the compiled unlabeled CSV with vLLM. The default config uses `Qwen/Qwen2.5-3B-Instruct-AWQ` with AWQ quantization, sends one ChatML prompt per tweet, and passes the full flat prompt list to `llm.generate(...)` so vLLM can do continuous batching internally. By default it labels up to `50000` rows, uses seeded random sampling, and balances that sampling across the CSV `source` column so larger datasets do not dominate the batch:
 
 ```bash
 python3 scripts/label_with_vllm.py --config configs/default.yaml --limit 500 --random-seed 42
@@ -152,6 +156,81 @@ Or through the main CLI:
 ```bash
 python3 scripts/run_pipeline.py --config configs/default.yaml label-with-vllm --limit 500 --random-seed 42
 ```
+
+## Large Labeled Dataset Utilities
+
+The full weak-labeled export is stored as `data/labeled/vllm_all_qwen_ragebait_labels.csv.gz`. The raw CSV was about `157 MB`, while the gzip version is about `33 MB`, which makes it much easier to keep in the repo and push to GitHub.
+
+The helper scripts below all assume the canonical raw path is `data/labeled/vllm_all_qwen_ragebait_labels.csv`. If that CSV is missing but the `.csv.gz` file exists, they automatically restore the raw CSV before continuing.
+
+Compress the large labeled CSV:
+
+```bash
+python3 scripts/compress_labeled_csv.py \
+  --input data/labeled/vllm_all_qwen_ragebait_labels.csv
+```
+
+This writes `data/labeled/vllm_all_qwen_ragebait_labels.csv.gz` and, by default, removes the uncompressed CSV. Pass `--keep-original` if you want both copies to remain on disk.
+
+Analyze the labeled CSV at several confidence thresholds:
+
+```bash
+python3 scripts/analyze_labeled_csv.py \
+  --input data/labeled/vllm_all_qwen_ragebait_labels.csv
+```
+
+This script reports:
+
+- total row count
+- valid labeled row count
+- detected rage-bait row count
+- overall rage-bait ratio
+- rage-bait ratio and coverage at configurable confidence cutoffs
+
+Create a balanced training CSV with a configurable class split:
+
+```bash
+python3 scripts/balance_labeled_csv.py \
+  --input data/labeled/vllm_all_qwen_ragebait_labels.csv \
+  --limit 32000 \
+  --confidence-threshold 0.95 \
+  --label-ratio 60/40
+```
+
+The balancer uses the `source`, `author_id`, `label`, and `confidence` columns together:
+
+- rows below the confidence threshold are dropped
+- rows are sampled to match the requested `label0/label1` ratio such as `50/50` or `60/40`
+- within each label bucket, sampling is rotated across sources and authors so one large source or one prolific account does not dominate the output
+- the output filename is generated from the arguments, for example `balanced_32000_c95_r60_40.csv`
+
+## Findings From The 500k Weak Labels
+
+On the current `507,682` row labeled file:
+
+- total detected rage-bait rows: `31,072`
+- overall rage-bait ratio: `6.12%`
+- at `0.90` confidence: `466,165` rows retained and `29,369` rage-bait rows retained
+- at `0.95` confidence: `102,104` rows retained and `12,946` rage-bait rows retained
+
+The confidence values are fairly discrete in this dataset, so `0.92`, `0.93`, `0.94`, and `0.95` all currently produce the same retained pool. Using `0.95` is still the clearest choice because it documents the intent to keep only the highest-confidence group.
+
+## Suggested BERT Training Set
+
+For BERT training, the recommended starting point is:
+
+- `data/labeled/balanced_32000_c95_r60_40.csv`
+
+Why this is the default recommendation:
+
+- `60/40` keeps more total rows than `50/50` without dropping the confidence threshold
+- `0.95` keeps the high-confidence pool while still leaving enough positive examples for a useful supervised training set
+- the output still covers all `8` sources seen in the high-confidence pool
+- the balancing script also spreads samples across authors, which should reduce overfitting to a few prolific accounts
+
+If you want a more class-symmetric alternative for comparison, use:
+
+- `data/labeled/balanced_25000_c95_r50_50.csv`
 
 ## Architecture Decisions
 

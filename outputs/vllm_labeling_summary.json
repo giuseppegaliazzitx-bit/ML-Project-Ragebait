@@ -2,18 +2,18 @@
   "enable_random": true,
   "gpu_memory_utilization": 0.85,
   "input_path": "data/unlabeled/unified_unlabeled_posts.csv",
-  "limit": 10,
+  "limit": null,
   "max_model_len": 1024,
   "model": "Qwen/Qwen2.5-3B-Instruct-AWQ",
   "output_path": "data/labeled/vllm_ragebait_labels.csv",
-  "prompts_submitted": 10,
+  "prompts_submitted": 507446,
   "quantization": "awq",
   "random_seed": 42,
-  "rows_labeled_successfully": 10,
-  "rows_requested": 10,
+  "rows_labeled_successfully": 507682,
+  "rows_requested": 507682,
   "rows_with_errors": 0,
   "summary_path": "outputs/vllm_labeling_summary.json",
   "temperature": 0.0,
   "total_rows_available": 507682,
-  "unique_texts_requested": 10
+  "unique_texts_requested": 507446
 }
