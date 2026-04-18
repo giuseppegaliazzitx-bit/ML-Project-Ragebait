@@ -16,6 +16,7 @@ from ragebait_detector.data.acquisition import (
 from ragebait_detector.data.dataset import load_processed_records, stratified_split
 from ragebait_detector.data.preprocessing import prepare_labeled_dataset
 from ragebait_detector.data.unifier import run_interactive_import
+from ragebait_detector.evaluation import evaluate_checkpoint_on_labeled_csv
 from ragebait_detector.labeling.vllm_labeler import label_csv_with_vllm
 from ragebait_detector.utils.io import dump_json, ensure_parent, read_csv, write_csv
 from ragebait_detector.utils.logging import configure_logging
@@ -109,6 +110,27 @@ def label_dataset_with_vllm(args) -> dict[str, Any]:
         balance_by_source=args.balance_by_source,
     )
     return summary
+
+
+def evaluate_manual_dataset(args) -> dict[str, Any]:
+    settings = load_settings(args.config)
+    checkpoint_path = _resolve_checkpoint_path(args, settings)
+    if not checkpoint_path.exists():
+        raise FileNotFoundError(f"Checkpoint not found: {checkpoint_path}")
+
+    run_root = (
+        Path(args.run_dir)
+        if args.run_dir
+        else _infer_run_root_from_checkpoint(checkpoint_path)
+    )
+    output_dir = Path(args.output_dir) if args.output_dir else run_root / "manual_eval"
+    return evaluate_checkpoint_on_labeled_csv(
+        checkpoint_path=checkpoint_path,
+        input_path=args.input or settings.paths.manual_eval_path,
+        settings=settings,
+        output_dir=output_dir,
+        force_english=args.force_english,
+    )
 
 
 def run_training_pipeline(args) -> dict[str, Any]:
@@ -270,6 +292,20 @@ def build_parser() -> argparse.ArgumentParser:
     vllm_parser.add_argument("--max-model-len", type=int)
     vllm_parser.add_argument("--temperature", type=float)
 
+    manual_eval_parser = subparsers.add_parser("evaluate-manual")
+    manual_eval_parser.add_argument("--input")
+    manual_eval_parser.add_argument("--checkpoint")
+    manual_eval_parser.add_argument("--run-dir")
+    manual_eval_parser.add_argument("--artifacts")
+    manual_eval_parser.add_argument("--output-dir")
+    manual_eval_parser.add_argument(
+        "--no-force-english",
+        action="store_false",
+        dest="force_english",
+        help="Re-enable inference-time language rejection instead of scoring the manual set as English by default.",
+    )
+    manual_eval_parser.set_defaults(force_english=True)
+
     return parser
 
 
@@ -287,9 +323,42 @@ def main() -> None:
         "run": run_training_pipeline,
         "generate-mock-data": generate_mock_dataset,
         "label-with-vllm": label_dataset_with_vllm,
+        "evaluate-manual": evaluate_manual_dataset,
     }
     result = commands[args.command](args)
     LOGGER.info("Pipeline result: %s", result)
+
+
+def _resolve_checkpoint_path(args, settings) -> Path:
+    if args.checkpoint:
+        return Path(args.checkpoint)
+    if args.run_dir:
+        return Path(args.run_dir) / "bert" / "checkpoint.pt"
+    if args.artifacts:
+        import json
+
+        with Path(args.artifacts).open("r", encoding="utf-8") as handle:
+            artifacts = json.load(handle)
+        return Path(artifacts["checkpoint_path"])
+
+    output_dir = Path(settings.paths.output_dir)
+    candidates = sorted(
+        path
+        for path in output_dir.iterdir()
+        if path.is_dir() and (path / "bert" / "checkpoint.pt").exists()
+    )
+    if not candidates:
+        raise FileNotFoundError(
+            f"No trained checkpoints found under {output_dir}. Pass --checkpoint, --run-dir, or --artifacts."
+        )
+    return candidates[-1] / "bert" / "checkpoint.pt"
+
+
+def _infer_run_root_from_checkpoint(checkpoint_path: str | Path) -> Path:
+    checkpoint = Path(checkpoint_path)
+    if checkpoint.name == "checkpoint.pt" and checkpoint.parent.name == "bert":
+        return checkpoint.parent.parent
+    return checkpoint.parent
 
 
 if __name__ == "__main__":

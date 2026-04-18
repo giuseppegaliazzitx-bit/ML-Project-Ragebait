@@ -419,6 +419,49 @@ The script prints JSON with:
 - any rejection reason such as empty content or unsupported language
 - the number of chunks scored for long posts
 
+### 5. Evaluate A Small Manual Gold Set
+
+To support report-quality evaluation, the pipeline can score a small hand-labeled CSV against a trained checkpoint.
+
+Default expected path:
+
+- `data/labeled/manual_eval.csv`
+
+Required columns:
+
+- `text` and `label`
+
+Supported aliases:
+
+- text: `tweet`, `raw_text`, `post_text`, `content`
+- label: `is_ragebait`, `gold_label`, `manual_label`
+
+Optional columns that are preserved in the output:
+
+- `post_id`
+- `source`
+- `language`
+
+Run manual evaluation against a trained run:
+
+```bash
+./.venv/bin/python scripts/run_pipeline.py \
+  --config configs/bert_32k_tuned.yaml \
+  evaluate-manual \
+  --run-dir outputs/bert_32k_tuned/<timestamp>
+```
+
+By default, manual evaluation bypasses the inference-time language gate so short English slang does not get rejected by `langdetect`. If you want strict language rejection restored, add `--no-force-english`.
+
+This writes a `manual_eval/` directory under the chosen run root containing:
+
+- `summary.json`
+- `metrics.json`
+- `confusion_matrix.png`
+- `predictions.csv`
+
+`predictions.csv` includes the original text, true label, predicted label, confidence, class probabilities, detected language, and any abstention reason. This is intended to support the final write-up and error analysis.
+
 ## Architecture Decisions
 
 The system separates data normalization, annotation merge, preprocessing, weak labeling, modeling, training, and inference so the pipeline can be scheduled and audited stage by stage. That makes it easier to swap data sources, re-run only the preprocessing step after guideline updates, and compare classic baselines against the BERT model on the exact same split.

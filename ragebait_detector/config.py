@@ -22,6 +22,7 @@ class PathConfig:
     processed_dataset_path: str = "data/processed/processed_posts.csv"
     unlabeled_posts_path: str = "data/unlabeled/unified_unlabeled_posts.csv"
     vllm_labels_path: str = "data/labeled/vllm_ragebait_labels.csv"
+    manual_eval_path: str = "data/labeled/manual_eval.csv"
 
 
 @dataclass

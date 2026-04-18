@@ -1,6 +1,7 @@
 paths:
   labeled_posts_path: data/labeled/balanced_32000_c95_r60_40.csv
   processed_dataset_path: data/processed/processed_32000_c95_r60_40.csv
+  manual_eval_path: data/labeled/manual_eval.csv
   output_dir: outputs/bert_32k
 
 data:
