@@ -1,0 +1,71 @@
+{
+  "iteration": "Iteration 2",
+  "experiment": "Experiment 1",
+  "task": "binary_classification",
+  "dataset": {
+    "raw_data": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/raw/trolldata.csv",
+    "train_rows": 9992,
+    "val_rows": 1249,
+    "test_rows": 1249
+  },
+  "results": {
+    "logistic_regression": {
+      "tier": "Tier 1",
+      "model_type": "LogisticRegression",
+      "validation": {
+        "metrics": {
+          "accuracy": 0.8694955964771818,
+          "precision": 0.8545232273838631,
+          "recall": 0.9407806191117093,
+          "f1": 0.8955797565663036
+        },
+        "confusion_matrix_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/outputs/exp1_binary_baselines/logistic_regression_confusion_matrix.png"
+      },
+      "timing_seconds": {
+        "train": 0.04719586099963635,
+        "predict": 0.0003919400041922927
+      }
+    },
+    "linear_svc": {
+      "tier": "Tier 1",
+      "model_type": "LinearSVC",
+      "validation": {
+        "metrics": {
+          "accuracy": 0.8831064851881505,
+          "precision": 0.891218872870249,
+          "recall": 0.9152086137281292,
+          "f1": 0.9030544488711819
+        },
+        "confusion_matrix_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/outputs/exp1_binary_baselines/linear_svc_confusion_matrix.png"
+      },
+      "timing_seconds": {
+        "train": 0.032307157991454005,
+        "predict": 0.00045445398427546024
+      }
+    },
+    "ffnn": {
+      "tier": "Tier 2",
+      "model_type": "FFNNClassifier",
+      "validation": {
+        "metrics": {
+          "accuracy": 0.8855084067253803,
+          "precision": 0.8947368421052632,
+          "recall": 0.9152086137281292,
+          "f1": 0.9048569527611444
+        },
+        "confusion_matrix_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/outputs/exp1_binary_baselines/ffnn_confusion_matrix.png"
+      },
+      "timing_seconds": {
+        "train": 25.38767857698258,
+        "predict": 0.019726275000721216
+      },
+      "best_epoch": 8,
+      "best_val_loss": 0.2909105101449667,
+      "device": "cpu",
+      "vocab_size": 10975
+    }
+  },
+  "best_validation_model": "ffnn",
+  "warning": null,
+  "runtime_seconds": 28.90795231901575
+}

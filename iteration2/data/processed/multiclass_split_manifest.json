@@ -1,0 +1,73 @@
+{
+  "iteration": "Iteration 2",
+  "experiment": "exp2_multiclass_baselines",
+  "task": "multiclass",
+  "seed": 42,
+  "raw_data": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/raw/trolldata.csv",
+  "processed_dir": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/processed",
+  "target_column": "multiclass_label",
+  "label_map_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/processed/multiclass_label_map.json",
+  "label_map": {
+    "Normal": 0,
+    "Profanity": 1,
+    "Trolling": 2,
+    "Derogatory": 3,
+    "Hate Speech": 4
+  },
+  "splits": {
+    "train": {
+      "path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/processed/multiclass_train.csv",
+      "rows": 9992,
+      "original_label_distribution": {
+        "Derogatory": 690,
+        "Hate Speech": 365,
+        "Normal": 4042,
+        "Profanity": 1265,
+        "Trolling": 3630
+      },
+      "target_distribution": {
+        "0": 4042,
+        "1": 1265,
+        "2": 3630,
+        "3": 690,
+        "4": 365
+      }
+    },
+    "val": {
+      "path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/processed/multiclass_val.csv",
+      "rows": 1249,
+      "original_label_distribution": {
+        "Derogatory": 86,
+        "Hate Speech": 45,
+        "Normal": 506,
+        "Profanity": 158,
+        "Trolling": 454
+      },
+      "target_distribution": {
+        "0": 506,
+        "1": 158,
+        "2": 454,
+        "3": 86,
+        "4": 45
+      }
+    },
+    "test": {
+      "path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/processed/multiclass_test.csv",
+      "rows": 1249,
+      "original_label_distribution": {
+        "Derogatory": 86,
+        "Hate Speech": 46,
+        "Normal": 505,
+        "Profanity": 159,
+        "Trolling": 453
+      },
+      "target_distribution": {
+        "0": 505,
+        "1": 159,
+        "2": 453,
+        "3": 86,
+        "4": 46
+      }
+    }
+  }
+}

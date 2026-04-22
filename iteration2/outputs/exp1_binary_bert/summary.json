@@ -1,0 +1,123 @@
+{
+  "iteration": "Iteration 2",
+  "experiment": "Experiment 1",
+  "task": "binary_classification",
+  "dataset": {
+    "train_rows": 9992,
+    "val_rows": 1249,
+    "test_rows": 1249,
+    "train_split_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/processed/binary_train.csv",
+    "val_split_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/processed/binary_val.csv"
+  },
+  "baseline_summary_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/outputs/exp1_binary_baselines/summary.json",
+  "results": {
+    "logistic_regression": {
+      "tier": "Tier 1",
+      "model_type": "LogisticRegression",
+      "validation": {
+        "metrics": {
+          "accuracy": 0.8694955964771818,
+          "precision": 0.8545232273838631,
+          "recall": 0.9407806191117093,
+          "f1": 0.8955797565663036
+        },
+        "confusion_matrix_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/outputs/exp1_binary_baselines/logistic_regression_confusion_matrix.png"
+      },
+      "timing_seconds": {
+        "train": 0.04719586099963635,
+        "predict": 0.0003919400041922927
+      }
+    },
+    "linear_svc": {
+      "tier": "Tier 1",
+      "model_type": "LinearSVC",
+      "validation": {
+        "metrics": {
+          "accuracy": 0.8831064851881505,
+          "precision": 0.891218872870249,
+          "recall": 0.9152086137281292,
+          "f1": 0.9030544488711819
+        },
+        "confusion_matrix_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/outputs/exp1_binary_baselines/linear_svc_confusion_matrix.png"
+      },
+      "timing_seconds": {
+        "train": 0.032307157991454005,
+        "predict": 0.00045445398427546024
+      }
+    },
+    "ffnn": {
+      "tier": "Tier 2",
+      "model_type": "FFNNClassifier",
+      "validation": {
+        "metrics": {
+          "accuracy": 0.8855084067253803,
+          "precision": 0.8947368421052632,
+          "recall": 0.9152086137281292,
+          "f1": 0.9048569527611444
+        },
+        "confusion_matrix_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/outputs/exp1_binary_baselines/ffnn_confusion_matrix.png"
+      },
+      "timing_seconds": {
+        "train": 25.38767857698258,
+        "predict": 0.019726275000721216
+      },
+      "best_epoch": 8,
+      "best_val_loss": 0.2909105101449667,
+      "device": "cpu",
+      "vocab_size": 10975
+    },
+    "bert_base_uncased": {
+      "tier": "Tier 3",
+      "model_type": "BertSequenceClassifier",
+      "pretrained_model": "bert-base-uncased",
+      "validation": {
+        "metrics": {
+          "accuracy": 0.911128903122498,
+          "precision": 0.927027027027027,
+          "recall": 0.9232839838492598,
+          "f1": 0.9251517194875253
+        },
+        "confusion_matrix_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/outputs/exp1_binary_bert/bert_confusion_matrix.png",
+        "logits_shape": [
+          1249,
+          2
+        ]
+      },
+      "timing_seconds": {
+        "train": 4893.594907652005,
+        "predict": 64.86939954198897
+      },
+      "best_epoch": 2,
+      "best_val_loss": 0.24890177033198857,
+      "checkpoint_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/outputs/exp1_binary_bert/checkpoints/best_model.pt",
+      "tokenizer_dir": "/home/upsid/dev/ML-Project-Ragebait/iteration2/outputs/exp1_binary_bert/tokenizer",
+      "device": "cpu",
+      "max_length": 80
+    }
+  },
+  "best_validation_model": "bert_base_uncased",
+  "validation_f1_ranking": [
+    {
+      "model_name": "bert_base_uncased",
+      "tier": "Tier 3",
+      "validation_f1": 0.9251517194875253
+    },
+    {
+      "model_name": "ffnn",
+      "tier": "Tier 2",
+      "validation_f1": 0.9048569527611444
+    },
+    {
+      "model_name": "linear_svc",
+      "tier": "Tier 1",
+      "validation_f1": 0.9030544488711819
+    },
+    {
+      "model_name": "logistic_regression",
+      "tier": "Tier 1",
+      "validation_f1": 0.8955797565663036
+    }
+  ],
+  "bert_vs_ffnn_validation_f1_delta": 0.020294766726380864,
+  "runtime_seconds": 4959.292859837995
+}

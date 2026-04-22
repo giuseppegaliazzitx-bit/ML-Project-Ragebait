@@ -1,0 +1,227 @@
+{
+  "iteration": "Iteration 2",
+  "experiment": "Experiment 2",
+  "task": "multiclass_classification",
+  "dataset": {
+    "raw_data": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/raw/trolldata.csv",
+    "train_rows": 9992,
+    "val_rows": 1249,
+    "test_rows": 1249,
+    "label_map_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/processed/multiclass_label_map.json"
+  },
+  "class_weights_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/outputs/exp2_multiclass_baselines/class_weights.json",
+  "class_weights": {
+    "formula": "weight_i = N / (K * count_i)",
+    "class_distribution": {
+      "Normal": {
+        "index": 0,
+        "count": 4042,
+        "share": 0.40452361889511607
+      },
+      "Profanity": {
+        "index": 1,
+        "count": 1265,
+        "share": 0.12660128102481985
+      },
+      "Trolling": {
+        "index": 2,
+        "count": 3630,
+        "share": 0.3632906325060048
+      },
+      "Derogatory": {
+        "index": 3,
+        "count": 690,
+        "share": 0.06905524419535629
+      },
+      "Hate Speech": {
+        "index": 4,
+        "count": 365,
+        "share": 0.036529223378702964
+      }
+    },
+    "class_weights": {
+      "Normal": {
+        "index": 0,
+        "weight": 0.49440870856011876
+      },
+      "Profanity": {
+        "index": 1,
+        "weight": 1.5797628458498023
+      },
+      "Trolling": {
+        "index": 2,
+        "weight": 0.5505234159779614
+      },
+      "Derogatory": {
+        "index": 3,
+        "weight": 2.896231884057971
+      },
+      "Hate Speech": {
+        "index": 4,
+        "weight": 5.475068493150685
+      }
+    }
+  },
+  "results": {
+    "logistic_regression": {
+      "tier": "Tier 1",
+      "model_type": "LogisticRegression",
+      "validation": {
+        "metrics": {
+          "accuracy": 0.6869495596477182,
+          "macro_precision": 0.5896841551034578,
+          "macro_recall": 0.6251541227668513,
+          "macro_f1": 0.6043971874688469,
+          "micro_f1": 0.6869495596477182,
+          "weighted_f1": 0.6932659063814104,
+          "classification_report": {
+            "Normal": {
+              "precision": 0.8679653679653679,
+              "recall": 0.7924901185770751,
+              "f1": 0.8285123966942148,
+              "support": 506
+            },
+            "Profanity": {
+              "precision": 0.5502645502645502,
+              "recall": 0.6582278481012658,
+              "f1": 0.5994236311239193,
+              "support": 158
+            },
+            "Trolling": {
+              "precision": 0.6567505720823799,
+              "recall": 0.6321585903083701,
+              "f1": 0.6442199775533108,
+              "support": 454
+            },
+            "Derogatory": {
+              "precision": 0.36363636363636365,
+              "recall": 0.46511627906976744,
+              "f1": 0.40816326530612246,
+              "support": 86
+            },
+            "Hate Speech": {
+              "precision": 0.5098039215686274,
+              "recall": 0.5777777777777777,
+              "f1": 0.5416666666666666,
+              "support": 45
+            }
+          }
+        },
+        "confusion_matrix_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/outputs/exp2_multiclass_baselines/logistic_regression_confusion_matrix.png"
+      },
+      "timing_seconds": {
+        "train": 16.314327448955737,
+        "predict": 0.0009697609930299222
+      }
+    },
+    "linear_svc": {
+      "tier": "Tier 1",
+      "model_type": "LinearSVC",
+      "validation": {
+        "metrics": {
+          "accuracy": 0.7037630104083267,
+          "macro_precision": 0.6298032149026405,
+          "macro_recall": 0.58544510423027,
+          "macro_f1": 0.6026922562394494,
+          "micro_f1": 0.7037630104083267,
+          "weighted_f1": 0.7029685855833742,
+          "classification_report": {
+            "Normal": {
+              "precision": 0.8434442270058709,
+              "recall": 0.8517786561264822,
+              "f1": 0.8475909537856441,
+              "support": 506
+            },
+            "Profanity": {
+              "precision": 0.5419354838709678,
+              "recall": 0.5316455696202531,
+              "f1": 0.536741214057508,
+              "support": 158
+            },
+            "Trolling": {
+              "precision": 0.6666666666666666,
+              "recall": 0.6828193832599119,
+              "f1": 0.6746463547334058,
+              "support": 454
+            },
+            "Derogatory": {
+              "precision": 0.36363636363636365,
+              "recall": 0.37209302325581395,
+              "f1": 0.367816091954023,
+              "support": 86
+            },
+            "Hate Speech": {
+              "precision": 0.7333333333333333,
+              "recall": 0.4888888888888889,
+              "f1": 0.5866666666666667,
+              "support": 45
+            }
+          }
+        },
+        "confusion_matrix_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/outputs/exp2_multiclass_baselines/linear_svc_confusion_matrix.png"
+      },
+      "timing_seconds": {
+        "train": 0.470921826956328,
+        "predict": 0.0014553359942510724
+      }
+    },
+    "ffnn": {
+      "tier": "Tier 2",
+      "model_type": "FFNNClassifier",
+      "validation": {
+        "metrics": {
+          "accuracy": 0.6949559647718174,
+          "macro_precision": 0.5795527614646052,
+          "macro_recall": 0.6412342913444571,
+          "macro_f1": 0.5994356773955497,
+          "micro_f1": 0.6949559647718174,
+          "weighted_f1": 0.6992884653033765,
+          "classification_report": {
+            "Normal": {
+              "precision": 0.8610567514677103,
+              "recall": 0.8695652173913043,
+              "f1": 0.8652900688298918,
+              "support": 506
+            },
+            "Profanity": {
+              "precision": 0.5816326530612245,
+              "recall": 0.7215189873417721,
+              "f1": 0.6440677966101694,
+              "support": 158
+            },
+            "Trolling": {
+              "precision": 0.7126099706744868,
+              "recall": 0.5352422907488987,
+              "f1": 0.6113207547169811,
+              "support": 454
+            },
+            "Derogatory": {
+              "precision": 0.32867132867132864,
+              "recall": 0.5465116279069767,
+              "f1": 0.4104803493449782,
+              "support": 86
+            },
+            "Hate Speech": {
+              "precision": 0.41379310344827586,
+              "recall": 0.5333333333333333,
+              "f1": 0.46601941747572817,
+              "support": 45
+            }
+          }
+        },
+        "confusion_matrix_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/outputs/exp2_multiclass_baselines/ffnn_confusion_matrix.png"
+      },
+      "timing_seconds": {
+        "train": 87.86044129700167,
+        "predict": 0.150068063987419
+      },
+      "best_epoch": 16,
+      "best_val_loss": 1.0581366013201645,
+      "device": "cpu",
+      "vocab_size": 10975
+    }
+  },
+  "best_validation_model": "logistic_regression",
+  "warning": "Tier 2 FFNN did not beat Tier 1 linear_svc on validation macro F1. Try larger embeddings, wider hidden layers, longer sequence limits, or a 1D-CNN.",
+  "runtime_seconds": 110.97356736497022
+}

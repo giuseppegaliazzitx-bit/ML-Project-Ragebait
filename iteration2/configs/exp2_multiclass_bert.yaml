@@ -1,0 +1,51 @@
+experiment:
+  iteration: "Iteration 2"
+  name: "exp2_multiclass_bert"
+  description: "Experiment 2 Tier 3 fine-tuning with bert-base-uncased for multiclass classification."
+
+task:
+  type: "multiclass"
+
+paths:
+  processed_dir: "data/processed"
+  train_split: "data/processed/multiclass_train.csv"
+  val_split: "data/processed/multiclass_val.csv"
+  test_split: "data/processed/multiclass_test.csv"
+  baseline_summary: "outputs/exp2_multiclass_baselines/summary.json"
+  class_weights_path: "outputs/exp2_multiclass_baselines/class_weights.json"
+  output_dir: "outputs/exp2_multiclass_bert"
+  checkpoint_path: "outputs/exp2_multiclass_bert/checkpoints/best_model.pt"
+  tokenizer_dir: "outputs/exp2_multiclass_bert/tokenizer"
+  hard_errors_path: "outputs/exp2_multiclass_bert/hard_errors.csv"
+
+dataset:
+  text_column: "text"
+  label_column: "multiclass_label"
+  label_order:
+    - "Normal"
+    - "Profanity"
+    - "Trolling"
+    - "Derogatory"
+    - "Hate Speech"
+
+model:
+  pretrained_name: "bert-base-uncased"
+  local_files_only: false
+  use_fast: true
+  num_labels: 5
+  max_length: 128
+  hidden_dropout_prob: 0.1
+  attention_probs_dropout_prob: 0.1
+
+training:
+  seed: 42
+  train_batch_size: 32
+  eval_batch_size: 64
+  epochs: 4
+  learning_rate: 0.00002
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  max_grad_norm: 1.0
+  adam_epsilon: 0.00000001
+  use_amp: true
+  num_workers: 0

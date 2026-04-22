@@ -1,0 +1,223 @@
+text,true_label_name,predicted_label_name,confidence,logits
+RT @fuckofflaine: get fucking cancer https://t.co/EECiwyZqpw,Hate Speech,Profanity,0.96323717,"[np.float32(-1.8095), np.float32(3.9077), np.float32(0.2824), np.float32(-1.815), np.float32(-1.3978)]"
+Douchebag is a washed up has been who is mostly a crackhead bitch.,Trolling,Derogatory,0.9469992,"[np.float32(-2.4051), np.float32(-2.2979), np.float32(0.5474), np.float32(3.8861), np.float32(-0.214)]"
+RT @Ruya_Eng: @stilinskiii shut your fucking mouth u ugly ass hoe,Trolling,Derogatory,0.945654,"[np.float32(-2.5475), np.float32(-2.4611), np.float32(0.244), np.float32(3.9591), np.float32(0.4522)]"
+"How about this 
+
+You are a cunt?",Trolling,Derogatory,0.94216317,"[np.float32(-2.2944), np.float32(-2.5506), np.float32(0.7268), np.float32(3.9189), np.float32(-0.1705)]"
+"tbjablins comment above 
+
+you dam nazi! go suck a dildo",Trolling,Derogatory,0.93665445,"[np.float32(-2.6094), np.float32(-2.6549), np.float32(0.5605), np.float32(3.8882), np.float32(0.341)]"
+FUck you you god damn mother fuckin son of a bitch stop being a stupid ass shithead and be fuckin cool for once,Trolling,Derogatory,0.93523353,"[np.float32(-2.3614), np.float32(-2.3617), np.float32(0.5823), np.float32(3.7836), np.float32(0.0644)]"
+"Fuck You 
+
+Fuck you, douchébag",Trolling,Derogatory,0.93252593,"[np.float32(-2.2906), np.float32(-2.431), np.float32(0.9355), np.float32(3.8576), np.float32(-0.3731)]"
+Dis bitch blowin me man fuck u,Trolling,Derogatory,0.9287795,"[np.float32(-2.3758), np.float32(-1.9783), np.float32(0.766), np.float32(3.6569), np.float32(-0.5305)]"
+"The entire article is written by americans so what do you expect, they are fucking retards94.168.194.94",Trolling,Derogatory,0.9215008,"[np.float32(-2.557), np.float32(-2.4012), np.float32(0.9838), np.float32(3.7295), np.float32(-0.348)]"
+"Stop even trying, we know that the only time you've been laid is when you got molested by your uncle.",Derogatory,Trolling,0.91898924,"[np.float32(0.1594), np.float32(-0.9995), np.float32(3.3156), np.float32(-0.2016), np.float32(-2.6687)]"
+"(ONLY IF YOU REPORTED ME), then you can kiss my ass you fucken bitch.",Trolling,Derogatory,0.91863436,"[np.float32(-2.9122), np.float32(-2.6158), np.float32(0.4986), np.float32(3.7486), np.float32(0.6867)]"
+"you are a twat 
+
+I am an avid World of Warcraft fan, 
+
+yeah that figures.
+
+You soft headed American fuckwit",Trolling,Derogatory,0.91637486,"[np.float32(-2.35), np.float32(-2.5902), np.float32(1.0078), np.float32(3.6937), np.float32(-0.2772)]"
+"You're a motherfucking idiot
+
+You're stupid as all hell and know *nothing*!  Butt out of the business of your superiors!",Derogatory,Trolling,0.9141769,"[np.float32(-1.6167), np.float32(-1.2002), np.float32(3.5786), np.float32(1.0156), np.float32(-2.2787)]"
+HAHAHA FUCK YOU FUCK YOU FUCK YOU WIKIPEDIA I WILL NEVAR STOP I WILL NEVAR FORGET!!!111!!~~ I CAN GET A NEW IP IN 15 SECONDS.  FAGGOTS!!!,Trolling,Derogatory,0.9126515,"[np.float32(-2.6921), np.float32(-2.6944), np.float32(-0.1099), np.float32(3.7498), np.float32(1.1111)]"
+"Info ==
+
+I added some info to your user page baout your gay affair with AMerican Brit nad your large butt if you dont mind. Just want to know, is the sex between you and AMerican Brit good?  
+
+==",Derogatory,Trolling,0.9111449,"[np.float32(-0.8219), np.float32(-1.0845), np.float32(3.3328), np.float32(0.6328), np.float32(-2.6341)]"
+RT @the_ironsheik: HULK HOGAN IS NOT A JABRONI...... APRIL FOOLS DAY YOU FUCKING JABRONI,Trolling,Derogatory,0.9110074,"[np.float32(-2.8652), np.float32(-2.0508), np.float32(1.0697), np.float32(3.6676), np.float32(-0.3214)]"
+"Please don't quit 
+
+You probably won't see this but DON'T QUIT!!!!!!!!!!!!!
+You're letting the cunts win. Make the articles the way they should be.
+We need to keep on editing and revert them over and over because they won't stop.
+What else can we do? Don't let Wikipedia be like what's happening in real life. 
+At least you tried. I salute you. 
+Alex",Derogatory,Trolling,0.9079155,"[np.float32(-0.7176), np.float32(-1.3386), np.float32(2.9514), np.float32(-0.0602), np.float32(-1.3913)]"
+"Dude, get a fucking life you queer.. get a real paying job instead of e-wiki policing around, you 50 year old piece of shite... and your mom said to make your bed.",Trolling,Derogatory,0.9046879,"[np.float32(-2.8676), np.float32(-2.6577), np.float32(0.8601), np.float32(3.6884), np.float32(0.5433)]"
+"Go fuk your Momma, Rancie!",Derogatory,Trolling,0.9031495,"[np.float32(0.4386), np.float32(-1.5876), np.float32(3.3386), np.float32(0.1717), np.float32(-2.5327)]"
+STAY THE FUCK OFF MY PAGE YOU HOMOSEXUAL.  I WILL REMOVE THIS IF I FEEL LIKE IT!,Trolling,Derogatory,0.9017183,"[np.float32(-3.1653), np.float32(-2.745), np.float32(0.1712), np.float32(3.7563), np.float32(1.215)]"
+"Hey Rancie you Prick, go suck a great big uncircumcized one!
+   - Tony Greenstein",Trolling,Derogatory,0.90077317,"[np.float32(-2.3188), np.float32(-2.2001), np.float32(1.1198), np.float32(3.571), np.float32(-0.4416)]"
+That clown guy sucks major cock. User:Daniel,Trolling,Derogatory,0.8750897,"[np.float32(-2.9586), np.float32(-1.8265), np.float32(1.3611), np.float32(3.4705), np.float32(-0.7424)]"
+"""
+
+Sorry!  Meant to say """"Go fuck yourself you Asperger's riddled freak for accusing me of destructive edits I had nothing to do with.""""""",Derogatory,Trolling,0.87308997,"[np.float32(-1.6337), np.float32(-0.2425), np.float32(3.3444), np.float32(1.1297), np.float32(-3.0955)]"
+you fucking piece of shit,Trolling,Derogatory,0.871054,"[np.float32(-2.8936), np.float32(-2.6099), np.float32(0.79), np.float32(3.4894), np.float32(0.9236)]"
+-Go suck a dick blngyen.,Trolling,Derogatory,0.8686364,"[np.float32(-2.698), np.float32(-1.7449), np.float32(1.366), np.float32(3.4106), np.float32(-0.8719)]"
+@Coley_Cee lol bitch u forcin it have a glass of water bitch u a lil thirsty for the puss thang,Trolling,Derogatory,0.86746,"[np.float32(-2.1856), np.float32(-1.8619), np.float32(1.4972), np.float32(3.4991), np.float32(-1.146)]"
+"You greatly enjoy it when when a large, long stick of feces enters your mouth. 
+
+NawlinWiki, that is disgusting.",Derogatory,Trolling,0.8607337,"[np.float32(-0.003), np.float32(-1.7426), np.float32(2.8296), np.float32(0.3407), np.float32(-1.8164)]"
+You are a faggot!68.33.41.181,Trolling,Derogatory,0.86067045,"[np.float32(-2.7503), np.float32(-2.9963), np.float32(-0.3728), np.float32(3.7298), np.float32(1.7822)]"
+Fuck a hot head pussy I gt a cold heart,Trolling,Derogatory,0.8597835,"[np.float32(-2.2702), np.float32(-1.5928), np.float32(1.5254), np.float32(3.4541), np.float32(-1.3672)]"
+"!!!!!!!!!!!!!!!!!!!!! 
+
+GO TO HELL ASSHOLE!!!!!!!!!!",Trolling,Derogatory,0.85961604,"[np.float32(-3.3301), np.float32(-2.4362), np.float32(0.9134), np.float32(3.3565), np.float32(0.7271)]"
+"Whoa there 
+
+Take it easy. There is no need to leave Wikipedia because someone (me) called you a nigger. It's the Internet. Insults are commonplace.",Trolling,Derogatory,0.85826534,"[np.float32(-2.7003), np.float32(-3.0309), np.float32(0.5319), np.float32(3.2484), np.float32(0.8898)]"
+These kids man real life kids not even over 18 n bucking bitch sit yo stupid ass down,Trolling,Derogatory,0.8564793,"[np.float32(-2.6739), np.float32(-2.4925), np.float32(1.1572), np.float32(3.2873), np.float32(0.1425)]"
+You are gay. Go find someone of your own sex to have it off with you sausage jockey.,Trolling,Derogatory,0.854608,"[np.float32(-2.6175), np.float32(-2.873), np.float32(1.2095), np.float32(3.3659), np.float32(0.3685)]"
+"Fat piece of shit 
+
+you obese piece of shit. I thought of you naked last night. | got sick.",Trolling,Derogatory,0.8521043,"[np.float32(-2.6154), np.float32(-2.3935), np.float32(1.3488), np.float32(3.319), np.float32(-0.2499)]"
+"Piss off, she is an ignorant bitch.",Trolling,Derogatory,0.8478787,"[np.float32(-2.562), np.float32(-1.9246), np.float32(1.5859), np.float32(3.418), np.float32(-1.0025)]"
+"Fuck you bitch 
+
+Fuck you bitch",Trolling,Derogatory,0.83216816,"[np.float32(-1.7555), np.float32(-2.1218), np.float32(1.699), np.float32(3.3991), np.float32(-1.2837)]"
+Get a life you useless child rapist,Trolling,Derogatory,0.8320682,"[np.float32(-2.3201), np.float32(-2.6912), np.float32(1.4442), np.float32(3.2775), np.float32(-0.0558)]"
+You Are Still Very Gay,Trolling,Derogatory,0.8288172,"[np.float32(-1.9886), np.float32(-2.8122), np.float32(1.3113), np.float32(3.12), np.float32(-0.262)]"
+"Consider myself lucky??? Oh get your head out of your anus. This is wikipedia. You obviously dedicate your life to making sure that someone doesnt have a joke. No one is harmed, I apologised, and you're obviously a BLS (border line spastic) and it WAS an apology, no question about it. Go fuck yourself, you arrogant sad little vagina.",Trolling,Derogatory,0.82577574,"[np.float32(-2.4756), np.float32(-2.2835), np.float32(1.6062), np.float32(3.2926), np.float32(-0.6761)]"
+"""
+Saying """"don't be snitty"""" is not a personal attack. It is a defense from YOUR personal attack against me.
+
+Now me telling you that you are a pussy and need to grow some balls, now that is a personal attack.  I hope you enjoy it as much I did. -  """,Trolling,Derogatory,0.82518303,"[np.float32(-3.3062), np.float32(-1.9227), np.float32(1.2228), np.float32(3.0612), np.float32(-0.0577)]"
+"Ricky81682,  is a paid mole ScumBag 
+
+There is no question about this whatsoever.
+
+Look faaaaaar back and it is this fukkin scumbag removing EVERY mention of William Franklin Bermender for many, many months.
+
+That is a fact and this PoS needs to fuk off.",Trolling,Derogatory,0.8242609,"[np.float32(-2.6545), np.float32(-2.4353), np.float32(1.1778), np.float32(2.9695), np.float32(-0.2896)]"
+Go ahead you sad little asshole.,Trolling,Derogatory,0.82339084,"[np.float32(-1.8786), np.float32(-2.545), np.float32(1.6486), np.float32(3.3085), np.float32(-0.8354)]"
+"i forgot to sign 
+Reed210 
+
+PS Does your dick touch your ass...then go fuck yourself",Derogatory,Trolling,0.81409496,"[np.float32(-2.5695), np.float32(0.2705), np.float32(2.9966), np.float32(1.127), np.float32(-2.3248)]"
+"right. 
+i wasnt making a pers0nal attack.  i was just simply stating that he was being an ass-hat f0r deleting my article.  thanks anyway, the w0rld needs m0re nazis like y0u.",Derogatory,Trolling,0.80653393,"[np.float32(-2.5654), np.float32(-0.5213), np.float32(2.3348), np.float32(0.3371), np.float32(-0.902)]"
+Middle Eastern and Indonesian women are beautiful. Never seen a ugly bitch in a Bollywood film ever,Trolling,Derogatory,0.79924655,"[np.float32(-2.9712), np.float32(-2.255), np.float32(1.2372), np.float32(2.9181), np.float32(0.0452)]"
+"No, but hook-nosed kikes like yourself do. Massive ones.",Derogatory,Trolling,0.79668885,"[np.float32(-1.1261), np.float32(-2.1528), np.float32(2.9189), np.float32(1.4111), np.float32(-1.6849)]"
+"RT @pettyperrie: WOMEN?! women, sweeties, I'm SO sorry, I'm so sorry that an ugly ass abusive backflipping bitch like this would eve…",Trolling,Derogatory,0.7957874,"[np.float32(-2.2422), np.float32(-1.6269), np.float32(1.5884), np.float32(3.0658), np.float32(-1.1834)]"
+"The Dirtball
+
+What is your f-u-c-k-i-n-g problem, asswipe?  You are actually defending The Dirtball?  Well, it is my humble opinion that you are, in fact, a true dirtball!  Get a life, you lousy piece of toilet trash!",Trolling,Derogatory,0.787835,"[np.float32(-2.874), np.float32(-2.8801), np.float32(1.3403), np.float32(3.1093), np.float32(0.7426)]"
+"""
+
+ re: Jessica Lange 
+
+Listen you little twat, you do understand that I wrote the majority of this page?  What the hell do you think you're doing censoring and correcting work you didn't put an ounce of effort into?  I'll leave your """"modification"""" for now, but you're seriously getting on my fucking nerves.  Go police a page that, you know, you've actually worked on.  Asshole.   """,Trolling,Derogatory,0.778651,"[np.float32(-3.2262), np.float32(-1.5599), np.float32(1.7121), np.float32(3.0922), np.float32(-0.7534)]"
+"""
+
+ Hey dickhead Summerphd 
+
+Wtf is your problem? Why do you keep reverting my posts in the Talk sections?
+
+Example: in the Talk section of Junya Watanabe, i added a question whether """"Junya"""" is his birth name or adopted pseudonym. This is relevant to an encyclopedia article, you insufferable asshole.""",Derogatory,Trolling,0.7683889,"[np.float32(-2.793), np.float32(-1.0189), np.float32(2.8286), np.float32(1.4891), np.float32(-1.4058)]"
+RT @FuckBoiRik: Ok seriously fuck the people who slam on their breaks when the light turns yellow. FLOOR THAT SHIT BITCH,Trolling,Derogatory,0.760386,"[np.float32(-2.9351), np.float32(-1.1839), np.float32(1.8396), np.float32(3.0898), np.float32(-1.3061)]"
+I'm scared. It resets daily. Fuck you and your Zionist buddies. I will continue to edit this page in GOOD FAITH until I get bored battling Jewbotts.,Derogatory,Trolling,0.7563946,"[np.float32(-1.3363), np.float32(-2.2404), np.float32(2.3535), np.float32(0.8384), np.float32(-0.3469)]"
+"nigga got arrested 
+gotta add taht shit to da article.
+
+check it
+http://www.thebostonchannel.com/news/18662913/detail.html",Hate Speech,Profanity,0.7442192,"[np.float32(-1.0743), np.float32(2.4619), np.float32(1.2008), np.float32(-1.4725), np.float32(-1.9878)]"
+"RT @FuxkGirl_: I hate those ""while ur partying, im making money"" bitches. U just couldnt switch ur shift, shut the fuck up",Derogatory,Trolling,0.74399614,"[np.float32(-2.6522), np.float32(0.3033), np.float32(2.8395), np.float32(1.4764), np.float32(-2.4718)]"
+"I AM GOING TO CALL THE POLICE, SON OF A BITCH",Trolling,Derogatory,0.73926926,"[np.float32(-2.5251), np.float32(-1.9932), np.float32(1.526), np.float32(2.7473), np.float32(-0.3774)]"
+i suggest my balls in yer mouth - no page no reference  82.209.225.33,Trolling,Derogatory,0.729581,"[np.float32(-2.2047), np.float32(-1.851), np.float32(1.5253), np.float32(2.6625), np.float32(-0.8026)]"
+RT @MIKEB_IN_THE_D: @_thomkins_ I got 11 nuggets this time bitch. #CouldntBeHappier,Trolling,Derogatory,0.71644866,"[np.float32(-2.9227), np.float32(-1.1007), np.float32(1.6272), np.float32(2.7088), np.float32(-0.7655)]"
+"FUCK YOU ALL YOU LOSERS WHO AHVE NOTHING BETTER TO DO 
+
+FYUCK YOU WHY DONT U STOP ME FROM EDITING ALREADY",Derogatory,Trolling,0.70825005,"[np.float32(-1.2746), np.float32(-1.6262), np.float32(2.957), np.float32(1.9936), np.float32(-2.2307)]"
+Woogie10w is a scumbag and idiot Piss off and stop messaging me you bellend/,Trolling,Derogatory,0.706874,"[np.float32(-2.2173), np.float32(-1.7915), np.float32(2.1225), np.float32(3.0579), np.float32(-1.6222)]"
+"Ryulong,I am PISSED OFF!!! You vandal! Biter of newbies!",Trolling,Derogatory,0.70639074,"[np.float32(-1.696), np.float32(-2.6205), np.float32(1.8486), np.float32(2.8214), np.float32(-0.9787)]"
+"""@jacaxeltlu: Eventually every bitch turns into that hoe."" # Truuu",Trolling,Derogatory,0.7060033,"[np.float32(-2.344), np.float32(-1.2297), np.float32(1.8206), np.float32(2.7945), np.float32(-1.4001)]"
+"""
+
+ YOU SUCK BIG DONK! 
+
+ Headline text 
+LOLZ! L2P YA BIG NUB! WHO SEZ """"SIGH"""" IN RESPONSE TO SOMETHING? WHAT AN AZN! LOLZ! <(^_^)>! THATS KIRBY! PWNED IN THE BUTTOKS! LOLZ! HOW EMBARRASSING! DO YOU EVEN HAVE A JOB? LOL NOOBS""",Derogatory,Trolling,0.6979879,"[np.float32(-2.2961), np.float32(-1.1791), np.float32(2.9922), np.float32(2.0915), np.float32(-2.1332)]"
+"@sexy_rexy25 98 civic lx ""stick"" green with shitty paint on some beaner ass wheels with 180k miles no AC and no insurance how's that?",Derogatory,Trolling,0.69184446,"[np.float32(-0.566), np.float32(1.8172), np.float32(2.7716), np.float32(-1.0486), np.float32(-3.0618)]"
+@CaptElliott NFN you bitch to much.,Trolling,Derogatory,0.6630888,"[np.float32(-2.2122), np.float32(-1.3214), np.float32(2.0439), np.float32(2.7942), np.float32(-1.5613)]"
+RT @AngryMichel: How's dat idiot Clod doing? Ha! *checks standings*. Mudder Fucker!!!,Trolling,Derogatory,0.6560484,"[np.float32(-2.5108), np.float32(-1.5407), np.float32(2.1109), np.float32(2.8223), np.float32(-1.3308)]"
+"Yup, I officially do not like you. You are a needy greedy bitch who needs to have it your way.",Trolling,Derogatory,0.65284324,"[np.float32(-2.0304), np.float32(-2.2803), np.float32(2.0578), np.float32(2.7591), np.float32(-1.1038)]"
+@HuffingtonPost looks like any other little porch monkey to me!,Derogatory,Trolling,0.6506634,"[np.float32(1.9464), np.float32(-1.2629), np.float32(2.7275), np.float32(-0.1498), np.float32(-2.738)]"
+"What the fuck? Ur a dick, urv never even been 2 helensville ya mommas boi!!!",Trolling,Derogatory,0.6310831,"[np.float32(-2.9236), np.float32(-1.0395), np.float32(2.1768), np.float32(2.7783), np.float32(-1.7073)]"
+RT @Honchonothuncho: I hate niggas Bruh I swear I do &#128514;&#128514; https://t.co/mw7MgEdYne,Trolling,Derogatory,0.5924974,"[np.float32(-2.1596), np.float32(-0.6462), np.float32(1.4601), np.float32(2.0201), np.float32(-1.43)]"
+A COCK TO SUCK AND STOP ACCUSING PEOPLE OF SOCK-PUPPETRY.,Trolling,Derogatory,0.5893686,"[np.float32(-2.5535), np.float32(-1.088), np.float32(2.0843), np.float32(2.5217), np.float32(-1.5125)]"
+"""
+
+ BLOCKK MEE 
+
+  BLOCKK MEE IM gonna make personal attacks because you had to get into business that wasnt even fucking yours sooooooooo shut the fuck up and take it like a man for once okay god....pussy, and i just want you to know You Deserve Nothing & I Hope You Get Less =:)   """,Trolling,Derogatory,0.5872149,"[np.float32(-3.8057), np.float32(-0.3679), np.float32(1.3904), np.float32(2.0252), np.float32(-0.5179)]"
+"Don't think you can get away with fucking me over like that, you asshole",Derogatory,Trolling,0.5780719,"[np.float32(-2.1018), np.float32(-0.5503), np.float32(2.4891), np.float32(2.0782), np.float32(-2.2362)]"
+"I have not 
+
+and don`t accuse me. I am not the one whom you have blocked and if it had been me you couldn`t have done nothing in any case. Stupis asshole.",Trolling,Derogatory,0.57487327,"[np.float32(-2.0133), np.float32(-1.5233), np.float32(2.3514), np.float32(2.698), np.float32(-2.0404)]"
+"""
+
+ You stupid S.O.B. 
+
+Stay away from my page, you are a sarcastic moron and a hypocrite. Don't try to advice myself regarding an minor incident, you are disturbing my self on an issue outside wikipedia, there are facts to be proven. Such hypocrites (like you) have no real reputation in real world, I'm acting on anti fascist and anti terrorist propaganda not from any extremist or bias perspective. I don't care how much you bother my self still there are methods to post on wikipedia without an account. However  trolling is not a harmful action, different people has different p.o.v.s. Further on you P.S; Wikipedia is not something to be expanded through discussion or being bold. Literary it is an communication method of which leads others to overcome questions in real life or practice contemporary issues such as terrorism, politics or religious extremism. Although you have reverted my last edit on your talk page. That means you don't have a real points to be discussed except condemning my self and dissing. Fuck you hypocrite. Summon """,Trolling,Derogatory,0.5736772,"[np.float32(-2.3728), np.float32(-2.416), np.float32(1.3731), np.float32(1.9967), np.float32(0.2949)]"
+"Perhaps, Perhaps Che was a pig",Trolling,Derogatory,0.57158446,"[np.float32(-0.6041), np.float32(-2.0302), np.float32(2.0522), np.float32(2.4404), np.float32(-1.9685)]"
+"I was Just indicating you fool 
+
+Stupid Jew troutman.",Derogatory,Trolling,0.5615879,"[np.float32(-1.8808), np.float32(-2.6975), np.float32(2.1562), np.float32(1.7351), np.float32(-0.1579)]"
+@kelvinkayyy safe bruv welcum to twitter my niggur,Derogatory,Trolling,0.5580536,"[np.float32(-1.8657), np.float32(-1.1981), np.float32(2.401), np.float32(2.0984), np.float32(-2.0492)]"
+RT @bodmonting: Instead of worry bout who that bitch fucking why don't you get you some money,Trolling,Derogatory,0.5550012,"[np.float32(-2.0804), np.float32(-0.8534), np.float32(2.0962), np.float32(2.4018), np.float32(-1.7851)]"
+"Never mind you are another slimebag who banned me. Just cut to the chase and try to contact my provider, asshole!",Trolling,Derogatory,0.55470806,"[np.float32(-2.5486), np.float32(-2.0122), np.float32(2.3407), np.float32(2.6101), np.float32(-1.1493)]"
+"You just make me laugh 
+
+HAHAHAHAHAHA so you are some aussie bitch hiding behind a computer and changing what i write, im half abo half lebo so i am the truth u cannot face but your girlfriend faces every night ;)",Trolling,Derogatory,0.54677135,"[np.float32(-1.9399), np.float32(-2.1845), np.float32(2.455), np.float32(2.6811), np.float32(-1.6061)]"
+"hey 
+
+you suck my dong",Derogatory,Trolling,0.54269725,"[np.float32(-1.3104), np.float32(-1.7756), np.float32(2.5456), np.float32(2.3202), np.float32(-2.0572)]"
+"fuck you 
+
+too bad ill turn my router on and off right after this edit, so i dont even have to fucking see your response and vandalise your page all over again....",Derogatory,Trolling,0.5416591,"[np.float32(-2.3639), np.float32(2.2135), np.float32(2.4459), np.float32(-0.9013), np.float32(-2.1371)]"
+"WOW your userpage is faggoty. DICKBUTT DICKBUTT DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT
+DICKBUTT",Trolling,Derogatory,0.52610236,"[np.float32(-2.2955), np.float32(-1.9895), np.float32(2.2237), np.float32(2.3975), np.float32(-0.8545)]"
+RT @stephanielazox: Hope you got what you wanted bitch.,Trolling,Derogatory,0.51592624,"[np.float32(-2.6342), np.float32(-0.8601), np.float32(2.1893), np.float32(2.3347), np.float32(-1.3277)]"
+ABC. CNN MSNBC cbs NBC the people who watch these news agencies are friggin racists idiots your democrat reps are friggin lost in la laland,Trolling,Derogatory,0.5112821,"[np.float32(-1.6725), np.float32(-2.4473), np.float32(2.3433), np.float32(2.4411), np.float32(-1.2425)]"
+@AatibShahKhan @FehmiAkhtar @BahugunaSamir @khanumarfa When you people busy with #MeToo ..One more Abdul caught red handed raping Goat 😭😭 this  the reality of your so called peaceful religion  https://t.co/M5W4OdI6s3,Derogatory,Trolling,0.5087128,"[np.float32(0.6782), np.float32(-2.2424), np.float32(1.6675), np.float32(1.0218), np.float32(-1.3364)]"
+AT YOUR FAT FUCKING UGLY ASS,Derogatory,Trolling,0.50434345,"[np.float32(-2.3151), np.float32(-1.5933), np.float32(2.409), np.float32(2.3389), np.float32(-1.3473)]"
+"AGAIN, PHuck U 
+There is no justice in Wikipedia only Thugocracy.  I am calling to task Nuclear Warfare.",Trolling,Derogatory,0.5043137,"[np.float32(-1.2873), np.float32(-2.1167), np.float32(1.7068), np.float32(1.8675), np.float32(-0.791)]"
+Niggas out here talking shit that's why I'm about to go fuck your <b>bitch<\/b>,Trolling,Derogatory,0.5029981,"[np.float32(-4.0889), np.float32(0.408), np.float32(1.1988), np.float32(1.7576), np.float32(-0.1132)]"
+We Fuckum Arab Babiesum,Trolling,Derogatory,0.50099176,"[np.float32(-3.0506), np.float32(-2.3978), np.float32(-0.8376), np.float32(2.541), np.float32(2.4908)]"
+"He hit me with "" if I tell you who I'm fucking you can't say shit bitch, but her head game on point "" #RNS",Trolling,Derogatory,0.498051,"[np.float32(-2.7982), np.float32(-0.1898), np.float32(2.2519), np.float32(2.3439), np.float32(-2.2087)]"
+"i hate you computer nerds and if i get blocked please get me blocked by 'cant sleep clown will eat me'. ok thats all ive got to say to u patetic losers who sit in front of a computer all day.
+
+Bold textFUCK YOU ALL!!!!!!!!",Trolling,Derogatory,0.49216673,"[np.float32(-1.9441), np.float32(-2.36), np.float32(2.4541), np.float32(2.4643), np.float32(-1.3661)]"
+"""
+Thanks for the unblock (I was in bed hours before anyone even noticed) it now seems we are not allowed to comment on off-wiki blogs, even those that are nothing but a tissue of lies and insults about wikipedians.   Kelly still has her fans, I wonder how many of them saw her """"Bitch from Hell"""" remark on wherever it was and were too frightened of her to even raise an eyebrow.  Just for once I would love to be listening to the wittering and twittering on IRC, but alas no time - travelling today - so you won't have to watch out nervously for my edits.  Sorry if I've caused you all embarrassment but it needed saying, and as usual it was me that had to open my great mouth.  It always amazes me how some people post provocative statements and then become surprised when they provoke.  Of course the link and pasting from the blog should never have been allowed to remain there, amazing how quick though a comment against it can be removed - truly amazing - anyway this particular Prima-donna has to pas-de-deux to the aeroport - and you """"lying Prima-donnas"""" and assorted """"female dogs""""  have an encyclopedia to write. Lots of love. See you soon.  """,Derogatory,Trolling,0.491406,"[np.float32(-0.649), np.float32(1.1006), np.float32(1.3644), np.float32(-1.3687), np.float32(-1.3198)]"
+pussy bitch. delete things,Trolling,Derogatory,0.4891441,"[np.float32(-2.7431), np.float32(-0.3557), np.float32(2.2777), np.float32(2.3217), np.float32(-2.0696)]"
+"hola fucker 
+
+hola fucker",Trolling,Derogatory,0.486265,"[np.float32(-3.0699), np.float32(-0.5422), np.float32(2.3964), np.float32(2.4094), np.float32(-1.9372)]"

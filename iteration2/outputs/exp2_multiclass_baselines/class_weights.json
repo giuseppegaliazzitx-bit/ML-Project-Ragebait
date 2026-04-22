@@ -1,0 +1,52 @@
+{
+  "formula": "weight_i = N / (K * count_i)",
+  "class_distribution": {
+    "Normal": {
+      "index": 0,
+      "count": 4042,
+      "share": 0.40452361889511607
+    },
+    "Profanity": {
+      "index": 1,
+      "count": 1265,
+      "share": 0.12660128102481985
+    },
+    "Trolling": {
+      "index": 2,
+      "count": 3630,
+      "share": 0.3632906325060048
+    },
+    "Derogatory": {
+      "index": 3,
+      "count": 690,
+      "share": 0.06905524419535629
+    },
+    "Hate Speech": {
+      "index": 4,
+      "count": 365,
+      "share": 0.036529223378702964
+    }
+  },
+  "class_weights": {
+    "Normal": {
+      "index": 0,
+      "weight": 0.49440870856011876
+    },
+    "Profanity": {
+      "index": 1,
+      "weight": 1.5797628458498023
+    },
+    "Trolling": {
+      "index": 2,
+      "weight": 0.5505234159779614
+    },
+    "Derogatory": {
+      "index": 3,
+      "weight": 2.896231884057971
+    },
+    "Hate Speech": {
+      "index": 4,
+      "weight": 5.475068493150685
+    }
+  }
+}

@@ -1,0 +1,59 @@
+experiment:
+  iteration: "Iteration 2"
+  name: "exp1_binary_baselines"
+  description: "Experiment 1 binary baselines trained from scratch on trolldata.csv."
+
+task:
+  type: "binary"
+
+paths:
+  raw_data: "data/raw/trolldata.csv"
+  processed_dir: "data/processed"
+  output_dir: "outputs/exp1_binary_baselines"
+
+dataset:
+  text_column: "text"
+  label_column: "label"
+  normal_label: "Normal"
+  positive_label_name: "Ragebait"
+  split:
+    train_size: 0.8
+    val_size: 0.1
+    test_size: 0.1
+    seed: 42
+
+preprocessing:
+  tfidf:
+    max_features: 20000
+    ngram_range: [1, 2]
+    min_df: 2
+    max_df: 0.95
+    sublinear_tf: true
+  sequence:
+    lowercase: true
+    min_freq: 2
+    max_vocab_size: 20000
+    max_length: 64
+
+models:
+  logistic_regression:
+    c: 1.0
+    max_iter: 1000
+  linear_svc:
+    c: 1.0
+  ffnn:
+    embedding_dim: 128
+    hidden_dims: [128, 64]
+    dropout: 0.30
+
+training:
+  seed: 42
+  batch_size: 64
+  epochs: 20
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  patience: 4
+  device: "auto"
+
+evaluation:
+  positive_label: 1

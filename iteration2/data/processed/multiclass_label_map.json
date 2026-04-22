@@ -1,0 +1,7 @@
+{
+  "Normal": 0,
+  "Profanity": 1,
+  "Trolling": 2,
+  "Derogatory": 3,
+  "Hate Speech": 4
+}

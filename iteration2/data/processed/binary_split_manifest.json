@@ -1,0 +1,59 @@
+{
+  "iteration": "Iteration 2",
+  "experiment": "Experiment 1",
+  "task": "binary_classification",
+  "seed": 42,
+  "raw_data": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/raw/trolldata.csv",
+  "processed_dir": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/processed",
+  "label_map": {
+    "Normal": 0,
+    "all_other_labels": 1
+  },
+  "splits": {
+    "train": {
+      "path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/processed/binary_train.csv",
+      "rows": 9992,
+      "original_label_distribution": {
+        "Derogatory": 690,
+        "Hate Speech": 365,
+        "Normal": 4042,
+        "Profanity": 1265,
+        "Trolling": 3630
+      },
+      "binary_label_distribution": {
+        "0": 4042,
+        "1": 5950
+      }
+    },
+    "val": {
+      "path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/processed/binary_val.csv",
+      "rows": 1249,
+      "original_label_distribution": {
+        "Derogatory": 86,
+        "Hate Speech": 45,
+        "Normal": 506,
+        "Profanity": 158,
+        "Trolling": 454
+      },
+      "binary_label_distribution": {
+        "0": 506,
+        "1": 743
+      }
+    },
+    "test": {
+      "path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/processed/binary_test.csv",
+      "rows": 1249,
+      "original_label_distribution": {
+        "Derogatory": 86,
+        "Hate Speech": 46,
+        "Normal": 505,
+        "Profanity": 159,
+        "Trolling": 453
+      },
+      "binary_label_distribution": {
+        "0": 505,
+        "1": 744
+      }
+    }
+  }
+}
