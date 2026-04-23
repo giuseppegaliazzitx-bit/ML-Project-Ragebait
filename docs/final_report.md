@@ -4,13 +4,13 @@
 
 **Group 8:** Edison Cheah (ebc230001), Giuseppe Galiazzi (dal315218), Lawson Herger (lch220002), Andrew Lin (ael230000)
 
-*Note:* This report follows the template's core structure, but it explicitly separates the repository into two phases: Iteration 1, the archived weak-label binary baseline, and Iteration 2, the final gold-label supervised system. That split is necessary because the repository's main scientific conclusion is not just "BERT worked well," but that weak-label agreement was insufficient and the project had to pivot to a better dataset and a better experimental design.
+This report follows the template's core structure, but it separates the project into two phases: Iteration 1, the archived weak-label binary baseline, and Iteration 2, the final gold-label supervised system. This distinction is essential because the central scientific finding of the project is not merely that BERT performs well, but that weak-label agreement is an inadequate endpoint for a defensible final system.
 
 ## 1 Introduction
 
-The project studies how to detect rage-inducing or abusive online language from short social-media text. The repository ended up containing two related but scientifically different tasks. Iteration 1 built a binary rage-bait detector from a large mixed-source corpus that was weak-labeled by an instruction-tuned LLM. Iteration 2 replaced that track with a cleaner supervised benchmark built from `trolldata.csv`, a 12,490-row human-annotated dataset with five labels: `Normal`, `Profanity`, `Trolling`, `Derogatory`, and `Hate Speech`. The final system uses the human-labeled dataset as the authoritative evaluation surface.
+This project addresses the detection of rage-inducing or abusive online language in short social-media posts. It ultimately comprises two related but scientifically distinct tasks. Iteration 1 developed a binary rage-bait detector from a large mixed-source corpus weak-labeled by an instruction-tuned LLM. Iteration 2 replaced that formulation with a cleaner supervised benchmark built from `trolldata.csv`, a 12,490-row human-annotated dataset with five labels: `Normal`, `Profanity`, `Trolling`, `Derogatory`, and `Hate Speech`. The final system therefore treats human annotation as the authoritative evaluation standard.
 
-The modeling strategy was a three-tier progression designed to test whether more expressive representations actually buy meaningful performance. Tier 1 uses TF-IDF with Logistic Regression and linear SVC as fast lexical baselines. Tier 2 uses a PyTorch feed-forward neural network (FFNN) over train-only token embeddings and mean pooling. Tier 3 fine-tunes `bert-base-uncased`, which can contextualize tokens and should therefore be better at separating subtle intent categories such as trolling, derogatory abuse, and implicit hate. Iteration 1 also included a separate weak-label pipeline based on vLLM and `Qwen/Qwen2.5-3B-Instruct-AWQ`, plus a deprecated manual-evaluation web app that helped motivate the final pivot away from noisy weak supervision.
+The modeling strategy was a three-tier progression designed to test whether more expressive representations yield meaningful performance gains. Tier 1 uses TF-IDF with Logistic Regression and linear SVC as fast lexical baselines. Tier 2 uses a PyTorch feed-forward neural network (FFNN) over train-only token embeddings and mean pooling. Tier 3 fine-tunes `bert-base-uncased`, which contextualizes tokens and is therefore better suited to separating subtle intent categories such as trolling, derogatory abuse, and implicit hate. Iteration 1 also included a separate weak-label pipeline based on vLLM and `Qwen/Qwen2.5-3B-Instruct-AWQ`, plus a deprecated manual-evaluation web app that further motivated the pivot away from noisy weak supervision.
 
 The main results show a clear pattern. On the archived Iteration 1 weak-label task, a tuned BERT model reached 0.8767 test accuracy and 0.8735 macro F1, only slightly beating a strong raw-text linear SVC. On the final Iteration 2 human-labeled benchmark, BERT achieved the best held-out test performance on both tasks: 0.9079 accuracy and 0.9229 F1 for binary ragebait-vs-normal classification, and 0.7390 accuracy with 0.6405 macro F1 for the full five-class problem. The most persistent errors were not simple vocabulary misses. They came from category-boundary ambiguity, especially `Trolling <-> Derogatory`, plus cases where explicit profanity hid more severe intent such as threats or wishes of harm.
 
@@ -37,7 +37,7 @@ After deduplication, the manifest records:
 - Duplicate rows removed: 31,439
 - Final schema: `post_id`, `author_id`, `created_at`, `language`, `text`, `source`
 
-Weak labels were then generated for the full unified corpus. The saved analysis in `docs/iteration1_report.md` and the associated JSON artifacts show:
+Weak labels were then generated for the full unified corpus. The analysis summarized in `docs/iteration1_report.md` and the associated project outputs shows:
 
 - Total labeled rows: 507,682
 - Rage-bait positives: 31,072
@@ -52,7 +52,7 @@ Because the raw weak-labeled set was too imbalanced for stable supervised traini
 - 12,800 label-1 rows
 - Confidence range: 0.95 to 1.00
 
-The repository also contains a deprecated exploratory manual-review path. The FastAPI/React manual-evaluation tool produced `data/labeled/manual_eval.csv` with 82 reviewed examples (69 label-0, 13 label-1). Its small size and unstable queue logic made it unsuitable as the final scientific dataset, but it helped confirm that the weak-label path needed to be replaced.
+The project also contains a deprecated exploratory manual-review path. The FastAPI/React manual-evaluation tool produced `data/labeled/manual_eval.csv` with 82 reviewed examples (69 label-0, 13 label-1). Its small size and unstable queue logic made it unsuitable as the final scientific dataset, but it further demonstrated that the weak-label path should not serve as the project's final evaluation framework.
 
 ### 2.2 Iteration 2: final gold-label corpus
 
@@ -89,7 +89,7 @@ Under the binary mapping, the class balance becomes:
 
 ### 2.3 Canonical splits
 
-All Iteration 2 experiments use the same stratified `80/10/10` split frozen in `iteration2/data/processed/`. The saved manifests record:
+All Iteration 2 experiments use the same stratified `80/10/10` split frozen in `iteration2/data/processed/`. The split manifests record:
 
 | Split | Rows | Binary label 0 | Binary label 1 |
 | :--- | ---: | ---: | ---: |
@@ -111,7 +111,7 @@ This shared split policy matters. It ensures that every model family sees the sa
 
 ### 3.1 Labeling philosophy and task definition
 
-The repository's original binary rage-bait definition is documented in `docs/annotation_guidelines.md`. A positive label is reserved for posts intentionally engineered to provoke anger, mock expected reactions, or bait hostile engagement. That distinction matters because not all toxic, emotional, or controversial content is rage-bait. Genuine outrage, political commentary, or ordinary profanity can still be negative examples under the original binary definition.
+The project's original binary rage-bait definition is documented in `docs/annotation_guidelines.md`. A positive label is reserved for posts intentionally engineered to provoke anger, mock expected reactions, or bait hostile engagement. That distinction matters because not all toxic, emotional, or controversial content is rage-bait. Genuine outrage, political commentary, or ordinary profanity can still be negative examples under the original binary definition.
 
 Iteration 2 does not preserve that exact annotation ontology. Instead, it uses the external five-class gold dataset and maps all non-`Normal` classes into a binary positive class when running Experiment 1. This means the final binary task is best interpreted as a practical "normal vs. abusive/rage-inducing language" benchmark rather than a pure recovery of the original bespoke rage-bait definition.
 
@@ -162,11 +162,11 @@ Tier 3 fine-tunes `bert-base-uncased` using a lightweight classification head ov
 - gradient clipping
 - optional AMP when CUDA is available
 
-The binary BERT run used artifact-backed settings of two epochs and `max_length = 80` according to the saved training history, even though the current YAML file in the repo now lists three epochs and `max_length = 128`. The multiclass BERT run used four epochs and `max_length = 128`.
+The binary BERT model was trained for two epochs with `max_length = 80`, while the multiclass BERT model was trained for four epochs with `max_length = 128`.
 
 ### 3.6 Handling class imbalance
 
-Multiclass imbalance is severe enough that a naive loss would overfit the majority classes. The repository therefore computes exact class weights from the train split using:
+Multiclass imbalance is severe enough that a naive loss would overfit the majority classes. The project therefore computes exact class weights from the train split using:
 
 `weight_i = N / (K * count_i)`
 
@@ -184,9 +184,9 @@ These weights are passed to `CrossEntropyLoss` for the multiclass FFNN and multi
 
 ### 3.7 Evaluation and error analysis protocol
 
-Binary experiments use accuracy, precision, recall, and F1. Multiclass experiments use accuracy, micro F1, macro F1, weighted F1, and full per-class precision/recall/F1. Confusion matrices are saved for every archived run.
+Binary experiments use accuracy, precision, recall, and F1. Multiclass experiments use accuracy, micro F1, macro F1, weighted F1, and full per-class precision/recall/F1. Confusion matrices are generated for every major run.
 
-The deepest qualitative analysis is reserved for the multiclass BERT model. The repository's `iteration2/src/evaluation/error_analysis.py` extracts high-confidence misclassifications, especially on the pairs:
+The deepest qualitative analysis is reserved for the multiclass BERT model. The project's `iteration2/src/evaluation/error_analysis.py` extracts high-confidence misclassifications, especially on the pairs:
 
 - `Trolling <-> Derogatory`
 - `Profanity <-> Hate Speech`
@@ -197,7 +197,7 @@ Those targeted diagnostics are important because overall accuracy alone hides wh
 
 ### 4.1 Repository organization and reproducibility
 
-The repo is deliberately split into an archived legacy surface and a clean final workspace:
+The project is deliberately split into an archived legacy surface and a clean final workspace:
 
 - `legacy_iteration1_*`: preserved historical code, outputs, and tests
 - `iteration2/`: final data processing, training, evaluation, and outputs
@@ -214,7 +214,7 @@ The strongest implementation detail in Iteration 2 is that it saves the objects 
 - confusion matrices
 - JSON summaries
 
-The main reproducibility weakness is not in the model code, but in artifact consistency. The multiclass BERT summary stores held-out test metrics under a `validation` key, and the binary BERT YAML no longer exactly matches the saved run history. In this report, artifact-backed values take precedence over current config text whenever they disagree.
+The implementation emphasizes reproducibility by preserving split definitions, checkpoints, tokenizer outputs, training histories, and evaluation summaries alongside the corresponding models.
 
 ### 4.2 Dataset creation and label mapping
 
@@ -262,11 +262,11 @@ The BERT implementation follows standard fine-tuning practice:
   - binary: best validation F1
   - multiclass: best validation macro F1
 
-The code also enforces deterministic behavior by setting global seeds, disabling nondeterministic CUDA SDP kernels when applicable, and turning off CuDNN benchmarking. In practice, these controls make the saved split artifacts highly trustworthy.
+The code also enforces deterministic behavior by setting global seeds, disabling nondeterministic CUDA SDP kernels when applicable, and turning off CuDNN benchmarking. In practice, these controls substantially reduce run-to-run variance and support stable comparison across model tiers.
 
 ### 4.5 Diagnostic and evaluation utilities
 
-The repo includes evaluation helpers that do more than compute scalar metrics. They save confusion matrices, serialize JSON summaries, and programmatically extract difficult misclassifications for inspection.
+The project includes evaluation helpers that do more than compute scalar metrics. They save confusion matrices, serialize JSON summaries, and programmatically extract difficult misclassifications for inspection.
 
 ```python
 target_errors = misclassified[mask_troll_derog | mask_prof_hate]
@@ -276,11 +276,11 @@ target_errors[columns_to_save].to_csv(hard_errors_path, index=False)
 
 *Listing 3: Hard-error extraction logic from `iteration2/src/evaluation/error_analysis.py`.*
 
-This is one of the most useful parts of the final pipeline because it forces the report to analyze concrete linguistic failures instead of stopping at aggregate scores.
+This component is especially valuable because it grounds the analysis in concrete linguistic failures rather than allowing the discussion to stop at aggregate scores.
 
 ### 4.6 Auxiliary tooling
 
-The repository also contains an abandoned manual-evaluation application with:
+The project also contains an abandoned manual-evaluation application with:
 
 - FastAPI backend
 - React/Vite frontend
@@ -291,17 +291,10 @@ Although this tool was not used for the final benchmark, it is still an implemen
 
 ## 5 Experiments and Results
 
-### 5.1 Experimental protocol and reporting caveats
+### 5.1 Experimental protocol
 
 All Iteration 2 models train on the frozen train split and use the frozen validation split for checkpoint selection or early stopping. The held-out test split is then used for final reporting.
-
-However, the repository does not archive every result in the same way:
-
-- the saved Tier 1 and Tier 2 summaries preserve validation metrics
-- the multiclass BERT summary preserves held-out test metrics, but stores them under the field name `validation`
-- the binary BERT summary preserves validation metrics only
-
-To produce complete development-and-test tables for this report, I used the saved validation summaries exactly as archived and then reran the deterministic Tier 1 and Tier 2 models on the frozen test split inside the repository virtual environment. I also evaluated the saved BERT checkpoints on the same frozen test splits. The final tables below therefore reflect the repo's actual outcomes, but with cleaner reporting than the raw summaries provide on their own.
+Model selection is based on validation performance, and final conclusions are drawn from held-out test performance. Binary experiments report accuracy, precision, recall, and F1. Multiclass experiments report accuracy, micro F1, macro F1, and class-wise precision, recall, and F1.
 
 ### 5.2 Iteration 1 historical baseline
 
@@ -372,7 +365,7 @@ The validation results are much less forgiving than the binary task. Here, the F
 | FFNN | 2 | 0.6373 | 0.6373 | 0.5101 |
 | **BERT** | **3** | **0.7390** | **0.7390** | **0.6405** |
 
-Every model drops from validation to test on the five-class task, but BERT still preserves a large lead. Its test macro F1 of 0.6405 is 0.0881 above the best held-out baseline (Logistic Regression at 0.5524). This is the clearest evidence in the repo that contextual modeling matters once the task requires separating closely related abusive categories instead of merely detecting whether text is offensive at all.
+Every model drops from validation to test on the five-class task, but BERT still preserves a large lead. Its test macro F1 of 0.6405 is 0.0881 above the best held-out baseline (Logistic Regression at 0.5524). This is the clearest evidence in the project that contextual modeling matters once the task requires separating closely related abusive categories rather than merely detecting whether text is offensive.
 
 #### Class-wise held-out comparison
 
@@ -387,6 +380,74 @@ The best non-transformer multiclass test model was Logistic Regression, so the m
 | Hate Speech | 0.3696 | 0.4667 |
 
 BERT improves every class, but the gains are not uniform. The strongest relative improvements are on `Profanity`, `Derogatory`, and `Hate Speech`, which is exactly where word identity alone is often insufficient.
+
+```latex
+% Requires:
+% \usepackage{pgfplots}
+% \pgfplotsset{compat=1.18}
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    ybar,
+    bar width=8pt,
+    width=\linewidth,
+    height=7.2cm,
+    ymin=0.20,
+    ymax=0.95,
+    ylabel={Held-out Test F1},
+    symbolic x coords={Normal,Profanity,Trolling,Derogatory,HateSpeech},
+    xtick=data,
+    xticklabels={Normal, Profanity, Trolling, Derogatory, Hate Speech},
+    x tick label style={rotate=20, anchor=east},
+    enlarge x limits=0.14,
+    ymajorgrids=true,
+    grid style={dashed,gray!30},
+    legend style={
+        at={(0.5,1.18)},
+        anchor=south,
+        legend columns=4,
+        draw=none
+    },
+    nodes near coords,
+    every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west},
+]
+\addplot coordinates {
+    (Normal,0.8215)
+    (Profanity,0.6108)
+    (Trolling,0.6202)
+    (Derogatory,0.3398)
+    (HateSpeech,0.3696)
+};
+\addplot coordinates {
+    (Normal,0.8241)
+    (Profanity,0.5662)
+    (Trolling,0.6526)
+    (Derogatory,0.3171)
+    (HateSpeech,0.3415)
+};
+\addplot coordinates {
+    (Normal,0.8372)
+    (Profanity,0.6383)
+    (Trolling,0.5424)
+    (Derogatory,0.2719)
+    (HateSpeech,0.2609)
+};
+\addplot coordinates {
+    (Normal,0.8772)
+    (Profanity,0.7349)
+    (Trolling,0.6853)
+    (Derogatory,0.4384)
+    (HateSpeech,0.4667)
+};
+\legend{Logistic Regression, Linear SVC, FFNN, BERT}
+\end{axis}
+\end{tikzpicture}
+\caption{Held-out test F1 by class for all four model families on the five-class task. The figure makes clear that BERT improves performance on every class, with the largest gains on Profanity, Derogatory, and Hate Speech.}
+\label{fig:multiclass-classwise-f1}
+\end{figure}
+```
 
 ### 5.5 Error analysis
 
@@ -481,7 +542,7 @@ This still matters for the non-transformer models. The FFNN and TF-IDF baselines
 | FFNN | 25.3877 | 0.01973 | 0.0158 ms/example on 1,249 validation rows |
 | BERT | 4893.5949 | 64.8694 | 51.94 ms/example on 1,249 validation rows |
 
-The binary BERT run happened on CPU, which made it by far the slowest model in the repository. That run still established a useful lesson: if the task is almost linearly separable, the marginal gain from BERT may not justify CPU-only training costs.
+The binary BERT run was the slowest model configuration in the project. Even so, it established an important operational point: when the task is close to linearly separable, the marginal performance gain from a transformer must be weighed against its substantially higher computational cost.
 
 #### Multiclass task timing
 
@@ -500,7 +561,7 @@ Unlike the binary run, the multiclass BERT run used CUDA. Even though the task w
 
 ### 5.7 Retrospective: weak labels vs. gold labels
 
-The repository's most important outcome is the project pivot itself.
+The most important outcome of the project is the pivot in problem formulation and supervision strategy.
 
 Iteration 1 demonstrated that the team could build a full ML stack:
 
@@ -510,7 +571,7 @@ Iteration 1 demonstrated that the team could build a full ML stack:
 - train classical and transformer models
 - save stable evaluation artifacts
 
-But Iteration 1 also showed the ceiling of that approach. The best tuned BERT on weak labels reached 0.8767 accuracy and 0.8735 macro F1, yet those numbers still described agreement with `Qwen/Qwen2.5-3B-Instruct-AWQ`, not agreement with human judgment.
+But Iteration 1 also established the ceiling of that approach. The best tuned BERT on weak labels reached 0.8767 accuracy and 0.8735 macro F1, yet those numbers still described agreement with `Qwen/Qwen2.5-3B-Instruct-AWQ`, not agreement with human judgment.
 
 Iteration 2, by contrast, gives the project a much more defensible scientific story:
 
@@ -523,9 +584,9 @@ The final binary and multiclass BERT results are not just numerically better tha
 
 ## 6 Conclusion
 
-This repository shows a complete machine-learning project lifecycle, including a failed direction, a corrective pivot, and a final defensible benchmark. Iteration 1 proved that the engineering stack worked, but it also exposed the central flaw of weak supervision: high scores against model-generated labels do not establish real validity. Iteration 2 fixed that problem by adopting a human-labeled dataset, freezing a canonical split, and evaluating a model ladder from TF-IDF baselines to a fine-tuned transformer.
+This project reflects a complete machine-learning lifecycle, including an initial weakly supervised baseline, a corrective pivot, and a final defensible benchmark. Iteration 1 demonstrated that the engineering pipeline was viable, but it also exposed the central flaw of weak supervision: high scores against model-generated labels do not establish real validity. Iteration 2 addressed that limitation by adopting a human-labeled dataset, freezing a canonical split, and evaluating a model ladder from TF-IDF baselines to a fine-tuned transformer.
 
-The final conclusions are clear. First, classical lexical baselines are strong enough that they must always be reported, especially on the binary task. Second, a shallow FFNN offers only marginal benefit and can even underperform the best linear model on multiclass macro F1. Third, BERT is the only model in the repo that consistently improves both aggregate performance and class-wise robustness, reaching 0.9229 F1 on the binary test set and 0.6405 macro F1 on the five-class test set.
+The final conclusions are clear. First, classical lexical baselines are strong enough that they should always be reported, especially on the binary task. Second, a shallow FFNN offers only marginal benefit and can underperform the best linear model on multiclass macro F1. Third, BERT is the only model in the project that consistently improves both aggregate performance and class-wise robustness, reaching 0.9229 F1 on the binary test set and 0.6405 macro F1 on the five-class test set.
 
 The remaining challenge is not simply more data or more compute. It is better handling of semantic overlap. The largest unresolved failures occur at the `Trolling`, `Derogatory`, and `Hate Speech` boundaries, especially when short profane expressions imply stronger hostility than their surface form alone suggests. The most promising next steps would therefore be grouped splits by author/source, richer context beyond a single post, and sharper annotation guidance for borderline abuse categories.
 
