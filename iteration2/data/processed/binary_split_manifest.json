@@ -1,13 +1,18 @@
 {
   "iteration": "Iteration 2",
-  "experiment": "Experiment 1",
-  "task": "binary_classification",
+  "experiment": "exp1_binary_baselines",
+  "task": "binary",
   "seed": 42,
   "raw_data": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/raw/trolldata.csv",
   "processed_dir": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/processed",
+  "target_column": "binary_label",
+  "label_map_path": "/home/upsid/dev/ML-Project-Ragebait/iteration2/data/processed/binary_label_map.json",
   "label_map": {
+    "Derogatory": 1,
+    "Hate Speech": 1,
     "Normal": 0,
-    "all_other_labels": 1
+    "Profanity": 1,
+    "Trolling": 1
   },
   "splits": {
     "train": {
@@ -20,7 +25,7 @@
         "Profanity": 1265,
         "Trolling": 3630
       },
-      "binary_label_distribution": {
+      "target_distribution": {
         "0": 4042,
         "1": 5950
       }
@@ -35,7 +40,7 @@
         "Profanity": 158,
         "Trolling": 454
       },
-      "binary_label_distribution": {
+      "target_distribution": {
         "0": 506,
         "1": 743
       }
@@ -50,7 +55,7 @@
         "Profanity": 159,
         "Trolling": 453
       },
-      "binary_label_distribution": {
+      "target_distribution": {
         "0": 505,
         "1": 744
       }
