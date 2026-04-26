@@ -1,0 +1,1138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Machine Learning Ragebait Detection Project</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #5e687b;
+      --line: #dfe5ee;
+      --paper: #fffefd;
+      --soft: #f7f9fc;
+      --blue: #2563eb;
+      --cyan: #0891b2;
+      --red: #e05252;
+      --orange: #f59e0b;
+      --green: #0f9f6e;
+      --violet: #7c3aed;
+      --magenta: #d946ef;
+      --shadow: 0 22px 60px rgba(23, 32, 51, 0.16);
+      --radius: 22px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #f3f7fb;
+    }
+
+    .deck-nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.65rem 1rem;
+      background: rgba(255, 255, 255, 0.86);
+      border-bottom: 1px solid rgba(223, 229, 238, 0.85);
+      backdrop-filter: blur(14px);
+    }
+
+    .deck-nav a,
+    .deck-nav button {
+      border: 1px solid var(--line);
+      background: #ffffff;
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 0.42rem 0.7rem;
+      font: 700 0.75rem/1 Inter, sans-serif;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .deck-nav .hint {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 650;
+    }
+
+    main {
+      width: min(96vw, 1280px);
+      margin: 1.4rem auto 5rem;
+    }
+
+    .slide-card {
+      margin: 0 0 2.6rem;
+    }
+
+    .slide {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      padding: 3.4% 4.2%;
+      background: var(--paper);
+      border: 1px solid rgba(223, 229, 238, 0.95);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: rgba(37, 99, 235, 0.035);
+      opacity: 0.85;
+    }
+
+    .slide::after {
+      content: attr(data-slide);
+      position: absolute;
+      right: 3.1%;
+      bottom: 3%;
+      color: #8a94a7;
+      font-size: clamp(0.58rem, 0.75vw, 0.86rem);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 2.1%;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 0.42rem;
+      color: var(--blue);
+      font-size: clamp(0.62rem, 0.82vw, 0.88rem);
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 0.8rem;
+      height: 0.8rem;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 {
+      max-width: 11ch;
+      font-size: clamp(3rem, 7.4vw, 6.5rem);
+      line-height: 0.92;
+      letter-spacing: 0;
+      color: var(--ink);
+    }
+
+    h2 {
+      max-width: 15ch;
+      font-size: clamp(2rem, 4.5vw, 4.35rem);
+      line-height: 0.98;
+      letter-spacing: 0;
+      color: var(--ink);
+    }
+
+    h3 {
+      font-size: clamp(1.15rem, 1.75vw, 1.85rem);
+      line-height: 1.08;
+      color: var(--ink);
+    }
+
+    .subtitle {
+      max-width: 48rem;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.45vw, 1.55rem);
+      line-height: 1.35;
+      font-weight: 620;
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #8a94a7;
+      font-size: clamp(0.58rem, 0.78vw, 0.86rem);
+      font-weight: 750;
+      letter-spacing: 0.02em;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3.4%; align-items: stretch; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.2%; align-items: stretch; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.7%; align-items: stretch; }
+    .wide-left { display: grid; grid-template-columns: 1.18fr 0.82fr; gap: 3.2%; align-items: stretch; }
+    .wide-right { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 3.2%; align-items: stretch; }
+
+    .panel {
+      min-width: 0;
+      padding: 1.2rem;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(223, 229, 238, 0.9);
+      border-radius: 18px;
+    }
+
+    .panel.tint-blue { background: #eef4ff; }
+    .panel.tint-red { background: #fff0f0; }
+    .panel.tint-green { background: #eefaf5; }
+    .panel.tint-orange { background: #fff7e8; }
+    .panel.tint-violet { background: #f4f0ff; }
+
+    .big-number {
+      color: var(--ink);
+      font-size: clamp(2.1rem, 4.1vw, 4.25rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    .label {
+      margin-top: 0.45rem;
+      color: var(--muted);
+      font-size: clamp(0.72rem, 0.95vw, 1.02rem);
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: clamp(0.76rem, 1vw, 1.05rem);
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    .bullets {
+      display: grid;
+      gap: 0.68rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .bullets li {
+      position: relative;
+      padding-left: 1.25rem;
+      color: var(--ink);
+      font-size: clamp(0.94rem, 1.35vw, 1.42rem);
+      line-height: 1.25;
+      font-weight: 650;
+    }
+
+    .bullets li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.48em;
+      width: 0.48rem;
+      height: 0.48rem;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 14px;
+      font-size: clamp(0.66rem, 0.92vw, 0.98rem);
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .table th,
+    .table td {
+      padding: 0.58em 0.66em;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table th {
+      color: #ffffff;
+      background: var(--ink);
+      font-weight: 850;
+    }
+
+    .table td {
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    .table td.num,
+    .table th.num { text-align: right; }
+
+    .table tr:last-child td { border-bottom: 0; }
+    .table .best td { background: rgba(37, 99, 235, 0.10); font-weight: 850; }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.2rem;
+      padding: 0.5rem 0.72rem;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-size: clamp(0.75rem, 0.98vw, 1.02rem);
+      font-weight: 800;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.7rem;
+      align-items: stretch;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 7.4rem;
+      padding: 1rem;
+      border-radius: 18px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+    }
+
+    .flow-step strong {
+      display: block;
+      color: var(--blue);
+      font-size: clamp(0.76rem, 1vw, 1rem);
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .flow-step span {
+      color: var(--ink);
+      font-size: clamp(0.85rem, 1.1vw, 1.15rem);
+      line-height: 1.25;
+      font-weight: 750;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 7rem 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .timeline-row .phase {
+      color: var(--blue);
+      font-size: clamp(0.72rem, 0.95vw, 1rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .timeline-row .text {
+      color: var(--ink);
+      font-size: clamp(0.9rem, 1.22vw, 1.22rem);
+      line-height: 1.3;
+      font-weight: 650;
+    }
+
+    .bar-list {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 6.7rem 1fr 4.1rem;
+      align-items: center;
+      gap: 0.65rem;
+      color: var(--ink);
+      font-size: clamp(0.72rem, 0.95vw, 1rem);
+      font-weight: 760;
+    }
+
+    .track {
+      height: 0.88rem;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e9eef7;
+    }
+
+    .fill {
+      height: 100%;
+      width: calc(var(--value) * 1%);
+      border-radius: inherit;
+      background: var(--blue);
+    }
+
+    .compare-bars {
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .compare-row {
+      display: grid;
+      grid-template-columns: 6.5rem 1fr;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .dual-track {
+      display: grid;
+      gap: 0.18rem;
+    }
+
+    .dual {
+      height: 0.52rem;
+      width: calc(var(--value) * 100%);
+      border-radius: 999px;
+    }
+
+    .dual.base { background: var(--orange); }
+    .dual.bert { background: var(--blue); }
+
+    .heatmap {
+      display: grid;
+      grid-template-columns: 1.45fr 0.72fr;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .heat {
+      height: 2.25rem;
+      border-radius: 12px;
+      background: rgba(224, 82, 82, 0.84);
+      width: calc(var(--value) * 1%);
+      min-width: 10%;
+    }
+
+    .quote {
+      padding: 1rem 1.15rem;
+      border-left: 0.35rem solid var(--red);
+      background: rgba(255, 255, 255, 0.82);
+      border-radius: 0 16px 16px 0;
+      color: var(--ink);
+      font-size: clamp(1rem, 1.35vw, 1.42rem);
+      line-height: 1.3;
+      font-weight: 760;
+    }
+
+    .notes {
+      display: block;
+      margin: 0.75rem auto 0;
+      padding: 0.8rem 1rem;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      color: var(--ink);
+    }
+
+    .notes summary {
+      cursor: pointer;
+      color: var(--blue);
+      font-weight: 850;
+      font-size: 0.92rem;
+    }
+
+    .notes p {
+      margin-top: 0.65rem;
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    body.hide-notes .notes { display: none; }
+
+    .slide:nth-child(4n + 1) { background: #fbfdff; }
+    .slide-card:nth-child(4n + 2) .slide { background: #fbfffd; }
+    .slide-card:nth-child(4n + 3) .slide { background: #fffdf8; }
+    .slide-card:nth-child(4n + 4) .slide { background: #fefbff; }
+
+    @media (max-width: 760px) {
+      main { width: 100vw; margin-top: 0; }
+      .slide { border-radius: 0; }
+      .deck-nav .hint { display: none; }
+      .panel { padding: 0.72rem; border-radius: 12px; }
+      .table th, .table td { padding: 0.42em 0.48em; }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+
+      .deck-nav { display: none; }
+      main { width: 100%; margin: 0; }
+      .slide-card {
+        break-after: page;
+        page-break-after: always;
+        margin: 0;
+      }
+      .slide {
+        box-shadow: none;
+        border-radius: 0;
+        border: 0;
+      }
+      .notes {
+        display: block;
+        border-radius: 0;
+        border: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="deck-nav" aria-label="Slide navigation">
+    <div class="pill-row">
+      <a href="#slide-01">Start</a>
+      <a href="#slide-10">Results</a>
+      <a href="#slide-18">Conclusion</a>
+      <button type="button" id="toggleNotes">Toggle notes</button>
+    </div>
+    <div class="hint">Arrow keys move between slides. Notes print below each slide.</div>
+  </nav>
+
+  <main>
+    <article class="slide-card" id="slide-01">
+      <section class="slide" data-slide="01 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Group 8 final project</div>
+            <h1>Machine Learning Ragebait Detection</h1>
+            <p class="subtitle">A supervised NLP system for identifying manufactured outrage and abusive social-media language.</p>
+          </div>
+          <div class="grid-3">
+            <div class="panel tint-blue">
+              <div class="big-number">0.9229</div>
+              <div class="label">Binary BERT F1</div>
+              <p class="small">Held-out test performance for normal vs. ragebait / abusive content.</p>
+            </div>
+            <div class="panel tint-red">
+              <div class="big-number">0.6405</div>
+              <div class="label">Multiclass macro F1</div>
+              <p class="small">Five-class BERT result across Normal, Profanity, Trolling, Derogatory, and Hate Speech.</p>
+            </div>
+            <div class="panel tint-green">
+              <div class="big-number">12,490</div>
+              <div class="label">Human-labeled posts</div>
+              <p class="small">Final Iteration 2 benchmark used as the authoritative evaluation target.</p>
+            </div>
+          </div>
+          <div class="footer"><span>Edison Cheah, Giuseppe Galiazzi, Lawson Herger, Andrew Lin</span><span>CS4375</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>Open by framing the project as both an engineering system and a scientific correction. The final result is not just that BERT performs well; it is that the team moved from weak labels to a more defensible human-labeled benchmark.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-02">
+      <section class="slide" data-slide="02 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Motivation</div>
+            <h2>What is rage bait?</h2>
+            <p class="subtitle">Content intentionally crafted to provoke anger, frustration, or outrage from readers.</p>
+          </div>
+          <div class="wide-left">
+            <div class="panel tint-red">
+              <ul class="bullets">
+                <li>Uses polarized, inflammatory, or bad-faith statements to guarantee a reaction.</li>
+                <li>Often values response volume over truth, nuance, or constructive discussion.</li>
+                <li>Can look similar to ordinary controversy, profanity, or genuine outrage.</li>
+              </ul>
+            </div>
+            <div class="panel">
+              <div class="quote">The core challenge is intent: not every angry post is rage bait, and not every offensive word has the same social meaning.</div>
+            </div>
+          </div>
+          <div class="footer"><span>Motivation</span><span>Definition</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>Give a plain-language definition first. Emphasize that the project is not trying to ban disagreement or detect every emotional post. It focuses on content designed to farm negative reactions.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-03">
+      <section class="slide" data-slide="03 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Negative engagement economy</div>
+            <h2>The incentive problem</h2>
+            <p class="subtitle">Modern feeds often reward interaction volume, even when the interaction is anger.</p>
+          </div>
+          <div class="flow">
+            <div class="flow-step"><strong>1. Post</strong><span>Bad-faith or inflammatory content is published.</span></div>
+            <div class="flow-step"><strong>2. Reaction</strong><span>Users reply, quote, argue, and amplify.</span></div>
+            <div class="flow-step"><strong>3. Ranking</strong><span>Algorithms interpret activity as relevance.</span></div>
+            <div class="flow-step"><strong>4. Reward</strong><span>The content gains visibility and the pattern repeats.</span></div>
+          </div>
+          <div class="grid-3">
+            <div class="panel tint-orange"><h3>Algorithmic incentives</h3><p class="small">Engagement-based ranking can elevate polarizing content.</p></div>
+            <div class="panel tint-red"><h3>Engagement farming</h3><p class="small">Manufactured negativity becomes a visibility strategy.</p></div>
+            <div class="panel tint-violet"><h3>Social cost</h3><p class="small">Discourse quality drops and bad actors become more visible.</p></div>
+          </div>
+          <div class="footer"><span>Motivation</span><span>Why detection matters</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>Walk through the loop: the platform sees interaction, not necessarily quality. Rage bait exploits that by using anger as fuel for visibility. This motivates an automated detector as a way to interrupt the feedback loop.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-04">
+      <section class="slide" data-slide="04 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Our solution</div>
+            <h2>The rage bait detector</h2>
+            <p class="subtitle">An ML-powered tool for classifying social-media posts before users feed the reaction loop.</p>
+          </div>
+          <div class="grid-3">
+            <div class="panel tint-blue">
+              <h3>Automated identification</h3>
+              <p class="small">Analyze short posts and classify manufactured rage bait or abusive content.</p>
+            </div>
+            <div class="panel tint-green">
+              <h3>User empowerment</h3>
+              <p class="small">Help users recognize engagement traps before replying, quoting, or sharing.</p>
+            </div>
+            <div class="panel tint-orange">
+              <h3>Healthier discourse</h3>
+              <p class="small">Starve negative engagement farming by reducing reward for provocation.</p>
+            </div>
+          </div>
+          <div class="quote">Goal: separate genuine conversation from manufactured outrage with a reproducible, human-grounded model benchmark.</div>
+          <div class="footer"><span>Motivation</span><span>System goal</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>This slide transitions from motivation to the actual project. The detector is not just a classifier in isolation; it is a tool for reducing the payoff of negative engagement farming.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-05">
+      <section class="slide" data-slide="05 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Project arc</div>
+            <h2>From weak labels to gold labels</h2>
+            <p class="subtitle">The biggest scientific improvement was changing what counted as truth.</p>
+          </div>
+          <div class="wide-right">
+            <div class="panel tint-orange">
+              <div class="timeline">
+                <div class="timeline-row"><div class="phase">Iteration 1</div><div class="text">Built a complete weak-label pipeline with vLLM and Qwen labels over 507,682 posts.</div></div>
+                <div class="timeline-row"><div class="phase">Finding</div><div class="text">High scores still measured agreement with model-generated labels, not human judgment.</div></div>
+                <div class="timeline-row"><div class="phase">Iteration 2</div><div class="text">Pivoted to a 12,490-row human-labeled dataset and a frozen train/validation/test split.</div></div>
+              </div>
+            </div>
+            <table class="table">
+              <thead><tr><th>Phase</th><th>Best result</th><th>Interpretation</th></tr></thead>
+              <tbody>
+                <tr><td>Weak-label BERT</td><td class="num">0.8735 macro F1</td><td>Agreement with Qwen labels</td></tr>
+                <tr class="best"><td>Gold-label BERT</td><td class="num">0.9229 binary F1</td><td>Agreement with human labels</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="footer"><span>Methodological pivot</span><span>Weak labels vs. human labels</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>The weak-label system was still valuable because it proved the engineering stack worked. But for a final claim, the project needed human labels. This is the hinge of the whole presentation.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-06">
+      <section class="slide" data-slide="06 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Final dataset</div>
+            <h2>Human-labeled abusive-language corpus</h2>
+            <p class="subtitle">The final benchmark contains five labels with substantial class imbalance.</p>
+          </div>
+          <div class="wide-left">
+            <div class="panel">
+              <div class="bar-list">
+                <div class="bar-row"><span>Normal</span><div class="track"><div class="fill" style="--value:40.46"></div></div><span>40.46%</span></div>
+                <div class="bar-row"><span>Trolling</span><div class="track"><div class="fill" style="--value:36.32"></div></div><span>36.32%</span></div>
+                <div class="bar-row"><span>Profanity</span><div class="track"><div class="fill" style="--value:12.67"></div></div><span>12.67%</span></div>
+                <div class="bar-row"><span>Derogatory</span><div class="track"><div class="fill" style="--value:6.90"></div></div><span>6.90%</span></div>
+                <div class="bar-row"><span>Hate Speech</span><div class="track"><div class="fill" style="--value:3.65"></div></div><span>3.65%</span></div>
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="panel tint-green"><div class="big-number">12,490</div><div class="label">Total rows</div></div>
+              <div class="panel tint-red"><div class="big-number">59.54%</div><div class="label">Binary positive</div></div>
+            </div>
+          </div>
+          <div class="footer"><span>Data source: trolldata.csv</span><span>Final benchmark</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>Point out the two task formulations. For the binary task, everything non-Normal becomes positive. For the multiclass task, the model must distinguish the five original categories.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-07">
+      <section class="slide" data-slide="07 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Experimental control</div>
+            <h2>Frozen 80/10/10 splits</h2>
+            <p class="subtitle">Every model sees the same train, validation, and test rows.</p>
+          </div>
+          <div class="grid-2">
+            <table class="table">
+              <thead><tr><th>Split</th><th class="num">Rows</th><th class="num">Normal</th><th class="num">Abusive</th></tr></thead>
+              <tbody>
+                <tr><td>Train</td><td class="num">9,992</td><td class="num">4,042</td><td class="num">5,950</td></tr>
+                <tr><td>Validation</td><td class="num">1,249</td><td class="num">506</td><td class="num">743</td></tr>
+                <tr><td>Test</td><td class="num">1,249</td><td class="num">505</td><td class="num">744</td></tr>
+              </tbody>
+            </table>
+            <div class="panel tint-blue">
+              <ul class="bullets">
+                <li>Stratified split with seed 42.</li>
+                <li>Validation used for model selection and checkpoint selection.</li>
+                <li>Held-out test results used for final claims.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer"><span>Reproducibility</span><span>Split manifests saved in iteration2/data/processed</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>This is the reproducibility slide. The frozen split lets us compare Logistic Regression, SVC, FFNN, and BERT without wondering if a better score came from a lucky data split.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-08">
+      <section class="slide" data-slide="08 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Modeling ladder</div>
+            <h2>Three levels of representation</h2>
+            <p class="subtitle">The experiments test whether richer text representations produce meaningful gains.</p>
+          </div>
+          <div class="grid-3">
+            <div class="panel tint-orange"><h3>Tier 1: TF-IDF</h3><p class="small">Logistic Regression and Linear SVC over unigram and bigram features.</p></div>
+            <div class="panel tint-green"><h3>Tier 2: FFNN</h3><p class="small">Train-only embeddings, mean pooling, hidden layers, ReLU, and dropout.</p></div>
+            <div class="panel tint-blue"><h3>Tier 3: BERT</h3><p class="small">Fine-tuned bert-base-uncased with contextual token representations.</p></div>
+          </div>
+          <div class="panel">
+            <div class="pill-row">
+              <span class="pill">TF-IDF max features: 20,000</span>
+              <span class="pill">FFNN vocab: 10,975</span>
+              <span class="pill">Binary BERT max length: 80</span>
+              <span class="pill">Multiclass BERT max length: 128</span>
+            </div>
+          </div>
+          <div class="footer"><span>Methodology</span><span>Baselines first, transformer last</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>Emphasize that the baselines are intentionally strong. The project is not comparing BERT to weak straw-man models; it is asking how much BERT adds beyond cheap lexical models.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-09">
+      <section class="slide" data-slide="09 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Implementation</div>
+            <h2>Reproducible ML pipeline</h2>
+            <p class="subtitle">The final workspace saves the objects needed to inspect and reproduce each run.</p>
+          </div>
+          <div class="flow">
+            <div class="flow-step"><strong>Data</strong><span>Validate columns, map labels, freeze splits.</span></div>
+            <div class="flow-step"><strong>Train</strong><span>Run Tier 1 baselines, FFNN, and BERT.</span></div>
+            <div class="flow-step"><strong>Evaluate</strong><span>Compute metrics, reports, and confusion structure.</span></div>
+            <div class="flow-step"><strong>Archive</strong><span>Save summaries, tokenizers, checkpoints, histories.</span></div>
+          </div>
+          <div class="grid-2">
+            <div class="panel tint-violet"><h3>Class imbalance</h3><p class="small">Multiclass loss uses inverse-frequency weights, with Hate Speech weighted 5.4751.</p></div>
+            <div class="panel tint-blue"><h3>Checkpointing</h3><p class="small">Binary BERT selected by validation F1; multiclass BERT selected by validation macro F1.</p></div>
+          </div>
+          <div class="footer"><span>Implementation</span><span>iteration2/</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>Keep this slide brief. The important point is that the repo does not only produce numbers; it preserves the artifacts needed to understand where the numbers came from.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-10">
+      <section class="slide" data-slide="10 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Experiment 1</div>
+            <h2>Binary detection results</h2>
+            <p class="subtitle">Normal vs. ragebait / abusive language on the held-out test set.</p>
+          </div>
+          <div class="wide-left">
+            <table class="table">
+              <thead><tr><th>Model</th><th class="num">Accuracy</th><th class="num">Precision</th><th class="num">Recall</th><th class="num">F1</th></tr></thead>
+              <tbody>
+                <tr><td>Logistic Regression</td><td class="num">0.8551</td><td class="num">0.8371</td><td class="num">0.9395</td><td class="num">0.8854</td></tr>
+                <tr><td>Linear SVC</td><td class="num">0.8655</td><td class="num">0.8780</td><td class="num">0.8992</td><td class="num">0.8884</td></tr>
+                <tr><td>FFNN</td><td class="num">0.8671</td><td class="num">0.8734</td><td class="num">0.9086</td><td class="num">0.8906</td></tr>
+                <tr class="best"><td>BERT</td><td class="num">0.9079</td><td class="num">0.9210</td><td class="num">0.9247</td><td class="num">0.9229</td></tr>
+              </tbody>
+            </table>
+            <div class="grid-1">
+              <div class="panel tint-blue"><div class="big-number">+0.0322</div><div class="label">F1 over best non-transformer</div><p class="small">BERT beats FFNN on final binary test performance.</p></div>
+            </div>
+          </div>
+          <div class="footer"><span>Held-out test results</span><span>Binary classification</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>The binary task is not trivial, but it is easier than multiclass because many abusive posts have obvious lexical cues. BERT still improves meaningfully over the strongest non-transformer baseline.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-11">
+      <section class="slide" data-slide="11 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Binary diagnostics</div>
+            <h2>High recall without sacrificing precision</h2>
+            <p class="subtitle">BERT catches most abusive posts while limiting false alarms.</p>
+          </div>
+          <div class="grid-2">
+            <div class="panel">
+              <table class="table">
+                <thead><tr><th>BERT confusion matrix</th><th class="num">Pred Normal</th><th class="num">Pred Abusive</th></tr></thead>
+                <tbody>
+                  <tr><td>True Normal</td><td class="num">446</td><td class="num">59</td></tr>
+                  <tr><td>True Abusive</td><td class="num">56</td><td class="num">688</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="grid-2">
+              <div class="panel tint-blue"><div class="big-number">0.9210</div><div class="label">Precision</div><p class="small">Positive predictions are usually correct.</p></div>
+              <div class="panel tint-red"><div class="big-number">0.9247</div><div class="label">Recall</div><p class="small">Most abusive examples are found.</p></div>
+            </div>
+          </div>
+          <div class="footer"><span>Binary BERT</span><span>Approximate counts derived from final test metrics</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>Use this to explain why both precision and recall matter. False negatives miss harmful content; false positives incorrectly flag normal or controversial conversation.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-12">
+      <section class="slide" data-slide="12 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Experiment 2</div>
+            <h2>Five-class classification results</h2>
+            <p class="subtitle">The harder task asks the model to separate overlapping kinds of abusive language.</p>
+          </div>
+          <div class="wide-left">
+            <table class="table">
+              <thead><tr><th>Model</th><th class="num">Accuracy</th><th class="num">Micro F1</th><th class="num">Macro F1</th></tr></thead>
+              <tbody>
+                <tr><td>Logistic Regression</td><td class="num">0.6645</td><td class="num">0.6645</td><td class="num">0.5524</td></tr>
+                <tr><td>Linear SVC</td><td class="num">0.6797</td><td class="num">0.6797</td><td class="num">0.5403</td></tr>
+                <tr><td>FFNN</td><td class="num">0.6373</td><td class="num">0.6373</td><td class="num">0.5101</td></tr>
+                <tr class="best"><td>BERT</td><td class="num">0.7390</td><td class="num">0.7390</td><td class="num">0.6405</td></tr>
+              </tbody>
+            </table>
+            <div class="panel tint-red"><div class="big-number">+0.0881</div><div class="label">Macro F1 over best baseline</div><p class="small">BERT's strongest evidence comes from the multiclass task.</p></div>
+          </div>
+          <div class="footer"><span>Held-out test results</span><span>Multiclass classification</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>Stress that macro F1 is the key metric because it treats minority classes seriously. BERT improves because it can use context, not just word identity.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-13">
+      <section class="slide" data-slide="13 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Class-wise comparison</div>
+            <h2>BERT improves every class</h2>
+            <p class="subtitle">The largest gains appear where surface vocabulary is least reliable.</p>
+          </div>
+          <div class="wide-left">
+            <div class="panel">
+              <div class="compare-bars">
+                <div class="compare-row"><strong>Normal</strong><div class="dual-track"><div class="dual base" style="--value:.8215"></div><div class="dual bert" style="--value:.8772"></div></div></div>
+                <div class="compare-row"><strong>Profanity</strong><div class="dual-track"><div class="dual base" style="--value:.6108"></div><div class="dual bert" style="--value:.7349"></div></div></div>
+                <div class="compare-row"><strong>Trolling</strong><div class="dual-track"><div class="dual base" style="--value:.6202"></div><div class="dual bert" style="--value:.6853"></div></div></div>
+                <div class="compare-row"><strong>Derogatory</strong><div class="dual-track"><div class="dual base" style="--value:.3398"></div><div class="dual bert" style="--value:.4384"></div></div></div>
+                <div class="compare-row"><strong>Hate Speech</strong><div class="dual-track"><div class="dual base" style="--value:.3696"></div><div class="dual bert" style="--value:.4667"></div></div></div>
+              </div>
+              <div class="pill-row" style="margin-top:1rem"><span class="pill">Orange: Logistic Regression</span><span class="pill">Blue: BERT</span></div>
+            </div>
+            <table class="table">
+              <thead><tr><th>Class</th><th class="num">LogReg F1</th><th class="num">BERT F1</th></tr></thead>
+              <tbody>
+                <tr><td>Normal</td><td class="num">0.8215</td><td class="num">0.8772</td></tr>
+                <tr><td>Profanity</td><td class="num">0.6108</td><td class="num">0.7349</td></tr>
+                <tr><td>Trolling</td><td class="num">0.6202</td><td class="num">0.6853</td></tr>
+                <tr><td>Derogatory</td><td class="num">0.3398</td><td class="num">0.4384</td></tr>
+                <tr><td>Hate Speech</td><td class="num">0.3696</td><td class="num">0.4667</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="footer"><span>Held-out test F1</span><span>Best baseline vs. BERT</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>BERT's improvement is not only an aggregate metric artifact. It improves all five classes, especially Profanity, Derogatory, and Hate Speech, where intent matters most.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-14">
+      <section class="slide" data-slide="14 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Error analysis</div>
+            <h2>Remaining failures are boundary failures</h2>
+            <p class="subtitle">The model's biggest weakness is not random confusion across all labels.</p>
+          </div>
+          <div class="wide-right">
+            <div class="panel">
+              <div class="heatmap"><strong>Derogatory <-> Trolling</strong><div><div class="heat" style="--value:100"></div><span class="small">93</span></div></div>
+              <div class="heatmap"><strong>Normal <-> Trolling</strong><div><div class="heat" style="--value:91"></div><span class="small">85</span></div></div>
+              <div class="heatmap"><strong>Profanity <-> Trolling</strong><div><div class="heat" style="--value:71"></div><span class="small">66</span></div></div>
+              <div class="heatmap"><strong>Normal <-> Profanity</strong><div><div class="heat" style="--value:35"></div><span class="small">33</span></div></div>
+              <div class="heatmap"><strong>Derogatory <-> Hate Speech</strong><div><div class="heat" style="--value:31"></div><span class="small">29</span></div></div>
+            </div>
+            <div class="panel tint-red">
+              <ul class="bullets">
+                <li>Trolling overlaps with mild profanity, direct insult, and provocative but non-abusive discourse.</li>
+                <li>Profanity can mask more severe hostile intent, including wishes of harm.</li>
+                <li>Long noisy posts often combine complaint, sarcasm, insult, and provocation.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer"><span>Error pairs</span><span>Multiclass BERT held-out test</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>The dominant error pair is Derogatory and Trolling. This supports the conclusion that the hardest failures are semantic and annotation-boundary failures, not simply missing vocabulary.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-15">
+      <section class="slide" data-slide="15 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Qualitative analysis</div>
+            <h2>Hard examples explain the numbers</h2>
+            <p class="subtitle">High-confidence errors show where the label space itself is difficult.</p>
+          </div>
+          <div class="grid-3">
+            <div class="panel tint-red"><h3>Profanity hides harm</h3><p class="small">A short hostile phrase with explicit profanity was predicted as Profanity, while the gold label was Hate Speech.</p></div>
+            <div class="panel tint-orange"><h3>Trolling vs. derogation</h3><p class="small">Insult-heavy posts can be labeled as trolling by humans but look derogatory to the model.</p></div>
+            <div class="panel tint-blue"><h3>Noisy mixed intent</h3><p class="small">Long rants combine sarcasm, complaint, abuse, and provocation in one example.</p></div>
+          </div>
+          <div class="grid-2">
+            <div class="panel tint-green"><div class="big-number">7.83%</div><div class="label">Overall test OOV</div></div>
+            <div class="panel tint-green"><div class="big-number">7.61%</div><div class="label">Hard-error OOV</div></div>
+          </div>
+          <div class="footer"><span>Interpretation</span><span>Not mainly an unknown-word problem</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>Avoid dwelling on offensive text in the presentation. The useful point is that the hard-error subset does not have a dramatically higher OOV rate, so the toughest mistakes are not just vocabulary holes.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-16">
+      <section class="slide" data-slide="16 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Compute tradeoff</div>
+            <h2>Better accuracy costs more</h2>
+            <p class="subtitle">BERT is strongest, but TF-IDF models remain practical baselines.</p>
+          </div>
+          <div class="grid-2">
+            <table class="table">
+              <thead><tr><th>Model</th><th class="num">Binary train</th><th class="num">Binary predict</th></tr></thead>
+              <tbody>
+                <tr><td>Logistic Regression</td><td class="num">0.047 s</td><td class="num">0.00039 s</td></tr>
+                <tr><td>Linear SVC</td><td class="num">0.032 s</td><td class="num">0.00045 s</td></tr>
+                <tr><td>FFNN</td><td class="num">25.388 s</td><td class="num">0.01973 s</td></tr>
+                <tr class="best"><td>BERT</td><td class="num">4893.595 s</td><td class="num">64.869 s</td></tr>
+              </tbody>
+            </table>
+            <table class="table">
+              <thead><tr><th>Model</th><th class="num">Multiclass train</th><th class="num">Multiclass predict</th></tr></thead>
+              <tbody>
+                <tr><td>Logistic Regression</td><td class="num">16.314 s</td><td class="num">0.00097 s</td></tr>
+                <tr><td>Linear SVC</td><td class="num">0.471 s</td><td class="num">0.00146 s</td></tr>
+                <tr><td>FFNN</td><td class="num">87.860 s</td><td class="num">0.1501 s</td></tr>
+                <tr class="best"><td>BERT</td><td class="num">376.786 s</td><td class="num">9.860 s</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="footer"><span>Timing summaries</span><span>CPU binary run, CUDA multiclass run</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>The operational story is balanced: use TF-IDF when speed and simplicity matter, use BERT when category distinctions matter. The multiclass GPU run shows BERT is still practical for offline or batch use.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-17">
+      <section class="slide" data-slide="17 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Final findings</div>
+            <h2>What we learned</h2>
+            <p class="subtitle">The final system is stronger because its evaluation target is human judgment.</p>
+          </div>
+          <div class="grid-3">
+            <div class="panel tint-orange"><h3>Baselines matter</h3><p class="small">TF-IDF models are strong, especially for binary detection.</p></div>
+            <div class="panel tint-green"><h3>FFNN is limited</h3><p class="small">Mean-pooled embeddings add little and can underperform linear models on macro F1.</p></div>
+            <div class="panel tint-blue"><h3>BERT is best</h3><p class="small">Contextual modeling improves aggregate scores and every class-wise F1.</p></div>
+          </div>
+          <div class="quote">The remaining challenge is semantic overlap at the Trolling, Derogatory, and Hate Speech boundaries.</div>
+          <div class="footer"><span>Conclusion</span><span>Modeling implications</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>Summarize in three claims. Classical baselines are essential, shallow neural models are not automatically better, and BERT earns its compute cost on the hardest semantic distinctions.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-18">
+      <section class="slide" data-slide="18 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">Next steps</div>
+            <h2>Improving the detector</h2>
+            <p class="subtitle">The next version should target generalization and richer context.</p>
+          </div>
+          <div class="grid-3">
+            <div class="panel tint-blue"><h3>Grouped splits</h3><p class="small">Split by author or source to test whether the model generalizes beyond repeated patterns.</p></div>
+            <div class="panel tint-green"><h3>More context</h3><p class="small">Use reply chains or neighboring posts to resolve sarcasm, threat, and provocation.</p></div>
+            <div class="panel tint-red"><h3>Sharper labels</h3><p class="small">Improve annotation guidance for Trolling vs. Derogatory vs. Hate Speech.</p></div>
+          </div>
+          <div class="grid-2">
+            <div class="panel"><div class="big-number">0.9229</div><div class="label">Final binary BERT F1</div></div>
+            <div class="panel"><div class="big-number">0.6405</div><div class="label">Final multiclass BERT macro F1</div></div>
+          </div>
+          <div class="footer"><span>Future work</span><span>Healthier social-media ecosystem</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>End the technical story with practical next steps. The detector works, but the hardest categories require better context and clearer labels, not just a larger model.</p>
+      </details>
+    </article>
+
+    <article class="slide-card" id="slide-19">
+      <section class="slide" data-slide="19 / 19">
+        <div class="content">
+          <div>
+            <div class="eyebrow">References</div>
+            <h2>Sources and artifacts</h2>
+            <p class="subtitle">Core references and project outputs used in this presentation.</p>
+          </div>
+          <div class="panel">
+            <ul class="bullets">
+              <li>Trawling for Trolling: A Dataset. arXiv:2008.00525.</li>
+              <li>Devlin, Chang, Lee, and Toutanova. BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. NAACL-HLT, 2019.</li>
+              <li>Pedregosa et al. Scikit-learn: Machine Learning in Python. Journal of Machine Learning Research, 2011.</li>
+              <li>Project repository: github.com/giuseppegaliazzitx-bit/ML-Project-Ragebait</li>
+            </ul>
+          </div>
+          <div class="footer"><span>End</span><span>Thank you</span></div>
+        </div>
+      </section>
+      <details class="notes" open>
+        <summary>Speaker notes</summary>
+        <p>Use this as the closing slide for questions. If asked about validity, return to the pivot: the final claims are based on human labels and held-out evaluation.</p>
+      </details>
+    </article>
+  </main>
+
+  <script>
+    const slides = [...document.querySelectorAll(".slide-card")];
+    const toggle = document.querySelector("#toggleNotes");
+    let current = 0;
+
+    function nearestSlideIndex() {
+      const mid = window.scrollY + window.innerHeight / 2;
+      let best = 0;
+      let bestDist = Infinity;
+      slides.forEach((slide, index) => {
+        const box = slide.getBoundingClientRect();
+        const center = window.scrollY + box.top + box.height / 2;
+        const dist = Math.abs(center - mid);
+        if (dist < bestDist) {
+          best = index;
+          bestDist = dist;
+        }
+      });
+      return best;
+    }
+
+    function go(delta) {
+      current = Math.max(0, Math.min(slides.length - 1, nearestSlideIndex() + delta));
+      slides[current].scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    toggle.addEventListener("click", () => document.body.classList.toggle("hide-notes"));
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight" || event.key === "PageDown") go(1);
+      if (event.key === "ArrowLeft" || event.key === "PageUp") go(-1);
+      if (event.key.toLowerCase() === "n") document.body.classList.toggle("hide-notes");
+    });
+  </script>
+</body>
+</html>
