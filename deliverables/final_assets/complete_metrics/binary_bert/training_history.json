@@ -1,0 +1,51 @@
+{
+  "epochs": [
+    {
+      "epoch": 1,
+      "train_loss": 0.3607873419125239,
+      "val_loss": 0.2476224887540476,
+      "val_metrics": {
+        "accuracy": 0.9039231385108086,
+        "precision": 0.9456366237482118,
+        "recall": 0.8896366083445492,
+        "f1": 0.9167822468793343
+      },
+      "learning_rate": 1.4799054373522459e-05,
+      "epoch_seconds": 58.6929286980303
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.19176996208792976,
+      "val_loss": 0.22063830395857748,
+      "val_metrics": {
+        "accuracy": 0.9159327461969575,
+        "precision": 0.9186351706036745,
+        "recall": 0.9421265141318977,
+        "f1": 0.9302325581395349
+      },
+      "learning_rate": 7.3995271867612296e-06,
+      "epoch_seconds": 57.40811412304174
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.13114093742173036,
+      "val_loss": 0.24343231541989707,
+      "val_metrics": {
+        "accuracy": 0.910328262610088,
+        "precision": 0.9304229195088677,
+        "recall": 0.917900403768506,
+        "f1": 0.924119241192412
+      },
+      "learning_rate": 0.0,
+      "epoch_seconds": 57.11861319793388
+    }
+  ],
+  "device": "cuda",
+  "train_rows": 9992,
+  "val_rows": 1249,
+  "test_rows": 1249,
+  "max_length": 128,
+  "tokenizer_dir": "/home/upsid/dev/ML-Project-Ragebait/deliverables/final_assets/complete_metrics/binary_bert/tokenizer",
+  "best_epoch": 2,
+  "best_val_loss": 0.22063830395857748
+}

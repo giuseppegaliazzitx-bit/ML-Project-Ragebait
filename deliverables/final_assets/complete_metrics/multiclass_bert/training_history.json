@@ -1,0 +1,201 @@
+{
+  "epochs": [
+    {
+      "epoch": 1,
+      "train_loss": 1.166941208110226,
+      "val_loss": 0.7128256502582895,
+      "val_metrics": {
+        "accuracy": 0.7117694155324259,
+        "macro_precision": 0.5966598716588624,
+        "macro_recall": 0.6992021384948265,
+        "macro_f1": 0.6145924596164211,
+        "micro_f1": 0.7117694155324259,
+        "weighted_f1": 0.7153018622201144,
+        "classification_report": {
+          "Normal": {
+            "precision": 0.8664122137404581,
+            "recall": 0.8972332015810277,
+            "f1": 0.8815533980582524,
+            "support": 506
+          },
+          "Profanity": {
+            "precision": 0.616504854368932,
+            "recall": 0.8037974683544303,
+            "f1": 0.6978021978021978,
+            "support": 158
+          },
+          "Trolling": {
+            "precision": 0.777027027027027,
+            "recall": 0.5066079295154186,
+            "f1": 0.6133333333333333,
+            "support": 454
+          },
+          "Derogatory": {
+            "precision": 0.4421052631578947,
+            "recall": 0.4883720930232558,
+            "f1": 0.46408839779005523,
+            "support": 86
+          },
+          "Hate Speech": {
+            "precision": 0.28125,
+            "recall": 0.8,
+            "f1": 0.4161849710982659,
+            "support": 45
+          }
+        }
+      },
+      "learning_rate": 1.666370896184561e-05,
+      "epoch_seconds": 68.97327554004733
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.6950802940001385,
+      "val_loss": 0.6625472361608159,
+      "val_metrics": {
+        "accuracy": 0.7133706965572458,
+        "macro_precision": 0.6120406462774218,
+        "macro_recall": 0.715595288265219,
+        "macro_f1": 0.6371012046895973,
+        "micro_f1": 0.7133706965572458,
+        "weighted_f1": 0.7255442596176488,
+        "classification_report": {
+          "Normal": {
+            "precision": 0.9245689655172413,
+            "recall": 0.8478260869565217,
+            "f1": 0.8845360824742268,
+            "support": 506
+          },
+          "Profanity": {
+            "precision": 0.6212121212121212,
+            "recall": 0.7784810126582279,
+            "f1": 0.6910112359550562,
+            "support": 158
+          },
+          "Trolling": {
+            "precision": 0.7592592592592593,
+            "recall": 0.5418502202643172,
+            "f1": 0.6323907455012854,
+            "support": 454
+          },
+          "Derogatory": {
+            "precision": 0.32460732984293195,
+            "recall": 0.7209302325581395,
+            "f1": 0.44765342960288806,
+            "support": 86
+          },
+          "Hate Speech": {
+            "precision": 0.4305555555555556,
+            "recall": 0.6888888888888889,
+            "f1": 0.5299145299145299,
+            "support": 45
+          }
+        }
+      },
+      "learning_rate": 1.1109139307897073e-05,
+      "epoch_seconds": 69.19600454601459
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.4957942022763795,
+      "val_loss": 0.6922055706680059,
+      "val_metrics": {
+        "accuracy": 0.7269815852682145,
+        "macro_precision": 0.611966451631867,
+        "macro_recall": 0.714772482294256,
+        "macro_f1": 0.6410027172683423,
+        "micro_f1": 0.7269815852682145,
+        "weighted_f1": 0.7344527562731418,
+        "classification_report": {
+          "Normal": {
+            "precision": 0.9120654396728016,
+            "recall": 0.8814229249011858,
+            "f1": 0.8964824120603015,
+            "support": 506
+          },
+          "Profanity": {
+            "precision": 0.602803738317757,
+            "recall": 0.8164556962025317,
+            "f1": 0.6935483870967742,
+            "support": 158
+          },
+          "Trolling": {
+            "precision": 0.78125,
+            "recall": 0.5506607929515418,
+            "f1": 0.6459948320413437,
+            "support": 454
+          },
+          "Derogatory": {
+            "precision": 0.3333333333333333,
+            "recall": 0.5697674418604651,
+            "f1": 0.4206008583690987,
+            "support": 86
+          },
+          "Hate Speech": {
+            "precision": 0.43037974683544306,
+            "recall": 0.7555555555555555,
+            "f1": 0.5483870967741935,
+            "support": 45
+          }
+        }
+      },
+      "learning_rate": 5.554569653948536e-06,
+      "epoch_seconds": 68.72325480496511
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.37845750615967094,
+      "val_loss": 0.7155591011333695,
+      "val_metrics": {
+        "accuracy": 0.7526020816653323,
+        "macro_precision": 0.669948510122692,
+        "macro_recall": 0.7135577829057339,
+        "macro_f1": 0.6828344441347947,
+        "micro_f1": 0.7526020816653323,
+        "weighted_f1": 0.7589324971397019,
+        "classification_report": {
+          "Normal": {
+            "precision": 0.9083503054989817,
+            "recall": 0.8814229249011858,
+            "f1": 0.8946840521564694,
+            "support": 506
+          },
+          "Profanity": {
+            "precision": 0.6470588235294118,
+            "recall": 0.7658227848101266,
+            "f1": 0.7014492753623188,
+            "support": 158
+          },
+          "Trolling": {
+            "precision": 0.7585301837270341,
+            "recall": 0.6365638766519823,
+            "f1": 0.6922155688622754,
+            "support": 454
+          },
+          "Derogatory": {
+            "precision": 0.3767123287671233,
+            "recall": 0.6395348837209303,
+            "f1": 0.47413793103448276,
+            "support": 86
+          },
+          "Hate Speech": {
+            "precision": 0.6590909090909091,
+            "recall": 0.6444444444444445,
+            "f1": 0.651685393258427,
+            "support": 45
+          }
+        }
+      },
+      "learning_rate": 0.0,
+      "epoch_seconds": 68.58467519690748
+    }
+  ],
+  "device": "cuda",
+  "train_rows": 9992,
+  "val_rows": 1249,
+  "test_rows": 1249,
+  "max_length": 128,
+  "tokenizer_dir": "/home/upsid/dev/ML-Project-Ragebait/deliverables/final_assets/complete_metrics/multiclass_bert/tokenizer",
+  "best_epoch": 4,
+  "best_val_loss": 0.7155591011333695,
+  "checkpoint_path": "/tmp/ragebait_complete_multiclass_bert_best.pt"
+}
