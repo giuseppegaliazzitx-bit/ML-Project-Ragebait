@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ragebait Detection Final Presentation</title>
+  <style>
+    :root {
+      --ink: #1f2526;
+      --muted: #6d665d;
+      --paper: #fff7e8;
+      --paper-2: #f4e5c8;
+      --navy: #17384a;
+      --rust: #b74f34;
+      --gold: #d99635;
+      --green: #526d47;
+      --teal: #407b7f;
+      --line: rgba(31, 37, 38, 0.18);
+      --shadow: 0 24px 70px rgba(42, 34, 25, 0.18);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 12%, rgba(183, 79, 52, 0.18), transparent 28rem),
+        radial-gradient(circle at 88% 18%, rgba(64, 123, 127, 0.18), transparent 26rem),
+        linear-gradient(135deg, #f8ecd4 0%, #fff7e8 44%, #ead5ad 100%);
+      font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      overflow: hidden;
+    }
+
+    .deck {
+      height: 100vh;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    .slide {
+      min-height: 100vh;
+      padding: 4.2rem 5.2rem 3rem;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 1.5rem;
+      scroll-snap-align: start;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 2rem;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(255, 250, 240, 0.64);
+      box-shadow: var(--shadow);
+      z-index: -1;
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      width: 18rem;
+      height: 18rem;
+      right: 4rem;
+      bottom: 2.5rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(217, 150, 53, 0.18), transparent 70%);
+      z-index: -1;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      font: 700 0.8rem/1.2 "Trebuchet MS", "Gill Sans", sans-serif;
+    }
+
+    .slide-no {
+      color: var(--rust);
+      font-weight: 900;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 {
+      font-size: clamp(4rem, 8vw, 8.2rem);
+      line-height: 0.88;
+      letter-spacing: -0.07em;
+      color: var(--navy);
+      max-width: 12ch;
+    }
+
+    h2 {
+      font-size: clamp(2.6rem, 4.8vw, 5.1rem);
+      line-height: 0.92;
+      letter-spacing: -0.05em;
+      color: var(--navy);
+      max-width: 12ch;
+    }
+
+    h3 {
+      font: 900 1rem/1.15 "Trebuchet MS", "Gill Sans", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--rust);
+      margin-bottom: 0.4rem;
+    }
+
+    .kicker {
+      font: 900 1rem/1.2 "Trebuchet MS", "Gill Sans", sans-serif;
+      text-transform: uppercase;
+      color: var(--rust);
+      letter-spacing: 0.12em;
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      font-size: clamp(1.25rem, 2vw, 1.8rem);
+      line-height: 1.28;
+      color: #3b332c;
+      max-width: 48rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.04fr 0.96fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      align-items: stretch;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.54);
+      border-radius: 22px;
+      padding: 1.25rem;
+      box-shadow: 0 12px 30px rgba(31, 37, 38, 0.08);
+    }
+
+    .panel.dark {
+      background: linear-gradient(145deg, var(--navy), #102936);
+      color: white;
+      border-color: transparent;
+    }
+
+    .panel.rust {
+      background: linear-gradient(145deg, var(--rust), #8d3928);
+      color: white;
+      border-color: transparent;
+    }
+
+    .metric {
+      font: 900 clamp(2.2rem, 4.5vw, 4.8rem)/0.95 "Trebuchet MS", "Gill Sans", sans-serif;
+      letter-spacing: -0.06em;
+      color: var(--navy);
+    }
+
+    .dark .metric, .rust .metric { color: white; }
+
+    .label {
+      font: 900 0.82rem/1.3 "Trebuchet MS", "Gill Sans", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+
+    .dark .label, .rust .label { color: rgba(255,255,255,.78); }
+
+    .small {
+      font: 400 1rem/1.42 "Trebuchet MS", "Gill Sans", sans-serif;
+      color: #3e3a35;
+    }
+
+    .dark .small, .rust .small { color: rgba(255,255,255,.86); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font: 0.92rem/1.25 "Trebuchet MS", "Gill Sans", sans-serif;
+      overflow: hidden;
+      border-radius: 16px;
+    }
+
+    th {
+      text-align: left;
+      color: white;
+      background: var(--navy);
+      padding: 0.72rem 0.75rem;
+      font-weight: 900;
+    }
+
+    td {
+      padding: 0.62rem 0.75rem;
+      border-bottom: 1px solid rgba(31,37,38,.11);
+      background: rgba(255,255,255,.56);
+    }
+
+    tr.best td {
+      background: rgba(183, 79, 52, 0.13);
+      font-weight: 900;
+    }
+
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .image-card {
+      padding: 0.75rem;
+      border-radius: 24px;
+      background: rgba(255,255,255,.52);
+      border: 1px solid var(--line);
+    }
+
+    .image-card img {
+      width: 100%;
+      display: block;
+      border-radius: 18px;
+    }
+
+    .flow {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .flow-row {
+      display: grid;
+      grid-template-columns: 8rem 1fr;
+      gap: 0.9rem;
+      align-items: center;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(23, 56, 74, 0.11);
+      color: var(--navy);
+      font: 900 0.8rem/1 "Trebuchet MS", "Gill Sans", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .quote {
+      border-left: 6px solid var(--rust);
+      padding-left: 1.2rem;
+      font-size: 1.35rem;
+      line-height: 1.35;
+      color: #2b2a28;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.2rem;
+      font: 1.05rem/1.42 "Trebuchet MS", "Gill Sans", sans-serif;
+    }
+
+    li { margin: 0.4rem 0; }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      color: var(--muted);
+      font: 700 0.78rem/1.2 "Trebuchet MS", "Gill Sans", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .notes {
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      body { overflow: auto; }
+      .deck { height: auto; overflow: visible; scroll-snap-type: none; }
+      .slide { padding: 2.2rem 1.4rem; min-height: auto; }
+      .slide::before { inset: 0.7rem; border-radius: 20px; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      h1 { font-size: 4rem; }
+      h2 { font-size: 3rem; }
+    }
+
+    @media print {
+      body { overflow: visible; background: white; }
+      .deck { height: auto; overflow: visible; }
+      .slide { break-after: page; min-height: 100vh; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck">
+    <section class="slide" id="slide-1">
+      <header><span>CS4375 Final Project | Group 8</span><span class="slide-no">01</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Ragebait Detection</p>
+          <h1>From weak labels to a gold benchmark.</h1>
+          <p class="subtitle">A reproducible ML study of normal, profane, trolling, derogatory, and hate-speech posts.</p>
+        </div>
+        <div class="grid-3">
+          <div class="panel dark"><div class="metric">0.9222</div><div class="label">Binary BERT F1</div><p class="small">Held-out normal vs. abusive/ragebait detection.</p></div>
+          <div class="panel rust"><div class="metric">0.6405</div><div class="label">Multiclass Macro F1</div><p class="small">Five-way BERT result on the harder label space.</p></div>
+          <div class="panel"><div class="metric">12,490</div><div class="label">Gold Rows</div><p class="small">Human-labeled posts in the final benchmark.</p></div>
+        </div>
+      </div>
+      <footer><span>Edison Cheah | Giuseppe Galiazzi | Lawson Herger | Andrew Lin</span><span>Repository: github.com/giuseppegaliazzitx-bit/ML-Project-Ragebait</span></footer>
+    </section>
+
+    <section class="slide" id="slide-2">
+      <header><span>Motivation</span><span class="slide-no">02</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Problem</p>
+          <h2>Ragebait rewards reaction volume.</h2>
+          <p class="subtitle">The ML challenge is intent: not every angry post is bait, and not every profane post carries the same harm.</p>
+        </div>
+        <div class="flow">
+          <div class="flow-row"><span class="tag">Post</span><p class="small">Inflammatory or bad-faith content is published.</p></div>
+          <div class="flow-row"><span class="tag">Reaction</span><p class="small">Users reply, quote, argue, and amplify.</p></div>
+          <div class="flow-row"><span class="tag">Ranking</span><p class="small">Platforms can interpret interaction as relevance.</p></div>
+          <div class="flow-row"><span class="tag">Reward</span><p class="small">Visibility increases and the incentive repeats.</p></div>
+        </div>
+      </div>
+      <footer><span>Core distinction</span><span>Detect manufactured outrage without treating all disagreement as abuse.</span></footer>
+    </section>
+
+    <section class="slide" id="slide-3">
+      <header><span>Project Arc</span><span class="slide-no">03</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Validity Pivot</p>
+          <h2>Volume was not enough.</h2>
+          <p class="subtitle">Iteration 1 proved the engineering stack. Iteration 2 changed what counted as ground truth.</p>
+        </div>
+        <div class="grid-3">
+          <div class="panel"><h3>Iteration 1</h3><div class="metric">507,682</div><div class="label">Weak-labeled rows</div><p class="small">Qwen/vLLM binary labels; best tuned BERT macro F1 was 0.8735 against weak labels.</p></div>
+          <div class="panel"><h3>Pivot</h3><p class="quote">High scores against model-generated labels do not establish human-grounded validity.</p></div>
+          <div class="panel"><h3>Iteration 2</h3><div class="metric">80/10/10</div><div class="label">Frozen split</div><p class="small">Human labels, shared train/validation/test rows, and a model ladder from TF-IDF to BERT.</p></div>
+        </div>
+      </div>
+      <footer><span>Scientific improvement</span><span>The final claim is grounded in human labels, not LLM agreement.</span></footer>
+    </section>
+
+    <section class="slide" id="slide-4">
+      <header><span>Dataset</span><span class="slide-no">04</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Gold Labels</p>
+          <h2>Five labels, uneven support.</h2>
+          <p class="subtitle">The corpus is smaller than the weak-label set, but it supports defensible evaluation.</p>
+        </div>
+        <div class="panel">
+          <table>
+            <thead><tr><th>Label</th><th class="num">Rows</th><th class="num">Share</th></tr></thead>
+            <tbody>
+              <tr><td>Normal</td><td class="num">5,053</td><td class="num">40.46%</td></tr>
+              <tr><td>Profanity</td><td class="num">1,582</td><td class="num">12.67%</td></tr>
+              <tr><td>Trolling</td><td class="num">4,537</td><td class="num">36.33%</td></tr>
+              <tr><td>Derogatory</td><td class="num">862</td><td class="num">6.90%</td></tr>
+              <tr><td>Hate Speech</td><td class="num">456</td><td class="num">3.65%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <footer><span>Source file</span><span>iteration2/data/raw/trolldata.csv</span></footer>
+    </section>
+
+    <section class="slide" id="slide-5">
+      <header><span>Task Framing</span><span class="slide-no">05</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Binary vs. Multiclass</p>
+          <h2>The same labels answer two different questions.</h2>
+        </div>
+        <div class="image-card"><img src="final_assets/task_framing_flowchart.png" alt="Task framing flowchart"></div>
+      </div>
+      <div class="grid-3">
+        <div class="panel dark"><h3>Binary</h3><p class="small">Predicts Normal vs. all non-Normal labels. Best for coarse screening; final BERT F1 is 0.9222.</p></div>
+        <div class="panel rust"><h3>Multiclass</h3><p class="small">Predicts Normal, Profanity, Trolling, Derogatory, or Hate Speech. More diagnostic; final BERT macro F1 is 0.6405.</p></div>
+        <div class="panel"><h3>Interpretation</h3><p class="small">The lower multiclass score reveals real semantic overlap rather than a failed experiment.</p></div>
+      </div>
+      <footer><span>Why test both?</span><span>Screening quality and label-boundary diagnosis are different ML objectives.</span></footer>
+    </section>
+
+    <section class="slide" id="slide-6">
+      <header><span>Experimental Control</span><span class="slide-no">06</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Splits and Preprocessing</p>
+          <h2>One frozen split for every model.</h2>
+          <p class="subtitle">Validation selects models and checkpoints; final claims use the held-out test split.</p>
+        </div>
+        <div class="panel">
+          <table>
+            <thead><tr><th>Split</th><th class="num">Rows</th><th class="num">Normal</th><th class="num">Abusive</th></tr></thead>
+            <tbody>
+              <tr><td>Train</td><td class="num">9,992</td><td class="num">4,042</td><td class="num">5,950</td></tr>
+              <tr><td>Validation</td><td class="num">1,249</td><td class="num">506</td><td class="num">743</td></tr>
+              <tr><td>Test</td><td class="num">1,249</td><td class="num">505</td><td class="num">744</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="panel"><h3>TF-IDF</h3><p class="small">1-2 grams, max features 20,000, min_df 2, max_df 0.95, sublinear TF.</p></div>
+        <div class="panel"><h3>FFNN tokens</h3><p class="small">Lowercase, train-only vocabulary, max length 64, final vocab size 10,975.</p></div>
+        <div class="panel"><h3>BERT tokens</h3><p class="small">bert-base-uncased tokenizer with max length 128 in the complete metrics run.</p></div>
+      </div>
+      <footer><span>Leakage control</span><span>The same row assignments are reused across all final models.</span></footer>
+    </section>
+
+    <section class="slide" id="slide-7">
+      <header><span>Model Ladder</span><span class="slide-no">07</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Representation Depth</p>
+          <h2>Cheap lexical baselines before contextual modeling.</h2>
+          <p class="subtitle">BERT has to beat strong baselines, not straw-man models.</p>
+        </div>
+        <div class="grid-3">
+          <div class="panel"><h3>Tier 1</h3><p class="small"><b>Logistic Regression</b> and <b>Linear SVC</b> over sparse TF-IDF n-grams.</p></div>
+          <div class="panel"><h3>Tier 2</h3><p class="small"><b>FFNN</b> with learned embeddings, mean pooling, hidden layers, ReLU, dropout.</p></div>
+          <div class="panel"><h3>Tier 3</h3><p class="small"><b>BERT</b> with contextual WordPiece representations and a classifier head.</p></div>
+        </div>
+      </div>
+      <div class="panel"><p class="small">Legacy Gaussian Naive Bayes and Decision Tree models were tested in Iteration 1, but they are archived weak-label baselines and not part of the final complete-metrics benchmark.</p></div>
+      <footer><span>Research question</span><span>When does contextual modeling justify the compute cost?</span></footer>
+    </section>
+
+    <section class="slide" id="slide-8">
+      <header><span>Implementation</span><span class="slide-no">08</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Reproducible Artifacts</p>
+          <h2>The final package is auditable.</h2>
+          <p class="subtitle">The completed CUDA run wrote JSON metrics, histories, prediction files, tokenizer snapshots, hard errors, and confusion matrices.</p>
+        </div>
+        <div class="image-card"><img src="final_assets/pipeline_flowchart.png" alt="Pipeline flowchart"></div>
+      </div>
+      <div class="grid-3">
+        <div class="panel"><h3>Optimization</h3><p class="small">BERT uses AdamW, weight decay groups, linear warmup/decay, gradient clipping, and AMP on CUDA.</p></div>
+        <div class="panel"><h3>Checkpointing</h3><p class="small">Binary BERT selects best validation F1; multiclass BERT selects best validation macro F1.</p></div>
+        <div class="panel"><h3>Imbalance</h3><p class="small">Multiclass class weights: Hate Speech 5.4751, Derogatory 2.8962, Profanity 1.5798.</p></div>
+      </div>
+      <footer><span>Metrics source</span><span>deliverables/final_assets/complete_metrics/complete_metrics.json</span></footer>
+    </section>
+
+    <section class="slide" id="slide-9">
+      <header><span>Experiment 1</span><span class="slide-no">09</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Binary Results</p>
+          <h2>BERT wins, but the baselines are strong.</h2>
+          <p class="subtitle">Normal vs. ragebait/abusive language on the held-out test split.</p>
+        </div>
+        <div class="image-card"><img src="final_assets/binary_model_comparison.png" alt="Binary model comparison chart"></div>
+      </div>
+      <div class="panel">
+        <table>
+          <thead><tr><th>Model</th><th class="num">Accuracy</th><th class="num">Precision</th><th class="num">Recall</th><th class="num">F1</th></tr></thead>
+          <tbody>
+            <tr><td>Logistic Regression</td><td class="num">0.8551</td><td class="num">0.8371</td><td class="num">0.9395</td><td class="num">0.8854</td></tr>
+            <tr><td>Linear SVC</td><td class="num">0.8655</td><td class="num">0.8780</td><td class="num">0.8992</td><td class="num">0.8884</td></tr>
+            <tr><td>FFNN</td><td class="num">0.8655</td><td class="num">0.8789</td><td class="num">0.8978</td><td class="num">0.8883</td></tr>
+            <tr class="best"><td>BERT</td><td class="num">0.9055</td><td class="num">0.9054</td><td class="num">0.9395</td><td class="num">0.9222</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <footer><span>Best non-transformer F1: 0.8884</span><span>BERT gain: +0.0337 F1</span></footer>
+    </section>
+
+    <section class="slide" id="slide-10">
+      <header><span>Binary Diagnostics</span><span class="slide-no">10</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Confusion Matrix</p>
+          <h2>High recall with a visible false-positive cost.</h2>
+          <p class="subtitle">BERT correctly recovers 699 of 744 abusive test posts.</p>
+        </div>
+        <div class="panel">
+          <table>
+            <thead><tr><th>BERT Test</th><th class="num">Pred Normal</th><th class="num">Pred Abusive</th></tr></thead>
+            <tbody>
+              <tr><td>True Normal</td><td class="num">432</td><td class="num">73</td></tr>
+              <tr><td>True Abusive</td><td class="num">45</td><td class="num">699</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="panel dark"><div class="metric">0.9054</div><div class="label">Precision</div><p class="small">Most predicted abusive posts are correct.</p></div>
+        <div class="panel rust"><div class="metric">0.9395</div><div class="label">Recall</div><p class="small">Most actual abusive posts are found.</p></div>
+        <div class="panel"><div class="metric">118</div><div class="label">Total errors</div><p class="small">73 false positives and 45 false negatives on 1,249 test posts.</p></div>
+      </div>
+      <footer><span>Binary tradeoff</span><span>For moderation triage, missing abuse can be costlier than extra review load.</span></footer>
+    </section>
+
+    <section class="slide" id="slide-11">
+      <header><span>Experiment 2</span><span class="slide-no">11</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Multiclass Results</p>
+          <h2>The five-class task shows BERT's value most clearly.</h2>
+          <p class="subtitle">Macro F1 matters because Derogatory and Hate Speech are rare but important.</p>
+        </div>
+        <div class="image-card"><img src="final_assets/multiclass_model_comparison.png" alt="Multiclass model comparison chart"></div>
+      </div>
+      <div class="panel">
+        <table>
+          <thead><tr><th>Model</th><th class="num">Accuracy</th><th class="num">Micro F1</th><th class="num">Macro F1</th><th class="num">Weighted F1</th></tr></thead>
+          <tbody>
+            <tr><td>Logistic Regression</td><td class="num">0.6645</td><td class="num">0.6645</td><td class="num">0.5524</td><td class="num">0.6718</td></tr>
+            <tr><td>Linear SVC</td><td class="num">0.6797</td><td class="num">0.6797</td><td class="num">0.5403</td><td class="num">0.6764</td></tr>
+            <tr><td>FFNN</td><td class="num">0.6517</td><td class="num">0.6517</td><td class="num">0.5250</td><td class="num">0.6606</td></tr>
+            <tr class="best"><td>BERT</td><td class="num">0.7390</td><td class="num">0.7390</td><td class="num">0.6405</td><td class="num">0.7441</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <footer><span>Best non-transformer macro F1: 0.5524</span><span>BERT gain: +0.0881 macro F1</span></footer>
+    </section>
+
+    <section class="slide" id="slide-12">
+      <header><span>Error Analysis</span><span class="slide-no">12</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Where It Breaks</p>
+          <h2>Remaining errors are boundary errors.</h2>
+          <p class="subtitle">The model's hardest cases are not random; they cluster around Trolling, Derogatory, Profanity, and Hate Speech.</p>
+        </div>
+        <div class="image-card"><img src="final_assets/classwise_f1_comparison.png" alt="Class-wise F1 comparison chart"></div>
+      </div>
+      <div class="grid-3">
+        <div class="panel"><h3>Trolling -> Derogatory</h3><div class="metric">68</div><p class="small">Targeted hard-error cases where insult-heavy trolling looked like direct derogation.</p></div>
+        <div class="panel"><h3>Derogatory -> Trolling</h3><div class="metric">25</div><p class="small">Taunting style softened targeted abuse into trolling.</p></div>
+        <div class="panel"><h3>Hate -> Profanity</h3><div class="metric">2</div><p class="small">Explicit profanity masked more severe harmful intent.</p></div>
+      </div>
+      <footer><span>OOV check</span><span>Full test OOV 7.83%; hard-error OOV 7.61%, so vocabulary gaps do not explain the failures.</span></footer>
+    </section>
+
+    <section class="slide" id="slide-13">
+      <header><span>Compute Tradeoff</span><span class="slide-no">13</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Runtime</p>
+          <h2>Quality costs compute.</h2>
+          <p class="subtitle">TF-IDF models are nearly free; BERT is slower but practical with CUDA for offline or batch scoring.</p>
+        </div>
+        <div class="image-card"><img src="final_assets/compute_time_comparison.png" alt="Compute time comparison chart"></div>
+      </div>
+      <div class="grid-4">
+        <div class="panel"><h3>Binary BERT</h3><div class="metric">173.3s</div><div class="label">Train</div><p class="small">Test prediction: 3.411s.</p></div>
+        <div class="panel"><h3>Binary SVC</h3><div class="metric">0.030s</div><div class="label">Train</div><p class="small">Test prediction: 0.00014s.</p></div>
+        <div class="panel"><h3>Multiclass BERT</h3><div class="metric">279.7s</div><div class="label">Train</div><p class="small">Validation plus test prediction: 7.575s.</p></div>
+        <div class="panel"><h3>Multiclass FFNN</h3><div class="metric">23.7s</div><div class="label">Train</div><p class="small">Test prediction: 0.0465s.</p></div>
+      </div>
+      <footer><span>Deployment reading</span><span>Use TF-IDF for speed; use BERT when semantic category quality matters.</span></footer>
+    </section>
+
+    <section class="slide" id="slide-14">
+      <header><span>Limitations and Ethics</span><span class="slide-no">14</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Caution</p>
+          <h2>Do not confuse a classifier with a moderation policy.</h2>
+          <p class="subtitle">The model helps triage content, but context, appeal, and human judgment remain necessary for high-impact decisions.</p>
+        </div>
+        <div class="grid-2">
+          <div class="panel"><h3>Context missing</h3><p class="small">Single posts lose reply-chain context, quotation, target identity, and community norms.</p></div>
+          <div class="panel"><h3>Split risk</h3><p class="small">Splits are stratified by label, not grouped by author or source.</p></div>
+          <div class="panel"><h3>Tail classes</h3><p class="small">The test split has only 86 Derogatory and 46 Hate Speech examples.</p></div>
+          <div class="panel"><h3>Fairness</h3><p class="small">False positives can suppress legitimate anger, satire, or marginalized speech.</p></div>
+        </div>
+      </div>
+      <footer><span>Ethical stance</span><span>Prefer assistive triage and user friction over automatic punitive action.</span></footer>
+    </section>
+
+    <section class="slide" id="slide-15">
+      <header><span>Final Findings</span><span class="slide-no">15</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Conclusion</p>
+          <h2>Three findings and one next path.</h2>
+        </div>
+        <div class="flow">
+          <div class="flow-row"><span class="tag">1</span><p class="small"><b>Baselines matter.</b> Linear TF-IDF models are strong and should not be skipped.</p></div>
+          <div class="flow-row"><span class="tag">2</span><p class="small"><b>FFNN is limited.</b> Mean-pooled embeddings add little on this dataset.</p></div>
+          <div class="flow-row"><span class="tag">3</span><p class="small"><b>BERT is best.</b> It improves aggregate scores and every class-wise F1.</p></div>
+          <div class="flow-row"><span class="tag">Next</span><p class="small"><b>Generalization.</b> Test grouped author/source splits, richer context, and sharper boundary labels.</p></div>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="panel dark"><div class="metric">0.9222</div><div class="label">Final Binary F1</div></div>
+        <div class="panel rust"><div class="metric">0.6405</div><div class="label">Final Macro F1</div></div>
+        <div class="panel"><div class="metric">+0.0881</div><div class="label">BERT Multiclass Gain</div></div>
+      </div>
+      <footer><span>Bottom line</span><span>The remaining problem is semantic overlap, not merely model capacity.</span></footer>
+    </section>
+
+    <section class="slide" id="slide-16">
+      <header><span>References</span><span class="slide-no">16</span></header>
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Sources and Artifacts</p>
+          <h2>Final numbers come from the complete metrics package.</h2>
+          <p class="subtitle">All reported metrics, charts, notes, and script values use the same CUDA metrics artifacts.</p>
+        </div>
+        <div class="panel">
+          <ul>
+            <li>Trawling for Trolling: A Dataset. arXiv:2008.00525, 2020.</li>
+            <li>Devlin, Chang, Lee, and Toutanova. BERT. NAACL-HLT, 2019.</li>
+            <li>Pedregosa et al. Scikit-learn: Machine Learning in Python. JMLR, 2011.</li>
+            <li>aadyasingh55. Twitter Emotion Classification Dataset. Kaggle, 2023.</li>
+            <li>irakozekelly. Misleading Posts Driving Discourse on X. Kaggle, 2023.</li>
+            <li>speckledpingu. Raw Twitter Timelines w/ No Retweets. Kaggle, 2020.</li>
+            <li>Project repository: github.com/giuseppegaliazzitx-bit/ML-Project-Ragebait.</li>
+          </ul>
+        </div>
+      </div>
+      <footer><span>Authoritative artifact</span><span>deliverables/final_assets/complete_metrics/complete_metrics.json</span></footer>
+    </section>
+  </main>
+</body>
+</html>
