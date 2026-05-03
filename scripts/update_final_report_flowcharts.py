@@ -1,4 +1,4 @@
-"""Replace final report embedded flowchart images with regenerated assets.
+"""Replace final report embedded top-level images with regenerated assets.
 
 This is a fallback for environments without a LaTeX engine. The TeX report
 already references these PNG filenames, so replacing the matching PDF image
@@ -26,10 +26,40 @@ TARGETS = [
         "name": "pipeline flowchart",
     },
     {
+        "page_index": 6,
+        "size": (2354, 1341),
+        "asset": ASSET_DIR / "binary_model_comparison.png",
+        "name": "binary model comparison chart",
+    },
+    {
+        "page_index": 7,
+        "size": (2354, 1341),
+        "asset": ASSET_DIR / "multiclass_model_comparison.png",
+        "name": "multiclass model comparison chart",
+    },
+    {
+        "page_index": 8,
+        "size": (2354, 1341),
+        "asset": ASSET_DIR / "classwise_f1_comparison.png",
+        "name": "classwise F1 comparison chart",
+    },
+    {
+        "page_index": 9,
+        "size": (2162, 1209),
+        "asset": ASSET_DIR / "binary_vs_multiclass_bert.png",
+        "name": "binary versus multiclass BERT chart",
+    },
+    {
         "page_index": 9,
         "size": (2585, 1011),
         "asset": ASSET_DIR / "task_framing_flowchart.png",
         "name": "task framing flowchart",
+    },
+    {
+        "page_index": 11,
+        "size": (2702, 1220),
+        "asset": ASSET_DIR / "compute_time_comparison.png",
+        "name": "compute time comparison chart",
     },
 ]
 
